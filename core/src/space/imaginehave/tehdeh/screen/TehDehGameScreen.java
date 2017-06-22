@@ -86,6 +86,10 @@ public class TehDehGameScreen implements Screen {
 
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.6f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		game.getTiledMapRenderer().setView(camera);
+        game.getTiledMapRenderer().render();
+		
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
 		
@@ -100,6 +104,7 @@ public class TehDehGameScreen implements Screen {
 		}
 		game.getBatch().end();
 
+        
 	}
 
 	@Override
