@@ -5,12 +5,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
+import space.imaginehave.tehdeh.state.Entity;
 import space.imaginehave.tehdeh.state.TehDehGameState;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
 
@@ -66,5 +73,12 @@ public class TehDehGame extends Game {
 	
 	public Texture getBucket(){
 		return bucketImage;
+	}
+
+	public void addEntity(int screenX, int screenY, Texture texture) {
+		TextureMapObject tmo = new TextureMapObject(new TextureRegion(texture));
+		tmo.setX(screenX/8);
+		tmo.setY(screenY/8);
+		tiledMap.getLayers().get("Object Layer 1").getObjects().add(tmo);
 	}
 }
