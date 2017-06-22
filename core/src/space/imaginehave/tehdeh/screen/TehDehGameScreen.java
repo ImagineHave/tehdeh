@@ -1,6 +1,8 @@
 package space.imaginehave.tehdeh.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,9 +10,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -21,21 +25,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import space.imaginehave.tehdeh.TehDehGame;
+import space.imaginehave.tehdeh.inputprocessor.TehDehInputProcessor;
 
 public class TehDehGameScreen implements Screen {
 
-	private final TehDehGame	tehDehGame;
-	private OrthographicCamera	camera;
-	private Stage				stage;
-	private Skin				skin;
+	private final TehDehGame game;
+	private OrthographicCamera camera;
+	private Stage stage;
+	private Skin skin;
+	private InputProcessor processor;
 
 	public TehDehGameScreen(final TehDehGame tehDehGame) {
-		this.tehDehGame = tehDehGame;
+		this.game = tehDehGame;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 600);
 
 		stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
+
+		InputMultiplexer im = new InputMultiplexer();
+		processor = new TehDehInputProcessor(tehDehGame, camera);
+		im.addProcessor(processor);
+		im.addProcessor(stage);
+
+		Gdx.input.setInputProcessor(im);
 
 		// A skin can be loaded via JSON or defined programmatically, either is
 		// fine. Using a skin is optional but strongly
@@ -81,11 +93,6 @@ public class TehDehGameScreen implements Screen {
 		hud.setDebug(true);
 		stage.addActor(hud);
 
-		Table gameTable = new Table();
-		gameTable.setBounds(0, 0, 600, 600);
-		gameTable.setDebug(true);
-		stage.addActor(gameTable);
-
 		// Create a button with the "default" TextButtonStyle. A 3rd parameter
 		// can be used to specify a name other than "default".
 		final TextButton button = new TextButton("Click me!", skin);
@@ -104,6 +111,9 @@ public class TehDehGameScreen implements Screen {
 
 				System.out.println("Clicked! Is checked: " + button.isChecked());
 				button.setText("Good job!");
+				
+				game.getState().setMouseFollow(game.getBucket());
+				game.getState().setMouseCoords(game.getState().getMouseCoords());
 			}
 		});
 
@@ -111,7 +121,6 @@ public class TehDehGameScreen implements Screen {
 		// of the drawable (which is the 1x1 texture).
 		hud.add(new Image(skin.newDrawable("white", Color.RED))).size(64);
 
-		gameTable.add(new Image(skin.newDrawable("wiggle", Color.CORAL))).size(72);
 	}
 
 	@Override
@@ -128,6 +137,17 @@ public class TehDehGameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
+		
+		game.getBatch().begin();
+		if (game.getState().getMouseFollow().isPresent()) {
+			Texture mouseFollowTexture = game.getState().getMouseFollow().get();
+			game.getBatch().draw(
+					mouseFollowTexture, 
+					game.getState().getMouseCoords().x - mouseFollowTexture.getWidth()/2, 
+					game.getState().getMouseCoords().y - mouseFollowTexture.getHeight()/2
+					);
+		}
+		game.getBatch().end();
 
 	}
 
