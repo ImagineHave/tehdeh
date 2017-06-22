@@ -11,7 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-import space.imaginehave.tehdeh.screen.TehDehGameScreen;
+import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import state.TehDehGameState;
 
 public class TehDehGame extends Game {
@@ -32,7 +32,11 @@ public class TehDehGame extends Game {
 		
 		tiledMap = new TmxMapLoader().load("tehdeh.tmx");
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-		this.setScreen(new TehDehGameScreen(this));
+		this.setScreen(new GameScreenTehDeh(this));
+	}
+	
+	public TiledMap getTiledMap() {
+		return tiledMap;
 	}
 
 	public TiledMapRenderer getTiledMapRenderer() {

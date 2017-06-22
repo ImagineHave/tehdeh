@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -17,25 +18,28 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import button.TowerButton;
 import space.imaginehave.tehdeh.TehDehGame;
-import space.imaginehave.tehdeh.inputprocessor.TehDehInputProcessor;
+import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
 
-public class TehDehGameScreen implements Screen {
+public class GameScreenTehDeh implements Screen {
 
 	private final TehDehGame game;
 	private OrthographicCamera camera;
 	private Stage stage;
 	private Skin skin;
 	private InputProcessor processor;
+	private MapLayer objectLayer;
 
-	public TehDehGameScreen(final TehDehGame tehDehGame) {
+	public GameScreenTehDeh(final TehDehGame tehDehGame) {
 		this.game = tehDehGame;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 600);
 
+		objectLayer = game.getTiledMap().getLayers().get("objects");
+		
 		stage = new Stage();
 
 		InputMultiplexer im = new InputMultiplexer();
-		processor = new TehDehInputProcessor(tehDehGame, camera);
+		processor = new InputProcessorTehDeh(tehDehGame, camera);
 		im.addProcessor(processor);
 		im.addProcessor(stage);
 

@@ -7,12 +7,12 @@ import com.badlogic.gdx.math.Vector3;
 import space.imaginehave.tehdeh.TehDehGame;
 import state.TehDehGameState;
 
-public class TehDehInputProcessor implements InputProcessor {
+public class InputProcessorTehDeh implements InputProcessor {
 	
 	private final TehDehGame game;
 	private final Camera camera;
 	
-	public TehDehInputProcessor(final TehDehGame game, final Camera camera) {
+	public InputProcessorTehDeh(final TehDehGame game, final Camera camera) {
 		this.game = game;
 		this.camera = camera;
 	}
