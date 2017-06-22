@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class TehDehGameState {
 	
+	private Entity[][] tileMap;
 	private Optional<Texture> mouseFollow;
 	private Vector3 mouseVector;
 	
@@ -29,5 +30,13 @@ public class TehDehGameState {
 
 	public Vector3 getMouseCoords(){
 		return mouseVector;
+	}
+
+	public Entity[][] getTileMap() {
+		return tileMap;
+	}
+
+	public void setTileMap(Entity[][] tileMap) {
+		this.tileMap = tileMap;
 	}
 }
