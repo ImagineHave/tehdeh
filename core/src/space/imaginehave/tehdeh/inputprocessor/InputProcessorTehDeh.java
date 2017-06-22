@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.TehDehGame;
-import state.TehDehGameState;
+import space.imaginehave.tehdeh.state.TehDehGameState;
 
 public class InputProcessorTehDeh implements InputProcessor {
 	
