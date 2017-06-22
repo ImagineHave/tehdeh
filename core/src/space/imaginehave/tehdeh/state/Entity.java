@@ -1,6 +1,13 @@
 package space.imaginehave.tehdeh.state;
 
-public interface Entity {
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
+public class Entity extends Sprite {
+
+	public Entity(Texture texture) {
+		super(texture);
+	}
 	
 	
 

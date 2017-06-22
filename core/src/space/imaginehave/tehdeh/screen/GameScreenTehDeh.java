@@ -60,8 +60,8 @@ public class GameScreenTehDeh implements Screen {
 				
 				button.addListener(new ChangeListener() {
 					public void changed(ChangeEvent event, Actor actor) {
-						if(!game.getState().getMouseFollow().isPresent()) {
-							game.getState().setMouseFollow(button.getTexture());
+						if(!game.getState().getPlacementEntity().isPresent()) {
+							game.getState().setPlacementEntity(button.getEntity());
 							game.getState().setMouseCoords(game.getState().getMouseCoords());	
 						} else {
 							game.getState().removeMouseFollow();
@@ -89,17 +89,6 @@ public class GameScreenTehDeh implements Screen {
 		
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
-		
-		game.getBatch().begin();
-		if (game.getState().getMouseFollow().isPresent()) {
-			Texture mouseFollowTexture = game.getState().getMouseFollow().get();
-			game.getBatch().draw(
-					mouseFollowTexture, 
-					game.getState().getMouseCoords().x - mouseFollowTexture.getWidth()/2, 
-					game.getState().getMouseCoords().y - mouseFollowTexture.getHeight()/2
-					);
-		}
-		game.getBatch().end();
 
         
 	}
