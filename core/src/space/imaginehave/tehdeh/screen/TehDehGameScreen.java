@@ -4,27 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import button.TowerButton;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.inputprocessor.TehDehInputProcessor;
 
@@ -60,15 +51,17 @@ public class TehDehGameScreen implements Screen {
 				hud.setDebug(true);
 				stage.addActor(hud);
 
-				final ImageButton button = new ImageButton(skin);
-				button.getStyle().imageUp = new Image(game.getBucket()).getDrawable();
+				final TowerButton button = new TowerButton(skin, game.getBucket());
 				hud.add(button).top().left().expand();
-
+				
 				button.addListener(new ChangeListener() {
 					public void changed(ChangeEvent event, Actor actor) {
-						System.out.println("Clicked! Is checked: " + button.isChecked());
-						game.getState().setMouseFollow(game.getBucket());
-						game.getState().setMouseCoords(game.getState().getMouseCoords());
+						if(!game.getState().getMouseFollow().isPresent()) {
+							game.getState().setMouseFollow(button.getTexture());
+							game.getState().setMouseCoords(game.getState().getMouseCoords());	
+						} else {
+							game.getState().removeMouseFollow();
+						}
 					}
 				});
 

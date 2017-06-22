@@ -39,4 +39,8 @@ public class TehDehGameState {
 	public void setTileMap(Entity[][] tileMap) {
 		this.tileMap = tileMap;
 	}
+
+	public void removeMouseFollow() {
+		mouseFollow = Optional.empty();
+	}
 }
