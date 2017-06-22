@@ -60,8 +60,8 @@ public class GameScreenTehDeh implements Screen {
 				
 				button.addListener(new ChangeListener() {
 					public void changed(ChangeEvent event, Actor actor) {
-						if(!game.getState().getPlacementEntity().isPresent()) {
-							game.getState().setPlacementEntity(button.getEntity());
+						if(!game.getState().getPlacementTexture().isPresent()) {
+							game.getState().setPlacementTexture(button.getTexture());
 							game.getState().setMouseCoords(game.getState().getMouseCoords());	
 						} else {
 							game.getState().removeMouseFollow();

@@ -8,20 +8,20 @@ import com.badlogic.gdx.math.Vector3;
 
 public class TehDehGameState {
 	
-	private Optional<Entity> placementEntity;
+	private Optional<Texture> placementTexture;
 	private Vector3 mouseVector;
 	
 	public TehDehGameState () {
-		this.placementEntity = Optional.empty();
+		this.placementTexture = Optional.empty();
 		this.mouseVector = Vector3.Zero;
 	}
 	
-	public Optional<Entity> getPlacementEntity(){
-		return placementEntity;
+	public Optional<Texture> getPlacementTexture (){
+		return placementTexture;
 	}
 	
-	public void setPlacementEntity(Entity texture){
-		this.placementEntity = Optional.of(texture);
+	public void setPlacementTexture(Texture texture){
+		this.placementTexture = Optional.of(texture);
 	}
 	
 	public void setMouseCoords(Vector3 vector){
@@ -33,6 +33,6 @@ public class TehDehGameState {
 	}
 
 	public void removeMouseFollow() {
-		placementEntity = Optional.empty();
+		placementTexture = Optional.empty();
 	}
 }

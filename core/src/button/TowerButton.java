@@ -21,9 +21,4 @@ public class TowerButton extends ImageButton {
 		return texture;
 	}
 	
-	public Entity getEntity() {
-		return new Entity(texture);
-	}
-	
-
 }
