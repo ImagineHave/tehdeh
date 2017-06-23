@@ -89,6 +89,17 @@ public class GameScreenTehDeh implements Screen {
 		
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
+		
+		game.getBatch().begin();
+		if (game.getState().getPlacementTexture().isPresent()) {
+			Texture placementTexture = game.getState().getPlacementTexture().get();
+			game.getBatch().draw(
+					placementTexture, 
+					game.getState().getMouseCoords().x - placementTexture.getWidth()/2, 
+					game.getState().getMouseCoords().y - placementTexture.getHeight()/2
+					);
+		}
+		game.getBatch().end();
 
         
 	}

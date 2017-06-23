@@ -24,16 +24,6 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 		
 		super.render();
 		
-		game.getBatch().begin();
-		if (game.getState().getPlacementTexture().isPresent()) {
-			Texture placementTexture = game.getState().getPlacementTexture().get();
-			game.getBatch().draw(
-					placementTexture, 
-					game.getState().getMouseCoords().x - placementTexture.getWidth()/2, 
-					game.getState().getMouseCoords().y - placementTexture.getHeight()/2
-					);
-		}
-		game.getBatch().end();
 	}
 
 
