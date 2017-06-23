@@ -15,9 +15,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import space.imaginehave.tehdeh.state.Entity;
@@ -78,10 +80,13 @@ public class TehDehGame extends Game {
 		return bucketImage;
 	}
 
-	public void addEntity(int screenX, int screenY, Texture texture) {
+	public void addEntity(Vector3 vector, Vector3 vector2, Texture texture) {
 		TiledMapTileMapObject tmo = new TiledMapTileMapObject(new StaticTiledMapTile(new TextureRegion(bucketImage)), false, false);
-		TiledMapTileLayer entityLayer = (TiledMapTileLayer) tiledMap.getLayers().get("entityLayer");
-		entityLayer.getCell(screenX, screenY).setTile(new StaticTiledMapTile(new TextureRegion(bucketImage)));
+		TiledMapTileLayer entityLayer = (TiledMapTileLayer) tiledMap.getLayers().get("tileLayer1");
+		
+		
+		Cell cell = entityLayer.getCell((int) Math.floor(vector.x/vector2.x * 100), (int) Math.floor(vector.y/vector2.y * 100));
+		cell.setTile(new StaticTiledMapTile(new TextureRegion(bucketImage)));
 //		((TiledMapTileLayer) tiledMap).setCell(x, y, cell); .getTileSets().("entityLayer").get().add(tmo);
 	}
 }

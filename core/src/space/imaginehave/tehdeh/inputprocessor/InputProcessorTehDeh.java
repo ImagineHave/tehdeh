@@ -44,7 +44,10 @@ public class InputProcessorTehDeh implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(game.getState().getPlacementTexture().isPresent()) {
-			game.addEntity(screenX, screenY, game.getState().getPlacementTexture().get());
+			Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
+			Vector3 vector2 = new Vector3(camera.viewportWidth, camera.viewportHeight, 0);
+			game.addEntity(vector, vector2, game.getState().getPlacementTexture().get());
+			return true;
 		}
 		return false;
 	}
