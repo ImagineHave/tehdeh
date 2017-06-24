@@ -1,4 +1,4 @@
-package search;
+package space.imaginehave.tehdeh.search;
 
 import java.util.List;
 

@@ -19,9 +19,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import button.TowerButton;
-import entity.TowerCell;
 import space.imaginehave.tehdeh.TehDehGame;
+import space.imaginehave.tehdeh.button.TowerButton;
+import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
 

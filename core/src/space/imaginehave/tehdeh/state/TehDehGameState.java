@@ -11,11 +11,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
 
+import space.imaginehave.tehdeh.agent.Agent;
+
 public class TehDehGameState {
 	
 	private Optional<Texture> placementTexture;
 	private Vector3 mouseVector;
-	private List<Entity> entities;
+	private List<Agent> agents;
 	private final TiledMapTileLayer towerLayer;
 	private final MapLayer agentLayer;
 	private final TiledMap tiledMap;
@@ -23,7 +25,7 @@ public class TehDehGameState {
 	public TehDehGameState () {
 		this.placementTexture = Optional.empty();
 		this.mouseVector = Vector3.Zero;
-		this.setEntities(new ArrayList<Entity>());
+		this.setAgents(new ArrayList<Agent>());
 		tiledMap = new TmxMapLoader().load("tehdeh.tmx");
 		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("towerLayer");
 		agentLayer = (MapLayer) tiledMap.getLayers().get("agentLayer");
@@ -49,12 +51,12 @@ public class TehDehGameState {
 		placementTexture = Optional.empty();
 	}
 
-	public List<Entity> getEntities() {
-		return entities;
+	public List<Agent> getEntities() {
+		return agents;
 	}
 
-	public void setEntities(List<Entity> entities) {
-		this.entities = entities;
+	public void setAgents(List<Agent> entities) {
+		this.agents = entities;
 	}
 
 	public TiledMap getTiledMap() {

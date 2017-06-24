@@ -1,8 +1,8 @@
-package entity;
+package space.imaginehave.tehdeh.entity;
 
 import com.badlogic.gdx.math.Vector3;
 
-import search.SearchInterface;
+import space.imaginehave.tehdeh.search.SearchInterface;
 
 public class AgentCell extends EntityCell {
 	

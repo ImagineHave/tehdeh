@@ -1,4 +1,4 @@
-package entity;
+package space.imaginehave.tehdeh.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
