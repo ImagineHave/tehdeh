@@ -85,7 +85,7 @@ public class TehDehGame extends Game {
 		TiledMapTileLayer entityLayer = (TiledMapTileLayer) tiledMap.getLayers().get("tileLayer1");
 		
 		
-		Cell cell = entityLayer.getCell((int) Math.floor(vector.x/vector2.x * 100), (int) Math.floor(vector.y/vector2.y * 100));
+		Cell cell = entityLayer.getCell((int) Math.floor((vector.x)/vector2.x * 100), (int) Math.floor((vector.y)/vector2.y * 100));
 		cell.setTile(new StaticTiledMapTile(new TextureRegion(bucketImage)));
 //		((TiledMapTileLayer) tiledMap).setCell(x, y, cell); .getTileSets().("entityLayer").get().add(tmo);
 	}
