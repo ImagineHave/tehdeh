@@ -17,7 +17,7 @@ public class TehDehGameState {
 	private Vector3 mouseVector;
 	private List<Entity> entities;
 	private final TiledMapTileLayer towerLayer;
-	private final MapLayer objectLayer;
+	private final MapLayer agentLayer;
 	private final TiledMap tiledMap;
 	
 	public TehDehGameState () {
@@ -26,7 +26,7 @@ public class TehDehGameState {
 		this.setEntities(new ArrayList<Entity>());
 		tiledMap = new TmxMapLoader().load("tehdeh.tmx");
 		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("towerLayer");
-		objectLayer = (TiledMapTileLayer) tiledMap.getLayers().get("objectLayer");
+		agentLayer = (MapLayer) tiledMap.getLayers().get("agentLayer");
 	}
 	
 	public Optional<Texture> getPlacementTexture (){
@@ -63,5 +63,9 @@ public class TehDehGameState {
 
 	public TiledMapTileLayer getTowerLayer() {
 		return towerLayer;
+	}
+	
+	public MapLayer getAgentLayer() {
+		return agentLayer;
 	}
 }

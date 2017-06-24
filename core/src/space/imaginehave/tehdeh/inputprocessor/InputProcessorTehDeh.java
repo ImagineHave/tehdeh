@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.TehDehGame;
+import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import space.imaginehave.tehdeh.state.TehDehGameState;
 
 public class InputProcessorTehDeh implements InputProcessor {
@@ -45,7 +46,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(game.getState().getPlacementTexture().isPresent()) {
 			Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
-			game.addEntity(vector, game.getState().getPlacementTexture().get());
+			((GameScreenTehDeh) game.getScreen()).addEntity(vector, game.getState().getPlacementTexture().get());
 			return true;
 		}
 		return false;

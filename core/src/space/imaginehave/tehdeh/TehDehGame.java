@@ -2,6 +2,7 @@ package space.imaginehave.tehdeh;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -26,11 +27,15 @@ public class TehDehGame extends Game {
 	private SpriteBatch	batch;
 	private TehDehGameState state;
 	private BitmapFont	font;
-	private Texture towerTexture;
+	private static AssetManager assetManager;
 
 	@Override
 	public void create() {
-		towerTexture = new Texture(Gdx.files.internal("testTower.png"));
+		
+		assetManager = new AssetManager();
+		assetManager.load("testTower.png", Texture.class);
+		assetManager.finishLoading();
+		
 		state = new TehDehGameState();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
@@ -58,18 +63,8 @@ public class TehDehGame extends Game {
 	public Batch getBatch() {
 		return this.batch;
 	}
-	
-	public Texture getTowerTexture(){
-		return towerTexture;
-	}
 
-	public void addEntity(Vector3 vector, Texture texture) {
-		
-				
-		TowerCell cell = new TowerCell(towerTexture);
-		
-		TiledMapTileLayer towerLayer = this.state.getTowerLayer();
-		
-		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
+	public AssetManager getAssetManager() {
+		return assetManager;
 	}
 }

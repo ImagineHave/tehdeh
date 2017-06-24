@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -21,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import button.TowerButton;
+import entity.TowerCell;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
@@ -67,7 +70,7 @@ public class GameScreenTehDeh implements Screen {
 				hud.setDebug(true);
 				stage.addActor(hud);
 
-				final TowerButton button = new TowerButton(skin, game.getTowerTexture());
+				final TowerButton button = new TowerButton(skin, (Texture) game.getAssetManager().get("testTower.png"));
 				hud.add(button).top().left().expand();
 				
 				button.addListener(new ChangeListener() {
@@ -150,6 +153,13 @@ public class GameScreenTehDeh implements Screen {
 		stage.dispose();
 		skin.dispose();
 
+	}
+	
+	public void addEntity(Vector3 vector, Texture texture) {
+		
+		TowerCell cell = new TowerCell(texture);
+		TiledMapTileLayer towerLayer = game.getState().getTowerLayer();
+		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
 	}
 
 }
