@@ -81,12 +81,13 @@ public class TehDehGame extends Game {
 	}
 
 	public void addEntity(Vector3 vector, Vector3 vector2, Texture texture) {
-		TiledMapTileMapObject tmo = new TiledMapTileMapObject(new StaticTiledMapTile(new TextureRegion(bucketImage)), false, false);
+		TiledMapTile tmt = new StaticTiledMapTile(new TextureRegion(bucketImage));
 		TiledMapTileLayer entityLayer = (TiledMapTileLayer) tiledMap.getLayers().get("tileLayer1");
+				
+		Cell cell = new Cell();
+		cell.setTile(tmt);
 		
-		
-		Cell cell = entityLayer.getCell((int) Math.floor(vector.x/vector2.x * 100), (int) Math.floor(vector.y/vector2.y * 100));
-		cell.setTile(new StaticTiledMapTile(new TextureRegion(bucketImage)));
+		entityLayer.setCell((int) (vector.x/8), (int) (vector.y/8), cell);
 //		((TiledMapTileLayer) tiledMap).setCell(x, y, cell); .getTileSets().("entityLayer").get().add(tmo);
 	}
 }
