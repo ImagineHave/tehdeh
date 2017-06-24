@@ -11,22 +11,30 @@ public class BoidSearch implements SearchInterface {
 	
 	private static BoidSearch boidSearch;
 	private final ArrayList<Agent> boids;
-	
-	private BoidSearch() {
-		boids = new ArrayList<Agent>();
-	}
 
+	
 	@Override
-	public List<Cell> calculatePath(Cell startNode, Cell goalNode) {
+	public List<Cell> calculatePath(Agent startNode, Cell goalNode) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	
 	public static BoidSearch getInstance() {
 		if(BoidSearch.boidSearch == null) {
 			BoidSearch.boidSearch = new BoidSearch();
 		}
 		return BoidSearch.boidSearch;
+	}
+	
+	
+	private BoidSearch() {
+		boids = new ArrayList<Agent>();
+	}
+	
+	
+	public List<Agent> getAgents() {
+		return boids;
 	}
 
 }
