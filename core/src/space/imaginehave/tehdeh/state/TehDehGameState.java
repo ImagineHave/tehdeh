@@ -1,5 +1,7 @@
 package space.imaginehave.tehdeh.state;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -10,10 +12,12 @@ public class TehDehGameState {
 	
 	private Optional<Texture> placementTexture;
 	private Vector3 mouseVector;
+	private List<Entity> entities;
 	
 	public TehDehGameState () {
 		this.placementTexture = Optional.empty();
 		this.mouseVector = Vector3.Zero;
+		this.setEntities(new ArrayList<Entity>());
 	}
 	
 	public Optional<Texture> getPlacementTexture (){
@@ -34,5 +38,13 @@ public class TehDehGameState {
 
 	public void removeMouseFollow() {
 		placementTexture = Optional.empty();
+	}
+
+	public List<Entity> getEntities() {
+		return entities;
+	}
+
+	public void setEntities(List<Entity> entities) {
+		this.entities = entities;
 	}
 }
