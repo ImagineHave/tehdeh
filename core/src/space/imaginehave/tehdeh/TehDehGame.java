@@ -3,8 +3,6 @@ package space.imaginehave.tehdeh;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import space.imaginehave.tehdeh.state.TehDehGameState;
