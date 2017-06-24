@@ -63,7 +63,7 @@ public class GameScreenTehDeh implements Screen {
 				skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
 
 				Table hud = new Table();
-				hud.setBounds(600, 0, 200, 800);
+				hud.setBounds(viewport.getWorldWidth()*0.75f, 0, viewport.getWorldWidth()*0.25f, viewport.getWorldHeight());
 				hud.setDebug(true);
 				stage.addActor(hud);
 
