@@ -15,6 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import button.TowerButton;
 import space.imaginehave.tehdeh.TehDehGame;
@@ -23,20 +26,22 @@ import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
 public class GameScreenTehDeh implements Screen {
 
 	private final TehDehGame game;
-	private OrthographicCamera camera;
 	private Stage stage;
 	private Skin skin;
 	private InputProcessor processor;
 	private MapLayer objectLayer;
+	private Viewport viewport;
 
 	public GameScreenTehDeh(final TehDehGame tehDehGame) {
 		this.game = tehDehGame;
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 600);
+		OrthographicCamera camera = new OrthographicCamera();
+		
+		viewport = new StretchViewport(800, 800, camera);
 
 		objectLayer = game.getTiledMap().getLayers().get("objects");
 		
 		stage = new Stage();
+		stage.setViewport(viewport);
 
 		InputMultiplexer im = new InputMultiplexer();
 		processor = new InputProcessorTehDeh(tehDehGame, camera);
@@ -45,6 +50,7 @@ public class GameScreenTehDeh implements Screen {
 
 		Gdx.input.setInputProcessor(im);
 		createUI();
+		viewport.apply();
 	}
 
 	private void createUI() {
@@ -84,7 +90,7 @@ public class GameScreenTehDeh implements Screen {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.6f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		game.getTiledMapRenderer().setView(camera);
+		game.getTiledMapRenderer().setView((OrthographicCamera) viewport.getCamera());
         game.getTiledMapRenderer().render();
 		
 		stage.act(Math.min(delta, 1 / 30f));
