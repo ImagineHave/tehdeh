@@ -1,8 +1,5 @@
 package space.imaginehave.tehdeh.tiledmaprenderer;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
@@ -15,6 +12,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 	
 	public OrthogonalTiledMapRendererTehDeh(TiledMap map, final TehDehGame game) {
 		super(map);
+		super.batch = game.getBatch();
 		this.game = game;
 	}
 	
