@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import button.TowerButton;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
+import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
 
 public class GameScreenTehDeh implements Screen {
 
@@ -31,14 +33,18 @@ public class GameScreenTehDeh implements Screen {
 	private InputProcessor processor;
 	private MapLayer objectLayer;
 	private Viewport viewport;
+	private TiledMapRenderer tiledMapRenderer;
 
 	public GameScreenTehDeh(final TehDehGame tehDehGame) {
 		this.game = tehDehGame;
+		
+		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(game.getState().getTiledMap(), game);
+		
 		OrthographicCamera camera = new OrthographicCamera();
 		
 		viewport = new StretchViewport(800, 800, camera);
 
-		objectLayer = game.getTiledMap().getLayers().get("objects");
+		objectLayer = game.getState().getTiledMap().getLayers().get("objects");
 		
 		stage = new Stage();
 		stage.setViewport(viewport);
@@ -90,8 +96,8 @@ public class GameScreenTehDeh implements Screen {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.6f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		game.getTiledMapRenderer().setView((OrthographicCamera) viewport.getCamera());
-        game.getTiledMapRenderer().render();
+		tiledMapRenderer.setView((OrthographicCamera) viewport.getCamera());
+        tiledMapRenderer.render();
 		
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();

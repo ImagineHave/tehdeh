@@ -27,8 +27,6 @@ public class TehDehGame extends Game {
 	private TehDehGameState state;
 	private BitmapFont	font;
 	private Texture towerTexture;
-	private TiledMap tiledMap;
-	private TiledMapRenderer tiledMapRenderer;
 
 	@Override
 	public void create() {
@@ -36,19 +34,9 @@ public class TehDehGame extends Game {
 		state = new TehDehGameState();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		
-		tiledMap = new TmxMapLoader().load("tehdeh.tmx");
-		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(tiledMap, this);
 		this.setScreen(new GameScreenTehDeh(this));
 	}
 	
-	public TiledMap getTiledMap() {
-		return tiledMap;
-	}
-
-	public TiledMapRenderer getTiledMapRenderer() {
-		return tiledMapRenderer;
-	}
 
 	@Override
 	public void render() {
@@ -76,11 +64,12 @@ public class TehDehGame extends Game {
 	}
 
 	public void addEntity(Vector3 vector, Texture texture) {
-		TiledMapTileLayer entityLayer = (TiledMapTileLayer) tiledMap.getLayers().get("entityLayer");
+		
 				
 		TowerCell cell = new TowerCell(towerTexture);
 		
+		TiledMapTileLayer towerLayer = this.state.getTowerLayer();
 		
-		entityLayer.setCell((int) (vector.x/entityLayer.getTileWidth()), (int) (vector.y/entityLayer.getTileHeight()), cell);
+		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
 	}
 }
