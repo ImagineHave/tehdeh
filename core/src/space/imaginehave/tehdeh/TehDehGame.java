@@ -18,6 +18,7 @@ public class TehDehGame extends Game {
 		
 		assetManager = new AssetManager();
 		assetManager.load("testTower.png", Texture.class);
+		assetManager.load("testAgent.png", Texture.class);
 		assetManager.finishLoading();
 		
 		state = new TehDehGameState();

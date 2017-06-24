@@ -20,9 +20,13 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.TehDehGame;
+import space.imaginehave.tehdeh.agent.DummyAgent;
+import space.imaginehave.tehdeh.agent.MapObjectAgent;
 import space.imaginehave.tehdeh.button.TowerButton;
 import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
+import space.imaginehave.tehdeh.search.BoidSearch;
+import space.imaginehave.tehdeh.search.SearchInterface;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
 
 public class GameScreenTehDeh implements Screen {
@@ -57,6 +61,20 @@ public class GameScreenTehDeh implements Screen {
 		Gdx.input.setInputProcessor(im);
 		createUI();
 		viewport.apply();
+		
+		createAgents();
+	}
+	
+	private void createAgents() {
+		
+		SearchInterface search = BoidSearch.getInstance();
+		
+		for (int i = 0; i < 4; i++) {
+			
+			MapObjectAgent moa = new DummyAgent(viewport, search);
+			BoidSearch.getInstance().getAgents().add(moa);
+			game.getState().getAgentLayer().getObjects().add(moa);
+		}
 	}
 
 	private void createUI() {
