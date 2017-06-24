@@ -10,5 +10,4 @@ public interface SearchInterface {
 	
 	List<Cell> calculatePath(Agent startNode, Cell goalNode);
 	
-
 }
