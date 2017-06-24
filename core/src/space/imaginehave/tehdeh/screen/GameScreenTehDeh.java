@@ -34,7 +34,6 @@ public class GameScreenTehDeh implements Screen {
 	private Stage stage;
 	private Skin skin;
 	private InputProcessor processor;
-	private MapLayer objectLayer;
 	private Viewport viewport;
 	private TiledMapRenderer tiledMapRenderer;
 
@@ -47,8 +46,6 @@ public class GameScreenTehDeh implements Screen {
 		
 		viewport = new StretchViewport(800, 800, camera);
 
-		objectLayer = game.getState().getTiledMap().getLayers().get("objects");
-		
 		stage = new Stage();
 		stage.setViewport(viewport);
 
