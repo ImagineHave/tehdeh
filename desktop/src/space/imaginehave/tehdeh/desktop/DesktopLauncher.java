@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Teh Deh";
 		config.width = 800;
-		config.height = 600;
+		config.height = 800;
 		new LwjglApplication(new TehDehGame(), config);
 	}
 }
