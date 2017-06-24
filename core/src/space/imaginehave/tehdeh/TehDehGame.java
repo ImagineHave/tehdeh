@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector3;
 
+import entity.TowerCell;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import space.imaginehave.tehdeh.state.TehDehGameState;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
@@ -77,10 +78,8 @@ public class TehDehGame extends Game {
 	public void addEntity(Vector3 vector, Texture texture) {
 		TiledMapTileLayer entityLayer = (TiledMapTileLayer) tiledMap.getLayers().get("entityLayer");
 				
-		Cell cell = new Cell();
-		TextureRegion entityTextureRegion = new TextureRegion(towerTexture);
-		TiledMapTile tmt = new StaticTiledMapTile(entityTextureRegion);
-		cell.setTile(tmt);
+		TowerCell cell = new TowerCell(towerTexture);
+		
 		
 		entityLayer.setCell((int) (vector.x/entityLayer.getTileWidth()), (int) (vector.y/entityLayer.getTileHeight()), cell);
 	}
