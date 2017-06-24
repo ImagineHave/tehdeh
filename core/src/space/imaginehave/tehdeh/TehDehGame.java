@@ -87,7 +87,6 @@ public class TehDehGame extends Game {
 		Cell cell = new Cell();
 		cell.setTile(tmt);
 		
-		entityLayer.setCell((int) (vector.x/8), (int) (vector.y/8), cell);
-//		((TiledMapTileLayer) tiledMap).setCell(x, y, cell); .getTileSets().("entityLayer").get().add(tmo);
+		entityLayer.setCell((int) (vector.x/entityLayer.getTileWidth()), (int) (vector.y/entityLayer.getTileHeight()), cell);
 	}
 }
