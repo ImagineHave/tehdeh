@@ -55,7 +55,7 @@ public class GameScreenTehDeh implements Screen {
 				hud.setDebug(true);
 				stage.addActor(hud);
 
-				final TowerButton button = new TowerButton(skin, game.getBucket());
+				final TowerButton button = new TowerButton(skin, game.getTowerTexture());
 				hud.add(button).top().left().expand();
 				
 				button.addListener(new ChangeListener() {

@@ -25,13 +25,13 @@ public class TehDehGame extends Game {
 	private SpriteBatch	batch;
 	private TehDehGameState state;
 	private BitmapFont	font;
-	private Texture towerImage;
+	private Texture towerTexture;
 	private TiledMap tiledMap;
 	private TiledMapRenderer tiledMapRenderer;
 
 	@Override
 	public void create() {
-		towerImage = new Texture(Gdx.files.internal("testTower.png"));
+		towerTexture = new Texture(Gdx.files.internal("testTower.png"));
 		state = new TehDehGameState();
 		batch = new SpriteBatch();
 		font = new BitmapFont();
@@ -70,15 +70,15 @@ public class TehDehGame extends Game {
 		return this.batch;
 	}
 	
-	public Texture getBucket(){
-		return towerImage;
+	public Texture getTowerTexture(){
+		return towerTexture;
 	}
 
-	public void addEntity(Vector3 vector, Vector3 vector2, Texture texture) {
-		TiledMapTileLayer entityLayer = (TiledMapTileLayer) tiledMap.getLayers().get("tileLayer1");
+	public void addEntity(Vector3 vector, Texture texture) {
+		TiledMapTileLayer entityLayer = (TiledMapTileLayer) tiledMap.getLayers().get("entityLayer");
 				
 		Cell cell = new Cell();
-		TextureRegion entityTextureRegion = new TextureRegion(towerImage);
+		TextureRegion entityTextureRegion = new TextureRegion(towerTexture);
 		TiledMapTile tmt = new StaticTiledMapTile(entityTextureRegion);
 		cell.setTile(tmt);
 		
