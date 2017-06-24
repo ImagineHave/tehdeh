@@ -1,7 +1,6 @@
 package space.imaginehave.tehdeh.tiledmaprenderer;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import space.imaginehave.tehdeh.TehDehGame;
