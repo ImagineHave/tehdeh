@@ -37,9 +37,9 @@ public class AStarSearch implements SearchInterface{
 
     while (!openList.isEmpty()) {
       AStarNode node = (AStarNode)openList.removeFirst();
-      if (node == goalNode) {
+      if (  node.equals(goalNode)) {  
         // construct the path from start to goal
-        return constructPath(goalNode);
+        return constructPath(node);
       }
 
       List<AStarNode> neighbors = node.getNeighbors();
@@ -115,7 +115,7 @@ public List<Vector3> calculatePath(Agent agent) {
 	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), tiledMapTileLayer);
 	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), tiledMapTileLayer);// new AStarNode(goalNode, tiledMapTileLayer);
 	List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode); 
-	return null;
+	return aStarPath;
 }
 
 

@@ -14,7 +14,7 @@ public class AStarNode {
 
 	public AStarNode pathParent;
 	
-	public float costFromStart;
+	public float costFromStart = 1;
 	
 	public int estimatedCostToGoal;
 
@@ -28,23 +28,31 @@ public class AStarNode {
 	
 	public AStarNode(Vector3 position, TiledMapTileLayer tiledMapTileLayer) {
 		this.tiledMapTileLayer = tiledMapTileLayer;
-		this.x = (int) position.x;
-		this.y = (int) position.y;
+		this.x = (int) (position.x /tiledMapTileLayer.getTileWidth());
+		this.y = (int) (position.y / tiledMapTileLayer.getTileHeight());
 	}
 
 	public int getEstimatedCost(AStarNode goalNode) {
-		return Math.abs(goalNode.x + x) + Math.abs(goalNode.y + y);
+		return (int) (Math.abs(goalNode.x - x) +
+				Math.abs(goalNode.y - y));
 	}
 
 	public List<AStarNode> getNeighbors() {
 		List<AStarNode> neighbors = new ArrayList<AStarNode>();
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j<2; j++) {
-				if(i == x && j == y) {
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if(i == 0 && j == 0) {
 					continue;
 				}
-				if(tiledMapTileLayer.getCell(i, j) == null) {
-					neighbors.add(new AStarNode(i,j, tiledMapTileLayer));
+				int xToCheck = (int) (x+i);
+				int yToCheck = (int) (y+j);
+				if(xToCheck < 0 || xToCheck> tiledMapTileLayer.getWidth() ||
+					yToCheck < 0 || yToCheck > tiledMapTileLayer.getHeight()
+						) {
+					continue;
+				}
+				if(tiledMapTileLayer.getCell(xToCheck, yToCheck) == null) {
+					neighbors.add(new AStarNode(xToCheck, yToCheck, tiledMapTileLayer));
 				}
 			}
 		}
@@ -55,4 +63,17 @@ public class AStarNode {
 		return 1;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null) {
+			return false;
+		}
+		AStarNode other = (AStarNode) obj;
+		if(! (this.x == other.x)
+				|| 
+			!( this.y == other.y)) {
+			return false;
+		}
+		return true;
+	}
 }
