@@ -24,6 +24,7 @@ import space.imaginehave.tehdeh.agent.DummyAgent;
 import space.imaginehave.tehdeh.agent.MapObjectAgent;
 import space.imaginehave.tehdeh.button.TowerButton;
 import space.imaginehave.tehdeh.entity.TowerCell;
+import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
 import space.imaginehave.tehdeh.search.BoidSearch;
 import space.imaginehave.tehdeh.search.SearchInterface;
@@ -78,34 +79,13 @@ public class GameScreenTehDeh implements Screen {
 	}
 
 	private void createUI() {
-				skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
-
-				Table hud = new Table();
-				hud.setBounds(viewport.getWorldWidth()*0.75f, 0, viewport.getWorldWidth()*0.25f, viewport.getWorldHeight());
-				hud.setDebug(true);
-				stage.addActor(hud);
-
-				final TowerButton button = new TowerButton(skin, (Texture) game.getAssetManager().get("testTower.png"));
-				hud.add(button).top().left().expand();
-				
-				button.addListener(new ChangeListener() {
-					public void changed(ChangeEvent event, Actor actor) {
-						if(!game.getState().getPlacementTexture().isPresent()) {
-							game.getState().setPlacementTexture(button.getTexture());
-							game.getState().setMouseCoords(game.getState().getMouseCoords());	
-						} else {
-							game.getState().removeMouseFollow();
-						}
-					}
-				});
-
+		HUD hud = new HUD(skin, viewport, game);
+		stage.addActor(hud.getHud());
 	}
 
 	@Override
 	public void show() {
-
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -171,7 +151,6 @@ public class GameScreenTehDeh implements Screen {
 	}
 	
 	public void addEntity(Vector3 vector, Texture texture) {
-		
 		TowerCell cell = new TowerCell(texture);
 		TiledMapTileLayer towerLayer = game.getState().getTowerLayer();
 		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
