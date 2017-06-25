@@ -24,7 +24,7 @@ public class TehDehGameState {
 	
 	public TehDehGameState () {
 		this.placementTexture = Optional.empty();
-		this.mouseVector = Vector3.Zero;
+		this.mouseVector = new Vector3(0,0,0);
 		this.setAgents(new ArrayList<Agent>());
 		tiledMap = new TmxMapLoader().load("tehdeh.tmx");
 		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("towerLayer");

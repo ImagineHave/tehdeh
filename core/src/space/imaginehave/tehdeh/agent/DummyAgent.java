@@ -19,10 +19,10 @@ public class DummyAgent extends MapObjectAgent {
 				random.nextInt((int) viewport.getWorldHeight()),
 				0f);
 		
-		super.velocity = Vector3.Zero;
+		super.velocity = new Vector3(0,0,0);
 		
 		super.goal = new Vector3(
-				viewport.getWorldWidth()/2,
+				-15,
 				viewport.getWorldHeight()/2,
 				0);
 		
@@ -31,13 +31,15 @@ public class DummyAgent extends MapObjectAgent {
 				viewport.getWorldHeight(),
 				0f);
 		
-		super.minPosition = Vector3.Zero;
+		super.minPosition = new Vector3(0,0,0);
 		
 		super.positionPath = new ArrayList<Vector3>();
 		
 		positionPath.add(position);
 		
 		super.velocityPath = new ArrayList<Vector3>();
+		
+		velocityPath.add(velocity);
 		
 		this.search = search;
 	}
@@ -47,6 +49,8 @@ public class DummyAgent extends MapObjectAgent {
 	public void update() {
 		position = positionPath.get(positionPath.size()-1);
 		positionPath.clear();
+		velocity = velocityPath.get(velocityPath.size()-1);
+		velocityPath.clear();
 		
 	}
 

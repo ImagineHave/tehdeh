@@ -69,7 +69,7 @@ public class GameScreenTehDeh implements Screen {
 		
 		SearchInterface search = BoidSearch.getInstance();
 		
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			
 			MapObjectAgent moa = new DummyAgent(viewport, search);
 			BoidSearch.getInstance().getAgents().add(moa);

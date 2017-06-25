@@ -52,17 +52,18 @@ public class BoidSearch implements SearchInterface {
 			goal = getGoal(boid);
 			bounds = getBounds(boid);
 			
-			Vector3 velocity = boid.getVelocity()
+			Vector3 velocity = new Vector3(boid.getVelocity()
 					.add(cohesion)
 					.add(separation)
 					.add(alignment)
 					.add(goal)
-					.add(bounds)
-					;
+					.add(bounds));
 			
-			velocity = velocity.clamp(0, 1);
+			velocity = velocity.clamp(0, 3);
 			boid.getVelocityPath().add(velocity);
-			boid.getPostionPath().add(boid.getPosition().add(velocity));
+			Vector3 newPosition = new Vector3(boid.getPosition());
+			newPosition.add(velocity);
+			boid.getPostionPath().add(newPosition);
 		}
 		
 	}
@@ -74,16 +75,16 @@ public class BoidSearch implements SearchInterface {
 	 * 
 	 */
 	private Vector3 getCohesion(Agent boid) {
-		Vector3 cohesion = Vector3.Zero;
+		Vector3 cohesion = new Vector3(0,0,0);
 		for (Agent notBoid : boids) {
 			if (notBoid != boid) {
-				cohesion = cohesion.add(boid.getPosition());
+				cohesion.add(notBoid.getPosition());
 			}
 		}
 		
-		cohesion = cohesion.scl(1/(float)(boids.size()-1));
-		cohesion = cohesion.scl(1/(float)100);
-		cohesion = cohesion.sub(boid.getPosition());
+		cohesion.scl(1/(float)(boids.size()-1));
+		cohesion.sub(boid.getPosition());
+		cohesion.scl(1/(float)100);
 		return cohesion;
 	}
 	
@@ -93,15 +94,16 @@ public class BoidSearch implements SearchInterface {
 	 * Don't move too close to everyone else.
 	 */
 	private Vector3 getSeparation(Agent boid) {
-		Vector3 separation = Vector3.Zero;
+		Vector3 separation = new Vector3(0,0,0);
 		for (Agent notBoid : boids) {
 			if (notBoid != boid) {
-				if (notBoid.getPosition().dst(boid.getPosition()) < 100) {
-					separation = separation.sub(boid.getPosition().sub(notBoid.getPosition()));
+				if (notBoid.getPosition().dst(boid.getPosition()) < 16) {
+					Vector3 position = new Vector3(boid.getPosition());
+					separation.sub(position.sub(notBoid.getPosition()));
 				}
 			}
 		}
-		return separation;
+		return separation.scl(16);
 	}
 	
 	
@@ -109,14 +111,14 @@ public class BoidSearch implements SearchInterface {
 	 * Keep swimming the same direction
 	 */
 	private Vector3 getAlignment(Agent boid) {
-		Vector3 alignment = Vector3.Zero;
+		Vector3 alignment = new Vector3(0,0,0);
 		for (Agent notBoid : boids) {
 			if (notBoid != boid) {
-				alignment = alignment.add(notBoid.getVelocity());
+				alignment.add(notBoid.getVelocity());
 			}
 		}
-		alignment = alignment.scl(1/(float)(boids.size()-1));
-		alignment = alignment.scl(1/(float)8);
+		alignment.scl(1/(float)(boids.size()-1));
+		alignment.scl(1/(float) 8);
 		return alignment;
 	}
 	
@@ -125,8 +127,8 @@ public class BoidSearch implements SearchInterface {
 	 * head to the finish
 	 */
 	private Vector3 getGoal(Agent boid) {
-		Vector3 goal = boid.getGoal();
-		goal = goal.sub(boid.getPosition());
+		Vector3 goal = new Vector3(boid.getGoal());
+		goal = goal.sub(boid.getPosition()).scl(1/100);
 		return goal;
 	}
 	
@@ -135,7 +137,7 @@ public class BoidSearch implements SearchInterface {
 	 * bound me up
 	 */
 	private Vector3 getBounds(Agent boid) {
-		Vector3 bound = Vector3.Zero;
+		Vector3 bound = new Vector3(0,0,0);
 		
 		if (boid.getPosition().x < boid.getMinPosition().x) {
 			bound.x = 1;
