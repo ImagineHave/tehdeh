@@ -1,11 +1,10 @@
-package search;
+package space.imaginehave.tehdeh.search;
 import java.util.*;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.agent.Agent;
-import space.imaginehave.tehdeh.search.SearchInterface;
 
 /**
   The AStarSearch class, along with the AStarNode class,
