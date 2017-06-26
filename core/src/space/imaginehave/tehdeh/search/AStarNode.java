@@ -8,7 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector3;
 
-public class AStarNode {
+public class AStarNode implements Comparable<AStarNode> {
 	
 	int x, y;
 
@@ -33,8 +33,7 @@ public class AStarNode {
 	}
 
 	public int getEstimatedCost(AStarNode goalNode) {
-		return (int) (Math.abs(goalNode.x - x) +
-				Math.abs(goalNode.y - y));
+		return (int) Math.hypot(goalNode.x - x, goalNode.y - y);
 	}
 
 	public List<AStarNode> getNeighbors() {
@@ -60,7 +59,7 @@ public class AStarNode {
 	}
 
 	public int getCost(AStarNode neighborNode) {
-		return 1;
+		return (int) Math.hypot(neighborNode.x - x, neighborNode.y - y);
 	}
 
 	@Override
@@ -69,11 +68,24 @@ public class AStarNode {
 			return false;
 		}
 		AStarNode other = (AStarNode) obj;
-		if(! (this.x == other.x)
+		if(!(this.x == other.x)
 				|| 
 			!( this.y == other.y)) {
 			return false;
 		}
 		return true;
+	}
+	
+	public float getCost() {
+	    return costFromStart + estimatedCostToGoal;
+	  }
+
+	@Override
+	public int compareTo(AStarNode o) {
+		float thisValue = this.getCost();
+	    float otherValue = ((AStarNode)o).getCost();
+
+	    float v = thisValue - otherValue;
+	    return (v>0)?1:(v<0)?-1:0; // sign function(obj == null) {
 	}
 }
