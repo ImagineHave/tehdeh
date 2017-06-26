@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.MapObjectAgent;
+import space.imaginehave.tehdeh.search.AStarSearch;
 import space.imaginehave.tehdeh.search.BoidSearch;
 
 
@@ -27,7 +28,8 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 	public void render() {
 		super.render();
 		
-		BoidSearch.getInstance().moveBoids();
+		BoidSearch.getInstance().calculatePathsForRegisteredAgents();
+		AStarSearch.getInstance(game.getState().getTowerLayer()).calculatePathsForRegisteredAgents();
 	}
 	
 	

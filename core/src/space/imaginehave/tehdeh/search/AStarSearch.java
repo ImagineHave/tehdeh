@@ -6,17 +6,26 @@ import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.agent.Agent;
 
-/**
-  The AStarSearch class, along with the AStarNode class,
-  implements a generic A* search algorithm. The AStarNode
-  class should be subclassed to provide searching capability.
-*/
 public class AStarSearch implements SearchInterface{
 	
+	private static AStarSearch aStarSearch;
 	TiledMapTileLayer tiledMapTileLayer;
+	private ArrayList<Agent> agents;
 	
-	public AStarSearch (TiledMapTileLayer tiledMapTileLayer) {
+	private AStarSearch (TiledMapTileLayer tiledMapTileLayer) {
 		this.tiledMapTileLayer = tiledMapTileLayer;
+		agents = new ArrayList<Agent>();
+	}
+	
+	public static AStarSearch getInstance(TiledMapTileLayer tiledMapTileLayer) {
+		if (AStarSearch.aStarSearch == null) {
+			AStarSearch.aStarSearch = new AStarSearch(tiledMapTileLayer);
+		}
+		return AStarSearch.aStarSearch;
+	}
+
+	public List<Agent> getAgents() {
+		return agents;
 	}
 	
 	/**
@@ -109,12 +118,17 @@ public class AStarSearch implements SearchInterface{
     return path;
   }
 
-@Override
-public List<Vector3> calculatePath(Agent agent) {
-	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), tiledMapTileLayer);
-	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), tiledMapTileLayer);// new AStarNode(goalNode, tiledMapTileLayer);
-	List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode); 
-	return aStarPath;
+
+  @Override
+  public void calculatePathsForRegisteredAgents() {
+	for(Agent agent: agents) {
+		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), tiledMapTileLayer);
+		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), tiledMapTileLayer);
+		List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode); 
+		agent.getPostionPath().clear();
+		agent.getPostionPath().addAll(aStarPath);
+	}
+	
 }
 
 

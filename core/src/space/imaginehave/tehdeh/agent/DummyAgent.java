@@ -22,8 +22,8 @@ public class DummyAgent extends MapObjectAgent {
 		super.velocity = new Vector3(0,0,0);
 		
 		super.goal = new Vector3(
-				-15,
-				viewport.getWorldHeight()/2,
+				25*16,
+				25*16,
 				0);
 		
 		super.maxPosition = new Vector3(
@@ -47,11 +47,13 @@ public class DummyAgent extends MapObjectAgent {
 
 	@Override
 	public void update() {
-		position = positionPath.get(positionPath.size()-1);
-		positionPath.clear();
-		velocity = velocityPath.get(velocityPath.size()-1);
-		velocityPath.clear();
-		
+		if(!positionPath.isEmpty()) {
+			position = positionPath.get(positionPath.size()-1);
+			positionPath.clear();
+		}			
+		if(!velocityPath.isEmpty()) {
+			velocity = velocityPath.get(velocityPath.size()-1);
+			velocityPath.clear();
+		}
 	}
-
 }

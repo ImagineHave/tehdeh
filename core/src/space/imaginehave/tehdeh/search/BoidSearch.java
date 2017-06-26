@@ -3,7 +3,6 @@ package space.imaginehave.tehdeh.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.agent.Agent;
@@ -13,13 +12,6 @@ public class BoidSearch implements SearchInterface {
 	private static BoidSearch boidSearch;
 	private final ArrayList<Agent> boids;
 	
-
-	@Override
-	public List<Vector3> calculatePath(Agent agent) {
-		moveBoids();
-		return null;
-	}
-
 	public static BoidSearch getInstance() {
 		if (BoidSearch.boidSearch == null) {
 			BoidSearch.boidSearch = new BoidSearch();
@@ -35,8 +27,7 @@ public class BoidSearch implements SearchInterface {
 		return boids;
 	}
 
-
-	public void moveBoids() {
+	public void calculatePathsForRegisteredAgents() {
 		
 		Vector3 cohesion;
 		Vector3 separation;

@@ -11,21 +11,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.DummyAgent;
 import space.imaginehave.tehdeh.agent.MapObjectAgent;
-import space.imaginehave.tehdeh.button.TowerButton;
 import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
+import space.imaginehave.tehdeh.search.AStarSearch;
 import space.imaginehave.tehdeh.search.BoidSearch;
 import space.imaginehave.tehdeh.search.SearchInterface;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
@@ -69,11 +66,17 @@ public class GameScreenTehDeh implements Screen {
 	private void createAgents() {
 		
 		SearchInterface search = BoidSearch.getInstance();
+		SearchInterface aStarSearch = AStarSearch.getInstance(game.getState().getTowerLayer());
 		
 		for (int i = 0; i < 3; i++) {
-			
 			MapObjectAgent moa = new DummyAgent(viewport, search);
 			BoidSearch.getInstance().getAgents().add(moa);
+			game.getState().getAgentLayer().getObjects().add(moa);
+		}
+		
+		for (int i = 0; i < 1; i++) {
+			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch);
+			AStarSearch.getInstance(game.getState().getTowerLayer()).getAgents().add(moa);
 			game.getState().getAgentLayer().getObjects().add(moa);
 		}
 	}
