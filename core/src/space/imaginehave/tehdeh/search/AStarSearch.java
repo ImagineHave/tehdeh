@@ -103,7 +103,7 @@ public class AStarSearch implements SearchInterface{
   protected List<Vector3> constructPath(AStarNode node) {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
-      path.addFirst(new Vector3(node.x, node.y, 0));
+      path.addFirst(new Vector3(node.x*tiledMapTileLayer.getTileWidth(), node.y*tiledMapTileLayer.getTileHeight(), 0));
       node = node.pathParent;
     }
     return path;

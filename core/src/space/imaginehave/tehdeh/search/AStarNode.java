@@ -14,7 +14,7 @@ public class AStarNode {
 
 	public AStarNode pathParent;
 	
-	public float costFromStart = 1;
+	public float costFromStart = Integer.MAX_VALUE;
 	
 	public int estimatedCostToGoal;
 
