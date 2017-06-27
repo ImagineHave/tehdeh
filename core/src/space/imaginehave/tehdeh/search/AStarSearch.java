@@ -53,7 +53,7 @@ public class AStarSearch implements SearchInterface{
       List<AStarNode> neighbors = node.getNeighbors();
       for (int i=0; i<neighbors.size(); i++) {
         AStarNode neighborNode =
-          (AStarNode)neighbors.get(i);
+          neighbors.get(i);
         boolean isOpen = openList.contains(neighborNode);
         boolean isClosed =
           closedList.contains(neighborNode);
@@ -81,8 +81,14 @@ public class AStarSearch implements SearchInterface{
       closedList.add(node);
     }
 
-    // no path found
-    return null;
+    // no path found. return path to the node with the smallest estimated cost
+    AStarNode nodeWithSmallestCost = null;
+    for(AStarNode node : closedList) {
+    	if(nodeWithSmallestCost == null || (node.getCost() < nodeWithSmallestCost.getCost())) {
+    		nodeWithSmallestCost = node;
+    	}
+    }
+    return constructPath(nodeWithSmallestCost);
   }
 
 	
@@ -92,12 +98,12 @@ public class AStarSearch implements SearchInterface{
     determined by the object's Comparable interface.
     The highest priority item is first in the list.
   */
-  public static class PriorityList<T> extends LinkedList {
+  public static class PriorityList<AStarNode> extends LinkedList {
 
-    public void add(Comparable object) {
+    public void add(Comparable<AStarNode> object) {
       for (int i=0; i<size(); i++) {
-        if (object.compareTo(get(i)) <= 0) {
-          add(i, object);
+        if (object.compareTo((AStarNode) get(i)) <= 0) {
+          add(i, (AStarNode)object);
           return;
         }
       }

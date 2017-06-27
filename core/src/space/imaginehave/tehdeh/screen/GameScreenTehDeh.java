@@ -74,7 +74,7 @@ public class GameScreenTehDeh implements Screen {
 			game.getState().getAgentLayer().getObjects().add(moa);
 		}
 		
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 3; i++) {
 			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch);
 			AStarSearch.getInstance(game.getState().getTowerLayer()).getAgents().add(moa);
 			game.getState().getAgentLayer().getObjects().add(moa);

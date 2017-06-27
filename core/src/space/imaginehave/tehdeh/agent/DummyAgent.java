@@ -43,7 +43,11 @@ public class DummyAgent extends MapObjectAgent {
 		
 		this.search = search;
 	}
-	
+
+	@Override
+	public void setGoal(Vector3 goalVector) {
+		this.goal = goalVector;
+	}
 
 	@Override
 	public void update() {

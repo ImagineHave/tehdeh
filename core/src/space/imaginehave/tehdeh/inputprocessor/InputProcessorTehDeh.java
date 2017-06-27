@@ -2,9 +2,11 @@ package space.imaginehave.tehdeh.inputprocessor;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.TehDehGame;
+import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 
 public class InputProcessorTehDeh implements InputProcessor {
@@ -37,7 +39,13 @@ public class InputProcessorTehDeh implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+		if(!game.getState().getPlacementTexture().isPresent()) {
+			Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
+			for(MapObject a : game.getState().getAgentLayer().getObjects()) {
+				((Agent)a).setGoal(vector);
+			}
+		}
+			
 		return false;
 	}
 
