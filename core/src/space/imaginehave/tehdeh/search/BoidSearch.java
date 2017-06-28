@@ -43,18 +43,25 @@ public class BoidSearch implements SearchInterface {
 			goal = getGoal(boid);
 			bounds = getBounds(boid);
 			
-			Vector3 velocity = new Vector3(boid.getVelocity()
+			Vector3 newVelocity = new Vector3(0,0,0)
 					.add(cohesion)
 					.add(separation)
 					.add(alignment)
 					.add(goal)
-					.add(bounds));
+					.add(bounds);
 			
-			velocity = velocity.clamp(0, 3);
-			boid.getVelocityPath().add(velocity);
+			newVelocity.add(boid.getVelocity());
+			newVelocity.scl(1/(float)5);
+			newVelocity.add(boid.getVelocity());
+			newVelocity.clamp(0, 2);
+			
+			
+			
+			boid.getVelocityPath().add(newVelocity);
 			Vector3 newPosition = new Vector3(boid.getPosition());
-			newPosition.add(velocity);
+			newPosition = newPosition.add(newVelocity);
 			boid.getPostionPath().add(newPosition);
+			
 		}
 		
 	}
@@ -88,13 +95,13 @@ public class BoidSearch implements SearchInterface {
 		Vector3 separation = new Vector3(0,0,0);
 		for (Agent notBoid : boids) {
 			if (notBoid != boid) {
-				if (notBoid.getPosition().dst(boid.getPosition()) < 16) {
-					Vector3 position = new Vector3(boid.getPosition());
-					separation.sub(position.sub(notBoid.getPosition()));
+				if (notBoid.getPosition().dst(boid.getPosition()) < 32) {
+					separation = new Vector3(boid.getPosition());
+					separation.sub(notBoid.getPosition());
 				}
 			}
 		}
-		return separation.scl(16);
+		return separation.scl(1/(float)20);
 	}
 	
 	
@@ -109,7 +116,7 @@ public class BoidSearch implements SearchInterface {
 			}
 		}
 		alignment.scl(1/(float)(boids.size()-1));
-		alignment.scl(1/(float) 8);
+		alignment.scl(1/(float) 10);
 		return alignment;
 	}
 	
@@ -119,7 +126,7 @@ public class BoidSearch implements SearchInterface {
 	 */
 	private Vector3 getGoal(Agent boid) {
 		Vector3 goal = new Vector3(boid.getGoal());
-		goal = goal.sub(boid.getPosition()).scl(1/100);
+		goal = goal.sub(boid.getPosition()).scl(1/(float)1500);
 		return goal;
 	}
 	

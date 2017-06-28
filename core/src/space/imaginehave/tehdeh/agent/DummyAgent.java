@@ -12,18 +12,19 @@ public class DummyAgent extends MapObjectAgent {
 	
 	Random random = new Random();
 	SearchInterface search;
+	private int name;
 	
-	public DummyAgent (Viewport viewport, SearchInterface search) {
+	public DummyAgent (Viewport viewport, SearchInterface search, int name) {
 		super.position = new Vector3(
 				random.nextInt((int) viewport.getWorldWidth()),
-				random.nextInt((int) viewport.getWorldHeight()),
+				viewport.getWorldHeight() + 64,
 				0f);
 		
 		super.velocity = new Vector3(0,0,0);
 		
 		super.goal = new Vector3(
 				25*16,
-				25*16,
+				-64,
 				0);
 		
 		super.maxPosition = new Vector3(
@@ -42,6 +43,8 @@ public class DummyAgent extends MapObjectAgent {
 		velocityPath.add(velocity);
 		
 		this.search = search;
+		
+		this.name = name;
 	}
 
 	@Override
@@ -52,12 +55,18 @@ public class DummyAgent extends MapObjectAgent {
 	@Override
 	public void update() {
 		if(!positionPath.isEmpty()) {
-			position = positionPath.get(positionPath.size()-1);
+			position = new Vector3(positionPath.get(positionPath.size()-1));
 			positionPath.clear();
 		}			
 		if(!velocityPath.isEmpty()) {
-			velocity = velocityPath.get(velocityPath.size()-1);
+			velocity = new Vector3(velocityPath.get(velocityPath.size()-1));
 			velocityPath.clear();
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("id: %d p: %f,%f v: %f,%f", name, position.x, position.y, velocity.x, velocity.y);
+		
 	}
 }

@@ -68,14 +68,14 @@ public class GameScreenTehDeh implements Screen {
 		SearchInterface search = BoidSearch.getInstance();
 		SearchInterface aStarSearch = AStarSearch.getInstance(game.getState().getTowerLayer());
 		
-		for (int i = 0; i < 3; i++) {
-			MapObjectAgent moa = new DummyAgent(viewport, search);
+		for (int i = 0; i < 100; i++) {
+			MapObjectAgent moa = new DummyAgent(viewport, search, i);
 			BoidSearch.getInstance().getAgents().add(moa);
 			game.getState().getAgentLayer().getObjects().add(moa);
 		}
 		
 		for (int i = 0; i < 3; i++) {
-			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch);
+			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch, i+1);
 			AStarSearch.getInstance(game.getState().getTowerLayer()).getAgents().add(moa);
 			game.getState().getAgentLayer().getObjects().add(moa);
 		}
