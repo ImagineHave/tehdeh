@@ -17,14 +17,14 @@ public class DummyAgent extends MapObjectAgent {
 	public DummyAgent (Viewport viewport, SearchInterface search, int name) {
 		super.position = new Vector3(
 				random.nextInt((int) viewport.getWorldWidth()),
-				viewport.getWorldHeight() + 64,
+				viewport.getWorldHeight()-16,
 				0f);
 		
 		super.velocity = new Vector3(0,0,0);
 		
 		super.goal = new Vector3(
 				25*16,
-				-64,
+				25*16,
 				0);
 		
 		super.maxPosition = new Vector3(

@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.agent.Agent;
+import space.imaginehave.tehdeh.entity.TowerCell;
 
 public class TehDehGameState {
 	
@@ -69,5 +70,10 @@ public class TehDehGameState {
 	
 	public MapLayer getAgentLayer() {
 		return agentLayer;
+	}
+	
+	public void addEntity(Vector3 vector, Texture texture) {
+		TowerCell cell = new TowerCell(texture);
+		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
 	}
 }

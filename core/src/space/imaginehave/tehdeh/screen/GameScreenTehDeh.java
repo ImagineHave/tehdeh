@@ -74,8 +74,8 @@ public class GameScreenTehDeh implements Screen {
 			game.getState().getAgentLayer().getObjects().add(moa);
 		}
 		
-		for (int i = 0; i < 3; i++) {
-			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch, i+1);
+		for (int i = 0; i < 1; i++) {
+			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch, i+100);
 			AStarSearch.getInstance(game.getState().getTowerLayer()).getAgents().add(moa);
 			game.getState().getAgentLayer().getObjects().add(moa);
 		}
@@ -153,10 +153,4 @@ public class GameScreenTehDeh implements Screen {
 
 	}
 	
-	public void addEntity(Vector3 vector, Texture texture) {
-		TowerCell cell = new TowerCell(texture);
-		TiledMapTileLayer towerLayer = game.getState().getTowerLayer();
-		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
-	}
-
 }
