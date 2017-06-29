@@ -10,9 +10,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.agent.Agent;
+import space.imaginehave.tehdeh.agent.DummyAgent;
+import space.imaginehave.tehdeh.agent.MapObjectAgent;
 import space.imaginehave.tehdeh.entity.TowerCell;
+import space.imaginehave.tehdeh.search.AStarSearch;
+import space.imaginehave.tehdeh.search.BoidSearch;
+import space.imaginehave.tehdeh.search.SearchInterface;
 
 public class TehDehGameState {
 	
@@ -75,5 +81,23 @@ public class TehDehGameState {
 	public void addEntity(Vector3 vector, Texture texture) {
 		TowerCell cell = new TowerCell(texture);
 		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
+	}
+	
+	public void createAgents(Viewport viewport) {
+		
+		SearchInterface search = BoidSearch.getInstance();
+		SearchInterface aStarSearch = AStarSearch.getInstance(this.getTowerLayer());
+		
+		for (int i = 0; i < 100; i++) {
+			MapObjectAgent moa = new DummyAgent(viewport, search, i);
+			BoidSearch.getInstance().getAgents().add(moa);
+			this.getAgentLayer().getObjects().add(moa);
+		}
+		
+		for (int i = 0; i < 1; i++) {
+			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch, i+100);
+			AStarSearch.getInstance(this.getTowerLayer()).getAgents().add(moa);
+			this.getAgentLayer().getObjects().add(moa);
+		}
 	}
 }
