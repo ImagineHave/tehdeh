@@ -28,6 +28,8 @@ public class GameStateTehDeh implements State {
 	private final TiledMapTileLayer towerLayer;
 	private final MapLayer agentLayer;
 	private final TiledMap tiledMap;
+	private final BoidSearch boidSearch;
+	private final AStarSearch aStarSearch;
 	
 	public GameStateTehDeh () {
 		this.placementTexture = Optional.empty();
@@ -37,8 +39,8 @@ public class GameStateTehDeh implements State {
 		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("towerLayer");
 		agentLayer = (MapLayer) tiledMap.getLayers().get("agentLayer");
 		
-		BoidSearch.init(this);
-		AStarSearch.init(this);
+		boidSearch = new BoidSearch(this);
+		aStarSearch = new AStarSearch(this);
 	}
 	
 	public Optional<Texture> getPlacementTexture (){
@@ -89,16 +91,22 @@ public class GameStateTehDeh implements State {
 	public void createAgents(Viewport viewport) {
 		
 		for (int i = 0; i < 100; i++) {
-			MapObjectAgent moa = new DummyAgent(viewport, BoidSearch.getInstance(), i);
-			BoidSearch.getInstance().getAgents().add(moa);
+			MapObjectAgent moa = new DummyAgent(viewport, boidSearch, i);
+			boidSearch.getAgents().add(moa);
 			this.getAgentLayer().getObjects().add(moa);
 		}
 		
 		for (int i = 0; i < 1; i++) {
-			MapObjectAgent moa = new DummyAgent(viewport, AStarSearch.getInstance(), i+100);
-			AStarSearch.getInstance().getAgents().add(moa);
+			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch, i+100);
+			aStarSearch.getAgents().add(moa);
 			this.getAgentLayer().getObjects().add(moa);
 		}
+	}
+	
+	
+	public void calculatePaths() {
+		aStarSearch.calculatePathsForRegisteredAgents();
+		boidSearch.calculatePathsForRegisteredAgents();
 	}
 	
 	public void createWalls() {

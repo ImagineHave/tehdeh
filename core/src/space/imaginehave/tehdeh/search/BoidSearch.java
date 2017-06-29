@@ -10,22 +10,10 @@ import space.imaginehave.tehdeh.state.State;
 
 public class BoidSearch implements SearchInterface {
 
-	private static BoidSearch boidSearch;
 	private final State state;
 	private final ArrayList<Agent> boids;
-	
-	public static BoidSearch getInstance() {
-		if (BoidSearch.boidSearch != null){
-			return BoidSearch.boidSearch;
-		}
-		throw new RuntimeException("Search not initialised");
-	}
-	
-	public static void init(State state){
-		BoidSearch.boidSearch = new BoidSearch(state);
-	}
 
-	private BoidSearch(final State state) {
+	public BoidSearch(final State state) {
 		boids = new ArrayList<Agent>();
 		this.state = state;
 	}
