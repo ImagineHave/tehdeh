@@ -144,7 +144,7 @@ public class BoidSearch implements SearchInterface {
 	 */
 	private Vector3 getGoal(Agent boid) {
 		Vector3 goal = new Vector3(boid.getGoal());
-		goal = goal.sub(boid.getPosition()).scl(1/(float)1500);
+		goal = goal.sub(boid.getPosition()).scl(1/(float)1000);
 		return goal;
 	}
 	
