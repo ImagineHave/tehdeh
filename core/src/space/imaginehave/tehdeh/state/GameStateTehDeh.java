@@ -36,6 +36,9 @@ public class GameStateTehDeh implements State {
 		tiledMap = new TmxMapLoader().load("tehdeh.tmx");
 		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("towerLayer");
 		agentLayer = (MapLayer) tiledMap.getLayers().get("agentLayer");
+		
+		BoidSearch.init(this);
+		AStarSearch.init(this);
 	}
 	
 	public Optional<Texture> getPlacementTexture (){
@@ -85,18 +88,15 @@ public class GameStateTehDeh implements State {
 	
 	public void createAgents(Viewport viewport) {
 		
-		SearchInterface search = BoidSearch.getInstance(this);
-		SearchInterface aStarSearch = AStarSearch.getInstance(this);
-		
 		for (int i = 0; i < 100; i++) {
-			MapObjectAgent moa = new DummyAgent(viewport, search, i);
-			BoidSearch.getInstance(this).getAgents().add(moa);
+			MapObjectAgent moa = new DummyAgent(viewport, BoidSearch.getInstance(), i);
+			BoidSearch.getInstance().getAgents().add(moa);
 			this.getAgentLayer().getObjects().add(moa);
 		}
 		
 		for (int i = 0; i < 1; i++) {
-			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch, i+100);
-			AStarSearch.getInstance(this).getAgents().add(moa);
+			MapObjectAgent moa = new DummyAgent(viewport, AStarSearch.getInstance(), i+100);
+			AStarSearch.getInstance().getAgents().add(moa);
 			this.getAgentLayer().getObjects().add(moa);
 		}
 	}

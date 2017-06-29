@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.state.State;
 
-public class AStarSearch implements SearchInterface{
+public class AStarSearch implements SearchInterface {
 	
 	private static AStarSearch aStarSearch;
 	private final State state;
@@ -18,11 +18,15 @@ public class AStarSearch implements SearchInterface{
 		agents = new ArrayList<Agent>();
 	}
 	
-	public static AStarSearch getInstance(State state) {
-		if (AStarSearch.aStarSearch == null) {
-			AStarSearch.aStarSearch = new AStarSearch(state);
+	public static AStarSearch getInstance() {
+		if (AStarSearch.aStarSearch != null){
+			return AStarSearch.aStarSearch;
 		}
-		return AStarSearch.aStarSearch;
+		throw new RuntimeException("Search not initialised");
+	}
+	
+	public static void init(State state){
+		AStarSearch.aStarSearch = new AStarSearch(state);
 	}
 
 	public List<Agent> getAgents() {

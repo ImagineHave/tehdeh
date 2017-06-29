@@ -14,11 +14,15 @@ public class BoidSearch implements SearchInterface {
 	private final State state;
 	private final ArrayList<Agent> boids;
 	
-	public static BoidSearch getInstance(State state) {
-		if (BoidSearch.boidSearch == null) {
-			BoidSearch.boidSearch = new BoidSearch(state);
+	public static BoidSearch getInstance() {
+		if (BoidSearch.boidSearch != null){
+			return BoidSearch.boidSearch;
 		}
-		return BoidSearch.boidSearch;
+		throw new RuntimeException("Search not initialised");
+	}
+	
+	public static void init(State state){
+		BoidSearch.boidSearch = new BoidSearch(state);
 	}
 
 	private BoidSearch(final State state) {
