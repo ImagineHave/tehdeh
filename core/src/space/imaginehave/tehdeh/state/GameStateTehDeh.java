@@ -7,16 +7,21 @@ import java.util.Optional;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.agent.DummyAgent;
+import space.imaginehave.tehdeh.agent.DummyTowerAgent;
 import space.imaginehave.tehdeh.agent.MapObjectAgent;
 import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.search.AStarSearch;
@@ -89,6 +94,9 @@ public class GameStateTehDeh implements State {
 	public void addEntity(Vector3 vector, Texture texture) {
 		TowerCell cell = new TowerCell(texture);
 		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
+		
+		DummyTowerAgent dta = new DummyTowerAgent(new Vector3(vector));
+		towerLayer.getObjects().add(dta);
 	}
 	
 	public void createAgents(Viewport viewport) {

@@ -1,11 +1,18 @@
 package space.imaginehave.tehdeh.search;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.agent.Agent;
+import space.imaginehave.tehdeh.agent.DummyTowerAgent;
 import space.imaginehave.tehdeh.state.State;
 
 public class BoidSearch implements SearchInterface {
@@ -29,6 +36,8 @@ public class BoidSearch implements SearchInterface {
 		Vector3 alignment;
 		Vector3 goal;
 		Vector3 bounds;
+		Vector3 avoids;
+	
 		
 		for(Agent boid : boids) {
 			
@@ -37,13 +46,15 @@ public class BoidSearch implements SearchInterface {
 			alignment = getAlignment(boid);
 			goal = getGoal(boid);
 			bounds = getBounds(boid);
+			avoids = getAvoids(boid);
 			
 			Vector3 newVelocity = new Vector3(0,0,0)
 					.add(cohesion)
 					.add(separation)
 					.add(alignment)
 					.add(goal)
-					.add(bounds);
+					.add(bounds)
+					.add(avoids);
 			
 			newVelocity.add(boid.getVelocity());
 			newVelocity.scl(1/(float)5);
@@ -77,7 +88,7 @@ public class BoidSearch implements SearchInterface {
 		
 		cohesion.scl(1/(float)(boids.size()-1));
 		cohesion.sub(boid.getPosition());
-		cohesion.scl(1/(float)100);
+		cohesion.scl(1/(float)150);
 		return cohesion;
 	}
 	
@@ -97,6 +108,18 @@ public class BoidSearch implements SearchInterface {
 			}
 		}
 		return separation.scl(1/(float)20);
+	}
+	
+	private Vector3 getAvoids(Agent boid) {
+		Vector3 avoid = new Vector3(0,0,0);
+		Array<DummyTowerAgent> dtas = state.getTowerLayer().getObjects().getByType(DummyTowerAgent.class);
+		for( DummyTowerAgent dta : dtas){
+			if (dta.getPosition().dst(boid.getPosition()) < 16) {
+				avoid = new Vector3(boid.getPosition());
+				avoid.sub(dta.getPosition());
+			}
+		}
+		return avoid;
 	}
 	
 	
