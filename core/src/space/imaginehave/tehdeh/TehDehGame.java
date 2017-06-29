@@ -5,12 +5,12 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
-import space.imaginehave.tehdeh.state.TehDehGameState;
+import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class TehDehGame extends Game {
 
 	
-	private TehDehGameState state;
+	private GameStateTehDeh state;
 	private static AssetManager assetManager;
 
 	@Override
@@ -21,7 +21,7 @@ public class TehDehGame extends Game {
 		assetManager.load("testAgent.png", Texture.class);
 		assetManager.finishLoading();
 		
-		state = new TehDehGameState();
+		state = new GameStateTehDeh();
 		this.setScreen(new GameScreenTehDeh(this));
 	}
 	
@@ -37,7 +37,7 @@ public class TehDehGame extends Game {
 
 	}
 	
-	public TehDehGameState getState() {
+	public GameStateTehDeh getState() {
 		return this.state;
 	}
 

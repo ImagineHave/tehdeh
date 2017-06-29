@@ -28,8 +28,8 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 	public void render() {
 		super.render();
 		
-		BoidSearch.getInstance().calculatePathsForRegisteredAgents();
-		AStarSearch.getInstance(game.getState().getTowerLayer()).calculatePathsForRegisteredAgents();
+		BoidSearch.getInstance(game.getState()).calculatePathsForRegisteredAgents();
+		AStarSearch.getInstance(game.getState()).calculatePathsForRegisteredAgents();
 	}
 	
 	

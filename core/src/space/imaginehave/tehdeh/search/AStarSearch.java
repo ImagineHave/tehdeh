@@ -5,21 +5,22 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.agent.Agent;
+import space.imaginehave.tehdeh.state.State;
 
 public class AStarSearch implements SearchInterface{
 	
 	private static AStarSearch aStarSearch;
-	TiledMapTileLayer tiledMapTileLayer;
+	private final State state;
 	private ArrayList<Agent> agents;
 	
-	private AStarSearch (TiledMapTileLayer tiledMapTileLayer) {
-		this.tiledMapTileLayer = tiledMapTileLayer;
+	private AStarSearch (State state) {
+		this.state = state;
 		agents = new ArrayList<Agent>();
 	}
 	
-	public static AStarSearch getInstance(TiledMapTileLayer tiledMapTileLayer) {
+	public static AStarSearch getInstance(State state) {
 		if (AStarSearch.aStarSearch == null) {
-			AStarSearch.aStarSearch = new AStarSearch(tiledMapTileLayer);
+			AStarSearch.aStarSearch = new AStarSearch(state);
 		}
 		return AStarSearch.aStarSearch;
 	}
@@ -118,7 +119,7 @@ public class AStarSearch implements SearchInterface{
   protected List<Vector3> constructPath(AStarNode node) {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
-      path.addFirst(new Vector3(node.x*tiledMapTileLayer.getTileWidth(), node.y*tiledMapTileLayer.getTileHeight(), 0));
+      path.addFirst(new Vector3(node.x*state.getTowerLayer().getTileWidth(), node.y*state.getTowerLayer().getTileHeight(), 0));
       node = node.pathParent;
     }
     return path;
@@ -128,8 +129,8 @@ public class AStarSearch implements SearchInterface{
   @Override
   public void calculatePathsForRegisteredAgents() {
 	for(Agent agent: agents) {
-		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), tiledMapTileLayer);
-		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), tiledMapTileLayer);
+		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), state.getTowerLayer());
+		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), state.getTowerLayer());
 		List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode); 
 		agent.getPostionPath().clear();
 		agent.getPostionPath().addAll(aStarPath);

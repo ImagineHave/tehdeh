@@ -6,21 +6,24 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.agent.Agent;
+import space.imaginehave.tehdeh.state.State;
 
 public class BoidSearch implements SearchInterface {
 
 	private static BoidSearch boidSearch;
+	private final State state;
 	private final ArrayList<Agent> boids;
 	
-	public static BoidSearch getInstance() {
+	public static BoidSearch getInstance(State state) {
 		if (BoidSearch.boidSearch == null) {
-			BoidSearch.boidSearch = new BoidSearch();
+			BoidSearch.boidSearch = new BoidSearch(state);
 		}
 		return BoidSearch.boidSearch;
 	}
 
-	private BoidSearch() {
+	private BoidSearch(final State state) {
 		boids = new ArrayList<Agent>();
+		this.state = state;
 	}
 
 	public List<Agent> getAgents() {

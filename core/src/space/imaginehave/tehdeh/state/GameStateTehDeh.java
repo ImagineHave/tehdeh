@@ -20,7 +20,7 @@ import space.imaginehave.tehdeh.search.AStarSearch;
 import space.imaginehave.tehdeh.search.BoidSearch;
 import space.imaginehave.tehdeh.search.SearchInterface;
 
-public class TehDehGameState {
+public class GameStateTehDeh implements State {
 	
 	private Optional<Texture> placementTexture;
 	private Vector3 mouseVector;
@@ -29,7 +29,7 @@ public class TehDehGameState {
 	private final MapLayer agentLayer;
 	private final TiledMap tiledMap;
 	
-	public TehDehGameState () {
+	public GameStateTehDeh () {
 		this.placementTexture = Optional.empty();
 		this.mouseVector = new Vector3(0,0,0);
 		this.setAgents(new ArrayList<Agent>());
@@ -85,19 +85,23 @@ public class TehDehGameState {
 	
 	public void createAgents(Viewport viewport) {
 		
-		SearchInterface search = BoidSearch.getInstance();
-		SearchInterface aStarSearch = AStarSearch.getInstance(this.getTowerLayer());
+		SearchInterface search = BoidSearch.getInstance(this);
+		SearchInterface aStarSearch = AStarSearch.getInstance(this);
 		
 		for (int i = 0; i < 100; i++) {
 			MapObjectAgent moa = new DummyAgent(viewport, search, i);
-			BoidSearch.getInstance().getAgents().add(moa);
+			BoidSearch.getInstance(this).getAgents().add(moa);
 			this.getAgentLayer().getObjects().add(moa);
 		}
 		
 		for (int i = 0; i < 1; i++) {
 			MapObjectAgent moa = new DummyAgent(viewport, aStarSearch, i+100);
-			AStarSearch.getInstance(this.getTowerLayer()).getAgents().add(moa);
+			AStarSearch.getInstance(this).getAgents().add(moa);
 			this.getAgentLayer().getObjects().add(moa);
 		}
+	}
+	
+	public void createWalls() {
+		
 	}
 }
