@@ -38,7 +38,7 @@ public class GameScreenTehDeh implements Screen {
 	private SpriteBatch	batch;
 
 	public GameScreenTehDeh(final TehDehGame tehDehGame) {
-		this.game = tehDehGame;
+		game = tehDehGame;
 		
 		batch = new SpriteBatch();
 		
@@ -60,10 +60,10 @@ public class GameScreenTehDeh implements Screen {
 		createUI();
 		viewport.apply();
 		
-		this.game.getState().createAgents(viewport);
+		game.getState().createAgents(viewport);
+		
+		game.getState().createWalls(viewport, game);
 	}
-	
-
 
 	private void createUI() {
 		HUD hud = new HUD(skin, viewport, game);

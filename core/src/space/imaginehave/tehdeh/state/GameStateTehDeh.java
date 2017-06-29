@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.agent.DummyAgent;
 import space.imaginehave.tehdeh.agent.MapObjectAgent;
@@ -109,7 +112,12 @@ public class GameStateTehDeh implements State {
 		boidSearch.calculatePathsForRegisteredAgents();
 	}
 	
-	public void createWalls() {
+	public void createWalls(Viewport viewport, TehDehGame game) {
+		
+		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
+			if( i % 128 != 0)
+				this.addEntity(new Vector3(i,400,0), (Texture) game.getAssetManager().get("testTower.png"));
+		}
 		
 	}
 }

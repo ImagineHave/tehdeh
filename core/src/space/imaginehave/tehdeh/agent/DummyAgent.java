@@ -23,8 +23,8 @@ public class DummyAgent extends MapObjectAgent {
 		super.velocity = new Vector3(0,0,0);
 		
 		super.goal = new Vector3(
-				25*16,
-				25*16,
+				viewport.getWorldWidth()/2,
+				viewport.getWorldHeight()/2 + 16,
 				0);
 		
 		super.maxPosition = new Vector3(

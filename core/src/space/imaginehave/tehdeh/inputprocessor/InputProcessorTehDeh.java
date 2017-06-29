@@ -39,12 +39,12 @@ public class InputProcessorTehDeh implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//		if(!game.getState().getPlacementTexture().isPresent()) {
-//			Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
-//			for(MapObject a : game.getState().getAgentLayer().getObjects()) {
-//				((Agent)a).setGoal(vector);
-//			}
-//		}
+		if(!game.getState().getPlacementTexture().isPresent()) {
+			Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
+			for(MapObject a : game.getState().getAgentLayer().getObjects()) {
+				((Agent)a).setGoal(vector);
+			}
+		}
 			
 		return false;
 	}
