@@ -9,22 +9,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.TehDehGame;
-import space.imaginehave.tehdeh.agent.DummyAgent;
-import space.imaginehave.tehdeh.agent.MapObjectAgent;
-import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
-import space.imaginehave.tehdeh.search.AStarSearch;
-import space.imaginehave.tehdeh.search.BoidSearch;
-import space.imaginehave.tehdeh.search.SearchInterface;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
 
 public class GameScreenTehDeh implements Screen {
@@ -46,7 +38,7 @@ public class GameScreenTehDeh implements Screen {
 		
 		OrthographicCamera camera = new OrthographicCamera();
 		
-		viewport = new StretchViewport(800, 800, camera);
+		viewport = new StretchViewport(game.getState().getWidth(), game.getState().getHeight(), camera);
 
 		stage = new Stage();
 		stage.setViewport(viewport);
@@ -60,9 +52,11 @@ public class GameScreenTehDeh implements Screen {
 		createUI();
 		viewport.apply();
 		
-		game.getState().createAgents(viewport);
+		game.getState().setViewport(viewport);
 		
-		game.getState().createWalls(viewport, game);
+		game.getState().createAgents();
+		
+		game.getState().createWalls();
 	}
 
 	private void createUI() {

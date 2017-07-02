@@ -1,34 +1,19 @@
 package space.imaginehave.tehdeh.search;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.agent.DummyTowerAgent;
-import space.imaginehave.tehdeh.state.State;
+import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
-public class BoidSearch implements SearchInterface {
+public class BoidSearch extends Search {
 
-	private final State state;
-	private final ArrayList<Agent> boids;
-
-	public BoidSearch(final State state) {
-		boids = new ArrayList<Agent>();
-		this.state = state;
+	public BoidSearch(final GameStateTehDeh state) {
+		super(state);
 	}
 
-	public List<Agent> getAgents() {
-		return boids;
-	}
-
+	@Override
 	public void calculatePathsForRegisteredAgents() {
 		
 		Vector3 cohesion;
@@ -39,7 +24,7 @@ public class BoidSearch implements SearchInterface {
 		Vector3 avoids;
 	
 		
-		for(Agent boid : boids) {
+		for(Agent boid : getAgents()) {
 			
 			cohesion = getCohesion(boid);
 			separation = getSeparation(boid);
@@ -61,8 +46,6 @@ public class BoidSearch implements SearchInterface {
 			newVelocity.add(boid.getVelocity());
 			newVelocity.clamp(0, 2);
 			
-			
-			
 			boid.getVelocityPath().add(newVelocity);
 			Vector3 newPosition = new Vector3(boid.getPosition());
 			newPosition = newPosition.add(newVelocity);
@@ -80,13 +63,13 @@ public class BoidSearch implements SearchInterface {
 	 */
 	private Vector3 getCohesion(Agent boid) {
 		Vector3 cohesion = new Vector3(0,0,0);
-		for (Agent notBoid : boids) {
+		for (Agent notBoid : getAgents()) {
 			if (notBoid != boid) {
 				cohesion.add(notBoid.getPosition());
 			}
 		}
 		
-		cohesion.scl(1/(float)(boids.size()-1));
+		cohesion.scl(1/(float)(getAgents().size()-1));
 		cohesion.sub(boid.getPosition());
 		cohesion.scl(1/(float)150);
 		return cohesion;
@@ -99,7 +82,7 @@ public class BoidSearch implements SearchInterface {
 	 */
 	private Vector3 getSeparation(Agent boid) {
 		Vector3 separation = new Vector3(0,0,0);
-		for (Agent notBoid : boids) {
+		for (Agent notBoid : getAgents()) {
 			if (notBoid != boid) {
 				if (notBoid.getPosition().dst(boid.getPosition()) < 32) {
 					separation = new Vector3(boid.getPosition());
@@ -128,12 +111,12 @@ public class BoidSearch implements SearchInterface {
 	 */
 	private Vector3 getAlignment(Agent boid) {
 		Vector3 alignment = new Vector3(0,0,0);
-		for (Agent notBoid : boids) {
+		for (Agent notBoid : getAgents()) {
 			if (notBoid != boid) {
 				alignment.add(notBoid.getVelocity());
 			}
 		}
-		alignment.scl(1/(float)(boids.size()-1));
+		alignment.scl(1/(float)(getAgents().size()-1));
 		alignment.scl(1/(float) 10);
 		return alignment;
 	}
@@ -155,15 +138,15 @@ public class BoidSearch implements SearchInterface {
 	private Vector3 getBounds(Agent boid) {
 		Vector3 bound = new Vector3(0,0,0);
 		
-		if (boid.getPosition().x < boid.getMinPosition().x) {
+		if (boid.getPosition().x < state.getBottomLeft().x) {
 			bound.x = 1;
-		} else if (boid.getPosition().x > boid.getMaxPosition().x) {
+		} else if (boid.getPosition().x > state.getTopRight().x) {
 			bound.x = -1;
 		}
 		
-		if (boid.getPosition().y < boid.getMinPosition().y) {
+		if (boid.getPosition().y < state.getBottomLeft().y) {
 			bound.y = 1;
-		} else if (boid.getPosition().y > boid.getMaxPosition().y) {
+		} else if (boid.getPosition().y > state.getTopRight().y) {
 			bound.y = -1;
 		}
 

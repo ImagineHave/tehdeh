@@ -11,17 +11,12 @@ public class TehDehGame extends Game {
 
 	
 	private GameStateTehDeh state;
-	private static AssetManager assetManager;
+	
 
 	@Override
 	public void create() {
 		
-		assetManager = new AssetManager();
-		assetManager.load("testTower.png", Texture.class);
-		assetManager.load("testAgent.png", Texture.class);
-		assetManager.finishLoading();
-		
-		state = new GameStateTehDeh();
+		state = new GameStateTehDeh(this, 800, 800);
 		this.setScreen(new GameScreenTehDeh(this));
 	}
 	
@@ -41,8 +36,4 @@ public class TehDehGame extends Game {
 		return this.state;
 	}
 
-
-	public AssetManager getAssetManager() {
-		return assetManager;
-	}
 }

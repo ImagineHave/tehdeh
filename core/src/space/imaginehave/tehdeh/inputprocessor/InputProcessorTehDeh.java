@@ -2,11 +2,9 @@ package space.imaginehave.tehdeh.inputprocessor;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.TehDehGame;
-import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 
 public class InputProcessorTehDeh implements InputProcessor {
@@ -54,7 +52,8 @@ public class InputProcessorTehDeh implements InputProcessor {
 		if(game.getState().getPlacementTexture().isPresent()) {
 			if (game.getScreen() instanceof GameScreenTehDeh) {
 				Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
-				game.getState().addEntity(vector, game.getState().getPlacementTexture().get());
+				game.getState().addTower(vector, game.getState().getPlacementTexture().get());
+				game.getState().setPlacementTexture(null);
 				return true;
 			}
 		}

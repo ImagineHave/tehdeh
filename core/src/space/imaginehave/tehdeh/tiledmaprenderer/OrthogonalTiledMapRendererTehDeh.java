@@ -7,8 +7,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.MapObjectAgent;
-import space.imaginehave.tehdeh.search.AStarSearch;
-import space.imaginehave.tehdeh.search.BoidSearch;
 
 
 public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer {
@@ -27,7 +25,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 	@Override
 	public void render() {
 		super.render();
-
+		game.getState().redefineGoals();
 		game.getState().calculatePaths();
 	}
 	
@@ -37,7 +35,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 		MapObjectAgent agent = ((MapObjectAgent) object);
 		agent.update();
 		batch.draw(
-				(Texture) game.getAssetManager().get("testAgent.png"), 
+				(Texture) game.getState().getAssetManager().get("testAgent.png"), 
 				agent.getPosition().x,
 				agent.getPosition().y);
 	}

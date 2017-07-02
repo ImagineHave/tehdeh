@@ -18,8 +18,4 @@ public interface Agent {
 	
 	public List<Vector3> getVelocityPath();
 	
-	public Vector3 getMaxPosition();
-	
-	public Vector3 getMinPosition();
-	
 }

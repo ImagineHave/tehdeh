@@ -1,26 +1,18 @@
 package space.imaginehave.tehdeh.search;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.agent.Agent;
-import space.imaginehave.tehdeh.state.State;
+import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
-public class AStarSearch implements SearchInterface {
+public class AStarSearch extends Search {
 	
-	private final State state;
-	private ArrayList<Agent> agents;
-	
-	public AStarSearch (State state) {
-		this.state = state;
-		agents = new ArrayList<Agent>();
+	public AStarSearch (GameStateTehDeh state) {
+		super(state);
 	}
 
-	public List<Agent> getAgents() {
-		return agents;
-	}
-	
 	/**
     Find the path from the start node to the end node. A list
     of AStarNodes is returned, or null if the path is not

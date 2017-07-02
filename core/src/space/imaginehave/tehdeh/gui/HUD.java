@@ -1,7 +1,10 @@
 package space.imaginehave.tehdeh.gui;
 
+import java.util.Optional;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -22,17 +25,27 @@ public class HUD {
 		hud.setBounds(viewport.getWorldWidth()*0.75f, 0, viewport.getWorldWidth()*0.25f, viewport.getWorldHeight());
 		hud.setDebug(true);
 
-		final TowerButton button = new TowerButton(skin, (Texture) game.getAssetManager().get("testTower.png"));
-		hud.add(button).top().left().expand();
+		final TowerButton towerButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("testTower.png"));
+		hud.add(towerButton).top().left().expand();
 		
-		button.addListener(new ChangeListener() {
+		towerButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if(!game.getState().getPlacementTexture().isPresent()) {
-					game.getState().setPlacementTexture(button.getTexture());
+					game.getState().setPlacementTexture(towerButton.getTexture());
 					game.getState().setMouseCoords(game.getState().getMouseCoords());	
-				} else {
-					game.getState().removeMouseFollow();
-				}
+				} 
+			}
+		});
+		
+		final TowerButton goalChangeButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("goalChange.png"));
+		hud.add(goalChangeButton).top().left().expand();
+		
+		goalChangeButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				Vector3 vector = game.getState().getGoal();
+				game.getState().removeTower(game.getState().getTower(vector));
+				game.getState().setGoal(game.getState().getRandomPosition());
+				game.getState().addTower(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get("goalChange.png"));
 			}
 		});
 

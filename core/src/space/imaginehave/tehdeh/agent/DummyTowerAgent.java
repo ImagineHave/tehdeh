@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 public class DummyTowerAgent extends MapObjectAgent {
 	
 	public DummyTowerAgent (Vector3 position) {
-		this.position = position;
+		super(position, new Vector3(0,0,0), new Vector3(0,0,0));
 	}
 
 	@Override
@@ -19,11 +19,6 @@ public class DummyTowerAgent extends MapObjectAgent {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	@Override
-	public String toString() {
-		return String.format("p: %f,%f", position.x, position.y);
-		
-	}
+
 
 }
