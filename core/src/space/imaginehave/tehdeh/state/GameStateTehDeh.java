@@ -141,7 +141,7 @@ public class GameStateTehDeh implements State {
 	
 	public void createAgents() {
 		agentService.createAgents(this, boidSearch, 100);
-//		agentService.createAgents(this, aStarSearch, 1);
+		agentService.createAgents(this, aStarSearch, 1);
 	}
 	
 	public Vector3 getBottomLeft() {
