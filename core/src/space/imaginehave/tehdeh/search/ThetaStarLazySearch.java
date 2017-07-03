@@ -16,6 +16,7 @@ public class ThetaStarLazySearch extends Search {
 	
 	public ThetaStarLazySearch (GameStateTehDeh state) {
 		super(state);
+		this.tiledMapTileLayer = state.getTowerLayer();
 	}
 	
 
@@ -25,13 +26,13 @@ public class ThetaStarLazySearch extends Search {
     found. 
   */
   public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode) {
-
-    openList = new PriorityList<AStarNode>();
+ 
+	openList = new PriorityList<AStarNode>();
     closedList = new LinkedList<AStarNode>();
-
     startNode.costFromStart = 0;
-    startNode.estimatedCostToGoal = startNode.getEstimatedCost(goalNode);
-    startNode.pathParent = null;
+    startNode.pathParent = startNode;
+    startNode.estimatedCostToGoal = startNode.calculateEstimatedCostToGoal(goalNode);
+
     openList.add(startNode);
 
     while (!openList.isEmpty()) {
@@ -51,6 +52,7 @@ public class ThetaStarLazySearch extends Search {
         	if(!isOpen) {
         			neighborNode.costFromStart = Integer.MAX_VALUE;
         			neighborNode.pathParent = null;
+        			neighborNode.estimatedCostToGoal = neighborNode.calculateEstimatedCostToGoal(goalNode);
         	}
         	updateVertex(node, neighborNode);
         }
@@ -69,9 +71,6 @@ public class ThetaStarLazySearch extends Search {
 
 	
   private void setVertex(AStarNode node) {
-	  if(node.pathParent==null) {
-		  return;
-	  }
 		if(!lineOfSight(node.pathParent, node)) {
 			Set<AStarNode> neighborInClosedSet = new HashSet<AStarNode>(node.getNeighbors());
 			neighborInClosedSet.retainAll(closedList);
@@ -87,27 +86,23 @@ public class ThetaStarLazySearch extends Search {
 		}
 	}
 
-private void updateVertex(AStarNode node, AStarNode neighborNode) {
+  	private void updateVertex(AStarNode node, AStarNode neighborNode) {
 		float oldCost = neighborNode.costFromStart;
 		computeCost(node, neighborNode);
 		if(neighborNode.costFromStart < oldCost) {
 			openList.remove(neighborNode); //will only remove *if* it is in open
-			
 			openList.add(neighborNode);
 		}
 	}
 
 
-private void computeCost(AStarNode node, AStarNode neighborNode) {
-	if(node.pathParent == null) {
-		return;
+	private void computeCost(AStarNode node, AStarNode neighborNode) {
+		float calculatedCostForGrandParent = node.pathParent.costFromStart + node.pathParent.getCost(neighborNode);
+		if (calculatedCostForGrandParent < neighborNode.costFromStart) {
+			neighborNode.pathParent = node.pathParent;
+			neighborNode.costFromStart = calculatedCostForGrandParent;
+		}
 	}
-	float calculatedCostForGrandParent = node.pathParent.costFromStart + node.pathParent.getCost(neighborNode);
-	if (calculatedCostForGrandParent < neighborNode.costFromStart) {
-		neighborNode.pathParent = node.pathParent;
-		neighborNode.costFromStart = calculatedCostForGrandParent;
-	}
-}
 
 
 /**

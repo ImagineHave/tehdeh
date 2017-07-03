@@ -14,7 +14,7 @@ public class AStarNode implements Comparable<AStarNode> {
 	
 	public float costFromStart = Integer.MAX_VALUE;
 	
-	public int estimatedCostToGoal;
+	public int estimatedCostToGoal = Integer.MAX_VALUE;
 
 	private TiledMapTileLayer tiledMapTileLayer;
 	
@@ -30,7 +30,7 @@ public class AStarNode implements Comparable<AStarNode> {
 		this.y = (int) (position.y / tiledMapTileLayer.getTileHeight());
 	}
 
-	public int getEstimatedCost(AStarNode goalNode) {
+	public int calculateEstimatedCostToGoal(AStarNode goalNode) {
 		return (int) Math.hypot(goalNode.x - x, goalNode.y - y);
 	}
 
@@ -44,7 +44,7 @@ public class AStarNode implements Comparable<AStarNode> {
 				int xToCheck = (int) (x+i);
 				int yToCheck = (int) (y+j);
 				if(xToCheck < 0 || xToCheck> tiledMapTileLayer.getWidth() ||
-					yToCheck < 0 || yToCheck > tiledMapTileLayer.getHeight()
+					yToCheck < 0 //|| yToCheck > tiledMapTileLayer.getHeight() //TODO this allows neighbors outside of sceen in direction of agent start area.
 						) {
 					continue;
 				}
