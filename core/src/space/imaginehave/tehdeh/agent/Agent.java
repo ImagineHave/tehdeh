@@ -12,6 +12,8 @@ public interface Agent {
 	
 	public Vector3 getGoal();
 	
+	public float getSpeed();
+	
 	public void setGoal(Vector3 goalVector);
 	
 	public List<Vector3> getPostionPath();

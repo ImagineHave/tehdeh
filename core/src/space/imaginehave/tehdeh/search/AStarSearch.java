@@ -24,7 +24,7 @@ public class AStarSearch extends Search {
     LinkedList<AStarNode> closedList = new LinkedList<AStarNode>();
 
     startNode.costFromStart = 0;
-    startNode.estimatedCostToGoal = startNode.getEstimatedCost(goalNode);
+    startNode.estimatedCostToGoal = startNode.calculateEstimatedCostToGoal(goalNode);
     startNode.pathParent = null;
     openList.add(startNode);
 
@@ -54,7 +54,7 @@ public class AStarSearch extends Search {
           neighborNode.pathParent = node;
           neighborNode.costFromStart = costFromStart;
           neighborNode.estimatedCostToGoal =
-            neighborNode.getEstimatedCost(goalNode);
+            neighborNode.calculateEstimatedCostToGoal(goalNode);
           if (isClosed) {
             closedList.remove(neighborNode);
           }
