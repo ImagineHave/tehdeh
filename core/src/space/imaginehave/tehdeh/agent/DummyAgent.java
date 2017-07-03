@@ -34,4 +34,9 @@ public class DummyAgent extends MapObjectAgent {
 		
 	}
 
+	@Override
+	public float getSpeed() {
+		return 1;
+	}
+
 }

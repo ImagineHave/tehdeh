@@ -1,7 +1,9 @@
 package space.imaginehave.tehdeh.search;
 import java.util.*;
 
+import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.agent.Agent;
@@ -24,8 +26,9 @@ public class ThetaStarLazySearch extends Search {
     Find the path from the start node to the end node. A list
     of AStarNodes is returned, or null if the path is not
     found. 
+	 * @param agent 
   */
-  public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode) {
+  public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, Agent agent) {
  
 	openList = new PriorityList<AStarNode>();
     closedList = new LinkedList<AStarNode>();
@@ -40,7 +43,7 @@ public class ThetaStarLazySearch extends Search {
       
       if (  node.equals(goalNode)) {  
         // construct the path from start to goal
-        return constructPath(node);
+        return constructPath(node, agent);
       }
       setVertex(node);
       closedList.add(node);
@@ -66,7 +69,7 @@ public class ThetaStarLazySearch extends Search {
     		nodeWithSmallestCost = node;
     	}
     }
-    return constructPath(nodeWithSmallestCost);
+    return constructPath(nodeWithSmallestCost, agent);
   }
 
 	
@@ -127,11 +130,19 @@ public class ThetaStarLazySearch extends Search {
 
   /**
     Construct the path, not including the start node.
+ * @param agent 
   */
-  protected List<Vector3> constructPath(AStarNode node) {
+  protected List<Vector3> constructPath(AStarNode node, Agent agent) {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
+	  double distanceBetweenNodes = Math.hypot(node.x-node.pathParent.x, node.y-node.pathParent.y);
       path.addFirst(new Vector3(node.x*tiledMapTileLayer.getTileWidth(), node.y*tiledMapTileLayer.getTileHeight(), 0));
+      while(distanceBetweenNodes > agent.getSpeed()) {
+    	  Vector3 nodePosition = new Vector3(node.pathParent.x-node.x, node.pathParent.y-node.y,0);
+    	  nodePosition.setLength(agent.getSpeed());
+    	  path.add(nodePosition);
+    	  distanceBetweenNodes-=agent.getSpeed();
+      }
       node = node.pathParent;
     }
     return path;
@@ -143,7 +154,7 @@ public class ThetaStarLazySearch extends Search {
 	for(Agent agent: agents) {
 		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), tiledMapTileLayer);
 		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), tiledMapTileLayer);
-		List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode); 
+		List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
 		agent.getPostionPath().clear();
 		agent.getPostionPath().addAll(aStarPath);
 	}

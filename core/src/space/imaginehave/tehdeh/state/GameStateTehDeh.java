@@ -21,6 +21,7 @@ import space.imaginehave.tehdeh.agent.DummyTowerAgent;
 import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.search.AStarSearch;
 import space.imaginehave.tehdeh.search.BoidSearch;
+import space.imaginehave.tehdeh.search.ThetaStarLazySearch;
 
 public class GameStateTehDeh implements State {
 	
@@ -33,7 +34,8 @@ public class GameStateTehDeh implements State {
 	private final TiledMap tiledMap;
 	private final AgentService agentService;
 	private final BoidSearch boidSearch;
-	private final AStarSearch aStarSearch;
+//	private final AStarSearch aStarSearch;
+	private final ThetaStarLazySearch thetaStarSearch;
 	private Viewport viewport;
 	private final TehDehGame game;
 	private Vector3 goal;
@@ -60,7 +62,8 @@ public class GameStateTehDeh implements State {
 		agentLayer = (MapLayer) tiledMap.getLayers().get("agentLayer");
 		
 		boidSearch = new BoidSearch(this);
-		aStarSearch = new AStarSearch(this);
+//		aStarSearch = new AStarSearch(this);
+		thetaStarSearch = new ThetaStarLazySearch(this);
 		
 		goal = new Vector3(width/2,32,0);
 		
@@ -126,7 +129,8 @@ public class GameStateTehDeh implements State {
 	}
 	
 	public void calculatePaths() {
-		aStarSearch.calculatePathsForRegisteredAgents();
+//		aStarSearch.calculatePathsForRegisteredAgents();
+		thetaStarSearch.calculatePathsForRegisteredAgents();
 		boidSearch.calculatePathsForRegisteredAgents();
 	}
 	
@@ -140,8 +144,8 @@ public class GameStateTehDeh implements State {
 	}
 	
 	public void createAgents() {
-		agentService.createAgents(this, boidSearch, 100);
-		agentService.createAgents(this, aStarSearch, 1);
+//		agentService.createAgents(this, boidSearch, 100);
+		agentService.createAgents(this, thetaStarSearch, 1);
 	}
 	
 	public Vector3 getBottomLeft() {
