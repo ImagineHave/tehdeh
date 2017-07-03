@@ -26,6 +26,14 @@ public class AgentService {
 	
 	}
 	
+	public void reset(GameStateTehDeh state){
+		
+		for(MapObjectAgent moa : state.getAgentLayer().getObjects().getByType(MapObjectAgent.class)){
+			state.getAgentLayer().getObjects().remove(moa);
+		}
+		
+	}
+	
 	public void resetGoals(GameStateTehDeh state) {
 		
 		Array<MapObjectAgent> agents = state.getAgentLayer().getObjects().getByType(MapObjectAgent.class);
