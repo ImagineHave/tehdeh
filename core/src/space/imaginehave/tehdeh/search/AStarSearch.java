@@ -53,8 +53,7 @@ public class AStarSearch extends Search {
         {
           neighborNode.pathParent = node;
           neighborNode.costFromStart = costFromStart;
-          neighborNode.estimatedCostToGoal =
-            neighborNode.calculateEstimatedCostToGoal(goalNode);
+          neighborNode.estimatedCostToGoal = neighborNode.calculateEstimatedCostToGoal(goalNode);
           if (isClosed) {
             closedList.remove(neighborNode);
           }

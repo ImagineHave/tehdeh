@@ -2,6 +2,7 @@ package space.imaginehave.tehdeh.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
@@ -31,7 +32,8 @@ public class AStarNode implements Comparable<AStarNode> {
 	}
 
 	public int calculateEstimatedCostToGoal(AStarNode goalNode) {
-		return (int) Math.hypot(goalNode.x - x, goalNode.y - y);
+		return (int) ( Math.pow(x - goalNode.x, 2) +
+				Math.pow(y - goalNode.y,2));
 	}
 
 	public List<AStarNode> getNeighbors() {
@@ -59,24 +61,35 @@ public class AStarNode implements Comparable<AStarNode> {
 	public int getCost(AStarNode neighborNode) {
 		return (int) Math.hypot(neighborNode.x - x, neighborNode.y - y);
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == null) {
-			return false;
-		}
-		AStarNode other = (AStarNode) obj;
-		if(!(this.x == other.x)
-				|| 
-			!( this.y == other.y)) {
-			return false;
-		}
-		return true;
-	}
 	
 	public float getCost() {
 	    return costFromStart + estimatedCostToGoal;
 	  }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AStarNode other = (AStarNode) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
+	}
 
 	@Override
 	public int compareTo(AStarNode o) {

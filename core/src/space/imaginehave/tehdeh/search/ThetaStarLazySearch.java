@@ -12,8 +12,8 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 public class ThetaStarLazySearch extends Search {
 	
 	TiledMapTileLayer tiledMapTileLayer;
-	private PriorityList<AStarNode> openList;
-	private LinkedList<AStarNode> closedList;
+	private PriorityQueue<AStarNode> openList;
+	private HashSet<AStarNode> closedList;
 	
 	
 	public ThetaStarLazySearch (GameStateTehDeh state) {
@@ -30,8 +30,8 @@ public class ThetaStarLazySearch extends Search {
   */
   public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, Agent agent) {
  
-	openList = new PriorityList<AStarNode>();
-    closedList = new LinkedList<AStarNode>();
+	openList = new PriorityQueue<AStarNode>();
+    closedList = new HashSet<AStarNode>();
     startNode.costFromStart = 0;
     startNode.pathParent = startNode;
     startNode.estimatedCostToGoal = startNode.calculateEstimatedCostToGoal(goalNode);
@@ -39,7 +39,7 @@ public class ThetaStarLazySearch extends Search {
     openList.add(startNode);
 
     while (!openList.isEmpty()) {
-      AStarNode node = (AStarNode)openList.removeFirst();
+      AStarNode node = (AStarNode)openList.poll();
       
       if (  node.equals(goalNode)) {  
         // construct the path from start to goal
@@ -108,25 +108,6 @@ public class ThetaStarLazySearch extends Search {
 	}
 
 
-/**
-    A simple priority list, also called a priority queue.
-    Objects in the list are ordered by their priority,
-    determined by the object's Comparable interface.
-    The highest priority item is first in the list.
-  */
-  public static class PriorityList<AStarNode> extends LinkedList {
-
-    public void add(Comparable<AStarNode> object) {
-      for (int i=0; i<size(); i++) {
-        if (object.compareTo((AStarNode) get(i)) <= 0) {
-          add(i, (AStarNode)object);
-          return;
-        }
-      }
-      addLast(object);
-    }
-  }
-
 
   /**
     Construct the path, not including the start node.
@@ -135,15 +116,21 @@ public class ThetaStarLazySearch extends Search {
   protected List<Vector3> constructPath(AStarNode node, Agent agent) {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
-	  double distanceBetweenNodes = Math.hypot(node.x-node.pathParent.x, node.y-node.pathParent.y);
-      path.addFirst(new Vector3(node.x*tiledMapTileLayer.getTileWidth(), node.y*tiledMapTileLayer.getTileHeight(), 0));
-      while(distanceBetweenNodes > agent.getSpeed()) {
-    	  Vector3 nodePosition = new Vector3(node.pathParent.x-node.x, node.pathParent.y-node.y,0);
-    	  nodePosition.setLength(agent.getSpeed());
-    	  path.add(nodePosition);
+	  double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());
+      path.addLast(new Vector3(node.x*tiledMapTileLayer.getTileWidth(), node.y*tiledMapTileLayer.getTileHeight(), 0));
+      // diff from current node to previous node
+      float difX = node.x*tiledMapTileLayer.getTileWidth() - node.pathParent.x*tiledMapTileLayer.getTileWidth();
+      float difY = node.y*tiledMapTileLayer.getTileHeight() - node.pathParent.y*tiledMapTileLayer.getTileHeight();
+      Vector3 diffVector = new Vector3(difX, difY,0);
+      diffVector.setLength(agent.getSpeed());
+      while(distanceBetweenNodes - agent.getSpeed() > agent.getSpeed()) {
+    	  path.addLast(path.get(path.size()-1).cpy().sub(diffVector));
     	  distanceBetweenNodes-=agent.getSpeed();
       }
       node = node.pathParent;
+      if(node == node.pathParent) {
+    	  break;
+      }
     }
     return path;
   }
