@@ -37,18 +37,37 @@ public class HUD {
 			}
 		});
 		
-		final TowerButton goalChangeButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("goalChange.png"));
+		final TowerButton goalChangeButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("goal.png"));
 		hud.add(goalChangeButton).top().left().expand();
 		
 		goalChangeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				Vector3 vector = game.getState().getGoal();
-				game.getState().removeTower(game.getState().getTower(vector));
+				game.getState().removeOverlay(game.getState().getOverlay(vector));
 				game.getState().setGoal(game.getState().getRandomPosition());
-				game.getState().addTower(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get("goalChange.png"));
+				game.getState().addOverlay(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get("goal.png"));
 			}
 		});
 
+		
+		final TowerButton resetButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("reset.png"));
+		hud.add(resetButton).top().left().expand();
+		
+		resetButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				game.getState().reset();
+			}
+		});
+		
+		
+		final TowerButton moreButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("reset.png"));
+		hud.add(moreButton).top().left().expand();
+		
+		moreButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				game.getState().createAgents();
+			}
+		});
 	}
 	
 	public Table getHud(){
