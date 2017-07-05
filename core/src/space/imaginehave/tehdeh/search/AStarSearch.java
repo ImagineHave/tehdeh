@@ -102,7 +102,7 @@ public class AStarSearch extends Search {
   protected List<Vector3> constructPath(AStarNode node) {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
-      path.addFirst(new Vector3(node.x*state.getTowerLayer().getTileWidth(), node.y*state.getTowerLayer().getTileHeight(), 0));
+      path.addLast(new Vector3(node.x*state.getTowerLayer().getTileWidth(), node.y*state.getTowerLayer().getTileHeight(), 0));
       node = node.pathParent;
     }
     return path;
