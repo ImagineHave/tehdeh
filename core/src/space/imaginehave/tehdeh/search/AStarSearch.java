@@ -1,6 +1,7 @@
 package space.imaginehave.tehdeh.search;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
@@ -25,7 +26,7 @@ public class AStarSearch extends Search {
   */
   public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, Agent agent) {
 
-    PriorityList<AStarNode> openList = new PriorityList<AStarNode>();
+    PriorityQueue<AStarNode> openList = new PriorityQueue<AStarNode>();
     LinkedList<AStarNode> closedList = new LinkedList<AStarNode>();
 
     startNode.costFromStart = 0;
@@ -34,7 +35,7 @@ public class AStarSearch extends Search {
     openList.add(startNode);
 
     while (!openList.isEmpty()) {
-      AStarNode node = (AStarNode)openList.removeFirst();
+      AStarNode node = (AStarNode)openList.poll();
       if (  node.equals(goalNode)) {  
         // construct the path from start to goal
         return constructPath(node, agent);
@@ -108,16 +109,19 @@ public class AStarSearch extends Search {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
     	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
-    	path.addLast(new Vector3(node.x*state.getTowerLayer().getTileWidth(), node.y*state.getTowerLayer().getTileHeight(), 0));
-    	float difX = node.x*tiledMapTileLayer.getTileWidth() - node.pathParent.x*tiledMapTileLayer.getTileWidth();
-    	float difY = node.y*tiledMapTileLayer.getTileHeight() - node.pathParent.y*tiledMapTileLayer.getTileHeight();
+    	float nodeXPixels = node.x*state.getTowerLayer().getTileWidth();
+		float nodeYPixels = node.y*state.getTowerLayer().getTileHeight();
+		
+		path.addLast(new Vector3(nodeXPixels, nodeYPixels, 0));
+    	float difX = nodeXPixels - node.pathParent.x*tiledMapTileLayer.getTileWidth();
+    	float difY = nodeYPixels - node.pathParent.y*tiledMapTileLayer.getTileHeight();
 
     	if(node.pathParent.pathParent == null ) {
-    		node.pathParent.x = (int) agent.getPosition().x;
-    		node.pathParent.y = (int) agent.getPosition().y;
-    		distanceBetweenNodes = Math.hypot(node.pathParent.x-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y-node.y*tiledMapTileLayer.getTileHeight());
-    		difX = node.x*tiledMapTileLayer.getTileWidth()-node.pathParent.x;
-    		difY = node.y*tiledMapTileLayer.getTileHeight()-node.pathParent.y;
+    		node.pathParent.x = Math.round(agent.getPosition().x);
+    		node.pathParent.y = Math.round(agent.getPosition().y);
+    		distanceBetweenNodes = Math.hypot(node.pathParent.x-nodeXPixels, node.pathParent.y-nodeYPixels);
+    		difX = nodeXPixels-node.pathParent.x;
+    		difY = nodeYPixels-node.pathParent.y;
     	}
       Vector3 diffVector = new Vector3(difX, difY,0);
       diffVector.setLength(agent.getSpeed());
