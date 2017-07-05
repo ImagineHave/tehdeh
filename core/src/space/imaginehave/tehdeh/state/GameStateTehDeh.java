@@ -35,7 +35,7 @@ public class GameStateTehDeh implements State {
 	private final TiledMap tiledMap;
 	private final AgentService agentService;
 	private final BoidSearch boidSearch;
-//	private final AStarSearch aStarSearch;
+	private final AStarSearch aStarSearch;
 	private final ThetaStarLazySearch thetaStarSearch;
 	private Viewport viewport;
 	private final TehDehGame game;
@@ -64,7 +64,7 @@ public class GameStateTehDeh implements State {
 		overlay = (TiledMapTileLayer) tiledMap.getLayers().get("overlay");
 		
 		boidSearch = new BoidSearch(this);
-//		aStarSearch = new AStarSearch(this);
+		aStarSearch = new AStarSearch(this);
 		thetaStarSearch = new ThetaStarLazySearch(this);
 		
 		goal = new Vector3(width/2,32,0);
@@ -165,7 +165,7 @@ public class GameStateTehDeh implements State {
 	}
 	
 	public void calculatePaths() {
-//		aStarSearch.calculatePathsForRegisteredAgents();
+		aStarSearch.calculatePathsForRegisteredAgents();
 		thetaStarSearch.calculatePathsForRegisteredAgents();
 		boidSearch.calculatePathsForRegisteredAgents();
 	}
@@ -181,7 +181,7 @@ public class GameStateTehDeh implements State {
 	
 	public void createAgents() {
 //		agentService.createAgents(this, boidSearch, 100);
-		agentService.createAgents(this, thetaStarSearch, 1);
+		agentService.createAgents(this, aStarSearch, 1);
 	}
 	
 	public Vector3 getBottomLeft() {
@@ -242,8 +242,8 @@ public class GameStateTehDeh implements State {
 	public void reset() {
 		
 		agentService.reset(this);
-		agentService.createAgents(this, boidSearch, 100);
-		agentService.createAgents(this, aStarSearch, 100);
+//		agentService.createAgents(this, boidSearch, 100);
+		agentService.createAgents(this, aStarSearch, 1);
 		
 	}
 

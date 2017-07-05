@@ -27,12 +27,6 @@ public class DummyAgent extends MapObjectAgent {
 			velocityPath.clear();
 		}
 	}
-	
-	@Override
-	public String toString() {
-		return String.format("id: %d p: %f,%f v: %f,%f", name, position.x, position.y, velocity.x, velocity.y);
-		
-	}
 
 	@Override
 	public float getSpeed() {

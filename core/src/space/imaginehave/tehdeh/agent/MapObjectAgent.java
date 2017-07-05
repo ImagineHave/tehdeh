@@ -51,11 +51,5 @@ public abstract class MapObjectAgent extends MapObject implements Agent {
 	}
 	
 	public abstract void update();
-	
-	@Override
-	public String toString() {
-		return String.format("p: %f,%f", position.x, position.y);
-		
-	}
 
 }
