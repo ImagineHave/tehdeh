@@ -60,7 +60,7 @@ public class AStarSearch extends Search {
           neighborNode.pathParent = node;
           neighborNode.costFromStart = costFromStart;
           neighborNode.estimatedCostToGoal = neighborNode.calculateEstimatedCostToGoal(goalNode);
-          if (isClosed) {
+          if (isClosed) { //NEEDED?
             closedList.remove(neighborNode);
           }
           if (!isOpen) {
@@ -82,26 +82,6 @@ public class AStarSearch extends Search {
   }
 
 	
-  /**
-    A simple priority list, also called a priority queue.
-    Objects in the list are ordered by their priority,
-    determined by the object's Comparable interface.
-    The highest priority item is first in the list.
-  */
-  public static class PriorityList<AStarNode> extends LinkedList {
-
-    public void add(Comparable<AStarNode> object) {
-      for (int i=0; i<size(); i++) {
-        if (object.compareTo((AStarNode) get(i)) <= 0) {
-          add(i, (AStarNode)object);
-          return;
-        }
-      }
-      addLast(object);
-    }
-  }
-
-
   /**
     Construct the path, not including the start node.
   */
