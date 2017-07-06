@@ -114,20 +114,20 @@ public class ThetaStarLazySearch extends Search {
   protected List<Vector3> constructPath(AStarNode node, Agent agent) {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != node) {
-    	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
     	float nodeXPixels = node.x*state.getTowerLayer().getTileWidth();
 		float nodeYPixels = node.y*state.getTowerLayer().getTileHeight();
-		
 		path.addLast(new Vector3(nodeXPixels, nodeYPixels, 0));
-    	float difX = nodeXPixels - node.pathParent.x*tiledMapTileLayer.getTileWidth();
-    	float difY = nodeYPixels - node.pathParent.y*tiledMapTileLayer.getTileHeight();
+		
+		float difX = nodeXPixels - node.pathParent.x*tiledMapTileLayer.getTileWidth();
+		float difY = nodeYPixels - node.pathParent.y*tiledMapTileLayer.getTileHeight();
+		double distanceBetweenNodes = Math.hypot(difX, difY);  
 
     	if(node.pathParent.pathParent == node.pathParent) {
-    		node.pathParent.x = Math.round(agent.getPosition().x);
-    		node.pathParent.y = Math.round(agent.getPosition().y);
-    		distanceBetweenNodes = Math.hypot(node.pathParent.x-nodeXPixels, node.pathParent.y-nodeYPixels);
-    		difX = nodeXPixels-node.pathParent.x;
-    		difY = nodeYPixels-node.pathParent.y;
+    		float firstX = Math.round(agent.getPosition().x);
+    		float firstY = Math.round(agent.getPosition().y);
+    		difX = nodeXPixels-firstX;
+    		difY = nodeYPixels-firstY;
+    		distanceBetweenNodes = Math.hypot(difX, difY);
     	}
       Vector3 diffVector = new Vector3(difX, difY,0);
       diffVector.setLength(agent.getSpeed());
@@ -158,7 +158,7 @@ public class ThetaStarLazySearch extends Search {
 		int y1 = s1.y;
 		int dy = y1 - y0;
 		int dx = x1 - x0;
-		int f = 0;
+		float f = 0;
 		int sy = 1;
 		int sx = 1;
 
@@ -216,5 +216,4 @@ public class ThetaStarLazySearch extends Search {
 		}
 		return true;
 	}
-  
 }

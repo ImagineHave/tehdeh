@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.agent.AgentService;
+import space.imaginehave.tehdeh.agent.Bullet;
 import space.imaginehave.tehdeh.agent.DummyTowerAgent;
 import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.search.AStarSearch;
@@ -53,6 +54,7 @@ public class GameStateTehDeh implements State {
 		assetManager.load("testAgent.png", Texture.class);
 		assetManager.load("goal.png", Texture.class);
 		assetManager.load("reset.png", Texture.class);
+		assetManager.load("testBullet.png", Texture.class);
 		assetManager.finishLoading();
 		
 		this.placementTexture = Optional.empty();
@@ -108,7 +110,7 @@ public class GameStateTehDeh implements State {
 		TowerCell cell = new TowerCell(texture);
 		overlay.setCell((int) (vector.x/overlay.getTileWidth()), (int) (vector.y/overlay.getTileHeight()), cell);
 		
-		DummyTowerAgent dta = new DummyTowerAgent(new Vector3(vector));
+		DummyTowerAgent dta = new DummyTowerAgent(new Vector3(vector), this);
 		overlay.getObjects().add(dta);
 	}
 	
@@ -138,13 +140,14 @@ public class GameStateTehDeh implements State {
 		TowerCell cell = new TowerCell(texture);
 		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
 		
-		DummyTowerAgent dta = new DummyTowerAgent(new Vector3(vector));
-		towerLayer.getObjects().add(dta);
+		DummyTowerAgent dta = new DummyTowerAgent(new Vector3(vector), this);
+		agentLayer.getObjects().add(dta);
+		dta.setAgents(getAgentLayer().getObjects());
 	}
 	
 	public void removeTower(DummyTowerAgent dta) {
 		towerLayer.setCell((int) (dta.getPosition().x/towerLayer.getTileWidth()), (int) (dta.getPosition().y/towerLayer.getTileHeight()), null);
-		towerLayer.getObjects().remove(dta);
+		agentLayer.getObjects().remove(dta);
 	}
 	
 	/**
@@ -246,6 +249,10 @@ public class GameStateTehDeh implements State {
 //		agentService.createAgents(this, boidSearch, 100);
 		agentService.createAgents(this, aStarSearch, 1);
 		
+	}
+
+	public void addBullet(Bullet bullet) {
+		getAgentLayer().getObjects().add(bullet);
 	}
 
 }
