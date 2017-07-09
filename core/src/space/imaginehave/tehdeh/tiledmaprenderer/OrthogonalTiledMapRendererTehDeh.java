@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.Bullet;
 import space.imaginehave.tehdeh.agent.DummyAgent;
@@ -40,7 +41,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 			MapObjectAgent agent = ((MapObjectAgent) object);
 			agent.update();
 			batch.draw(
-					(Texture) game.getState().getAssetManager().get("testAgent.png"), 
+					(Texture) game.getState().getAssetManager().get(Constant.TEST_AGENT), 
 					agent.getPosition().x,
 					agent.getPosition().y);
 		}
@@ -49,7 +50,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 			MapObjectAgent agent = ((MapObjectAgent) object);
 			agent.update();
 			batch.draw(
-					(Texture) game.getState().getAssetManager().get("testBullet.png"), 
+					(Texture) game.getState().getAssetManager().get(Constant.TEST_BULLET), 
 					agent.getPosition().x,
 					agent.getPosition().y);
 		}	
@@ -57,7 +58,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 			MapObjectAgent agent = ((MapObjectAgent) object);
 			agent.update();
 //			batch.draw(
-//					(Texture) game.getState().getAssetManager().get("testTower.png"), 
+//					(Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER), 
 //					agent.getPosition().x,
 //					agent.getPosition().y);
 		}	

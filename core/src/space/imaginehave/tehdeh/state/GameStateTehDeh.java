@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.agent.AgentService;
@@ -49,13 +50,13 @@ public class GameStateTehDeh implements State {
 		this.width = width;
 		this.height = height;
 		
-		assetManager = new AssetManager();
-		assetManager.load("testTower.png", Texture.class);
-		assetManager.load("testAgent.png", Texture.class);
-		assetManager.load("goal.png", Texture.class);
-		assetManager.load("reset.png", Texture.class);
-		assetManager.load("testBullet.png", Texture.class);
-		assetManager.finishLoading();
+		setAssetManager();
+		getAssetManager().load(Constant.TEST_TOWER, Texture.class);
+		getAssetManager().load(Constant.TEST_AGENT, Texture.class);
+		getAssetManager().load(Constant.OVERLAY_GOAL, Texture.class);
+		getAssetManager().load(Constant.BUTTON_RESET, Texture.class);
+		getAssetManager().load(Constant.TEST_BULLET, Texture.class);
+		getAssetManager().finishLoading();
 		
 		this.placementTexture = Optional.empty();
 		this.mouseVector = new Vector3(0,0,0);
@@ -72,6 +73,10 @@ public class GameStateTehDeh implements State {
 		goal = new Vector3(width/2,32,0);
 		
 		addOverlay(goal, (Texture) getAssetManager().get("goal.png"));
+	}
+
+	private AssetManager setAssetManager() {
+		return assetManager = new AssetManager();
 	}
 	
 	public Optional<Texture> getPlacementTexture (){
@@ -177,7 +182,7 @@ public class GameStateTehDeh implements State {
 		
 		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
 			if( i % 128 != 0)
-				this.addTower(new Vector3(i,400,0), (Texture) assetManager.get("testTower.png"));
+				this.addTower(new Vector3(i,400,0), (Texture) getAssetManager().get(Constant.TEST_TOWER));
 		}
 		
 	}

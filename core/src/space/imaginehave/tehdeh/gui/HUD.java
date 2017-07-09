@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.button.TowerButton;
 
@@ -25,7 +26,7 @@ public class HUD {
 		hud.setBounds(viewport.getWorldWidth()*0.75f, 0, viewport.getWorldWidth()*0.25f, viewport.getWorldHeight());
 		hud.setDebug(true);
 
-		final TowerButton towerButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("testTower.png"));
+		final TowerButton towerButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER));
 		hud.add(towerButton).top().left().expand();
 		
 		towerButton.addListener(new ChangeListener() {
@@ -45,12 +46,12 @@ public class HUD {
 				Vector3 vector = game.getState().getGoal();
 				game.getState().removeOverlay(game.getState().getOverlay(vector));
 				game.getState().setGoal(game.getState().getRandomPosition());
-				game.getState().addOverlay(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get("goal.png"));
+				game.getState().addOverlay(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL));
 			}
 		});
 
 		
-		final TowerButton resetButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("reset.png"));
+		final TowerButton resetButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get(Constant.BUTTON_RESET));
 		hud.add(resetButton).top().left().expand();
 		
 		resetButton.addListener(new ChangeListener() {
