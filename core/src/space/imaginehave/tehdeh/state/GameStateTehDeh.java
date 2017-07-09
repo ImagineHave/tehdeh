@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
+import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.agent.AgentService;
 import space.imaginehave.tehdeh.agent.Bullet;
@@ -28,7 +29,6 @@ import space.imaginehave.tehdeh.search.ThetaStarLazySearch;
 public class GameStateTehDeh implements State {
 	
 	private AssetManager assetManager;
-	private final Random random = new Random();
 	private Optional<Texture> placementTexture;
 	private Vector3 mouseVector;
 	private final TiledMapTileLayer towerLayer;
@@ -57,6 +57,7 @@ public class GameStateTehDeh implements State {
 		placementTexture = Optional.empty();
 		mouseVector = new Vector3(0,0,0);
 		agentService = new AgentService();
+		
 		tiledMap = new TmxMapLoader().load(Constant.TMX);
 		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get(Constant.LAYER_TOWER);
 		agentLayer = (MapLayer) tiledMap.getLayers().get(Constant.LAYER_AGENT);
@@ -75,7 +76,7 @@ public class GameStateTehDeh implements State {
 		return assetManager = new AssetManager();
 	}
 	
-	public Optional<Texture> getPlacementTexture (){
+	public Optional<Texture> getPlacementTexture(){
 		return placementTexture;
 	}
 	
@@ -187,32 +188,6 @@ public class GameStateTehDeh implements State {
 //		agentService.createAgents(this, boidSearch, 100);
 		agentService.createAgents(this, aStarSearch, 1);
 		agentService.createAgents(this, thetaStarSearch, 1);
-	}
-	
-	public Vector3 getBottomLeft() {
-		return new Vector3(
-				viewport.getLeftGutterWidth(), 
-				viewport.getBottomGutterHeight(),
-				0f);
-	}
-
-	public Vector3 getTopRight() {
-		return new Vector3(
-				viewport.getWorldWidth(), 
-				viewport.getWorldHeight(),
-				0f);
-	}
-	
-	public Vector3 getRandomPosition(){
-		return this.getRandomPosition(null, null);
-	}
-	
-	public Vector3 getRandomPosition(Integer x, Integer y) {
-		Vector3 position = new Vector3(
-				(x != null) ? x : random.nextInt((int) viewport.getWorldWidth()),
-				(y != null) ? y : random.nextInt((int) viewport.getWorldWidth()),
-				0f);
-		return position;
 	}
 	
 	public Vector3 getGoal() {

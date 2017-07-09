@@ -3,6 +3,7 @@ package space.imaginehave.tehdeh.search;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.agent.DummyTowerAgent;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
@@ -138,15 +139,15 @@ public class BoidSearch extends Search {
 	private Vector3 getBounds(Agent boid) {
 		Vector3 bound = new Vector3(0,0,0);
 		
-		if (boid.getPosition().x < state.getBottomLeft().x) {
+		if (boid.getPosition().x < Constant.VIEWPORT_BOTTOM_LEFT.x) {
 			bound.x = 1;
-		} else if (boid.getPosition().x > state.getTopRight().x) {
+		} else if (boid.getPosition().x > Constant.VIEWPORT_TOP_RIGHT.x) {
 			bound.x = -1;
 		}
 		
-		if (boid.getPosition().y < state.getBottomLeft().y) {
+		if (boid.getPosition().y < Constant.VIEWPORT_BOTTOM_LEFT.y) {
 			bound.y = 1;
-		} else if (boid.getPosition().y > state.getTopRight().y) {
+		} else if (boid.getPosition().y > Constant.VIEWPORT_TOP_RIGHT.y) {
 			bound.y = -1;
 		}
 

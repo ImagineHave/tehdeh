@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
+import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.button.TowerButton;
 
 public class HUD {
@@ -45,7 +46,7 @@ public class HUD {
 			public void changed(ChangeEvent event, Actor actor) {
 				Vector3 vector = game.getState().getGoal();
 				game.getState().removeFromOverlay(game.getState().getFromOverlay(vector));
-				game.getState().setGoal(game.getState().getRandomPosition());
+				game.getState().setGoal(Util.getRandomPosition());
 				game.getState().addToOverlay(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL));
 			}
 		});
