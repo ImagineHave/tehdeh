@@ -3,6 +3,7 @@ package space.imaginehave.tehdeh.agent;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.search.Search;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
@@ -44,7 +45,7 @@ public class AgentService {
 	}
 	
 	private DummyAgent createDummyAgent(GameStateTehDeh state) {
-		return new DummyAgent(state.getRandomPosition(null, (int) state.getHeight() + 16), new Vector3(0,0,0), state.getGoal());
+		return new DummyAgent(state.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector3(0,0,0), state.getGoal());
 	}
 	
 }

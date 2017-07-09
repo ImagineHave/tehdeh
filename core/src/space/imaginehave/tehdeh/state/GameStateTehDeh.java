@@ -42,13 +42,9 @@ public class GameStateTehDeh implements State {
 	private Viewport viewport;
 	private final TehDehGame game;
 	private Vector3 goal;
-	private final int width;
-	private final int height;
 	
-	public GameStateTehDeh (TehDehGame tehDehGame, int width, int height) {
+	public GameStateTehDeh (TehDehGame tehDehGame) {
 		this.game = tehDehGame;
-		this.width = width;
-		this.height = height;
 		
 		setAssetManager();
 		getAssetManager().load(Constant.TEST_TOWER, Texture.class);
@@ -70,9 +66,9 @@ public class GameStateTehDeh implements State {
 		aStarSearch = new AStarSearch(this);
 		thetaStarSearch = new ThetaStarLazySearch(this);
 		
-		goal = new Vector3(width/2,32,0);
+		goal = new Vector3(Constant.GAME_WIDTH/2,32,0);
 		
-		addOverlay(goal, (Texture) getAssetManager().get(Constant.OVERLAY_GOAL));
+		addToOverlay(goal, (Texture) getAssetManager().get(Constant.OVERLAY_GOAL));
 	}
 
 	private AssetManager setAssetManager() {
@@ -111,7 +107,7 @@ public class GameStateTehDeh implements State {
 		return overlay;
 	}
 	
-	public void addOverlay(Vector3 vector, Texture texture) {
+	public void addToOverlay(Vector3 vector, Texture texture) {
 		TowerCell cell = new TowerCell(texture);
 		overlay.setCell((int) (vector.x/overlay.getTileWidth()), (int) (vector.y/overlay.getTileHeight()), cell);
 		
@@ -119,7 +115,7 @@ public class GameStateTehDeh implements State {
 		overlay.getObjects().add(dta);
 	}
 	
-	public void removeOverlay(DummyTowerAgent dta) {
+	public void removeFromOverlay(DummyTowerAgent dta) {
 		overlay.setCell((int) (dta.getPosition().x/overlay.getTileWidth()), (int) (dta.getPosition().y/overlay.getTileHeight()), null);
 		overlay.getObjects().remove(dta);
 	}
@@ -129,7 +125,7 @@ public class GameStateTehDeh implements State {
 	 * @param vector
 	 * @return
 	 */
-	public DummyTowerAgent getOverlay(Vector3 vector) {
+	public DummyTowerAgent getFromOverlay(Vector3 vector) {
 		
 		Array<DummyTowerAgent> agents = overlay.getObjects().getByType(DummyTowerAgent.class);
 		DummyTowerAgent dta = null;
@@ -141,7 +137,7 @@ public class GameStateTehDeh implements State {
 		return dta;
 	}
 	
-	public void addTower(Vector3 vector, Texture texture) {
+	public void addToTowerLayer(Vector3 vector, Texture texture) {
 		TowerCell cell = new TowerCell(texture);
 		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
 		
@@ -150,7 +146,7 @@ public class GameStateTehDeh implements State {
 		dta.setAgents(getAgentLayer().getObjects());
 	}
 	
-	public void removeTower(DummyTowerAgent dta) {
+	public void removeFromTowerLayer(DummyTowerAgent dta) {
 		towerLayer.setCell((int) (dta.getPosition().x/towerLayer.getTileWidth()), (int) (dta.getPosition().y/towerLayer.getTileHeight()), null);
 		agentLayer.getObjects().remove(dta);
 	}
@@ -160,7 +156,7 @@ public class GameStateTehDeh implements State {
 	 * @param vector
 	 * @return
 	 */
-	public DummyTowerAgent getTower(Vector3 vector) {
+	public DummyTowerAgent getFromTowerLayer(Vector3 vector) {
 		
 		Array<DummyTowerAgent> agents = towerLayer.getObjects().getByType(DummyTowerAgent.class);
 		DummyTowerAgent dta = null;
@@ -182,7 +178,7 @@ public class GameStateTehDeh implements State {
 		
 		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
 			if( i % 128 != 0)
-				this.addTower(new Vector3(i,400,0), (Texture) getAssetManager().get(Constant.TEST_TOWER));
+				this.addToTowerLayer(new Vector3(i,400,0), (Texture) getAssetManager().get(Constant.TEST_TOWER));
 		}
 		
 	}
@@ -233,14 +229,6 @@ public class GameStateTehDeh implements State {
 
 	public AssetManager getAssetManager() {
 		return this.assetManager;
-	}
-
-	public float getWidth() {
-		return this.width;
-	}
-
-	public float getHeight() {
-		return this.height;
 	}
 
 	public void redefineGoals() {

@@ -44,9 +44,9 @@ public class HUD {
 		goalChangeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				Vector3 vector = game.getState().getGoal();
-				game.getState().removeOverlay(game.getState().getOverlay(vector));
+				game.getState().removeFromOverlay(game.getState().getFromOverlay(vector));
 				game.getState().setGoal(game.getState().getRandomPosition());
-				game.getState().addOverlay(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL));
+				game.getState().addToOverlay(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL));
 			}
 		});
 

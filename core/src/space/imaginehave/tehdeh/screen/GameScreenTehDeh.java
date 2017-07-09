@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
@@ -38,7 +39,7 @@ public class GameScreenTehDeh implements Screen {
 		
 		OrthographicCamera camera = new OrthographicCamera();
 		
-		viewport = new StretchViewport(game.getState().getWidth(), game.getState().getHeight(), camera);
+		viewport = new StretchViewport(Constant.GAME_WIDTH, Constant.GAME_HEIGHT, camera);
 
 		stage = new Stage();
 		stage.setViewport(viewport);

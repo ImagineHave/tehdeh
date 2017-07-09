@@ -16,7 +16,7 @@ public class TehDehGame extends Game {
 	@Override
 	public void create() {
 		
-		state = new GameStateTehDeh(this, 800, 800);
+		state = new GameStateTehDeh(this);
 		this.setScreen(new GameScreenTehDeh(this));
 	}
 	
