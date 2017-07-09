@@ -58,13 +58,13 @@ public class GameStateTehDeh implements State {
 		getAssetManager().load(Constant.TEST_BULLET, Texture.class);
 		getAssetManager().finishLoading();
 		
-		this.placementTexture = Optional.empty();
-		this.mouseVector = new Vector3(0,0,0);
-		this.agentService = new AgentService();
-		tiledMap = new TmxMapLoader().load("tehdeh.tmx");
-		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get("towerLayer");
-		agentLayer = (MapLayer) tiledMap.getLayers().get("agentLayer");
-		overlay = (TiledMapTileLayer) tiledMap.getLayers().get("overlay");
+		placementTexture = Optional.empty();
+		mouseVector = new Vector3(0,0,0);
+		agentService = new AgentService();
+		tiledMap = new TmxMapLoader().load(Constant.TMX);
+		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get(Constant.LAYER_TOWER);
+		agentLayer = (MapLayer) tiledMap.getLayers().get(Constant.LAYER_AGENT);
+		overlay = (TiledMapTileLayer) tiledMap.getLayers().get(Constant.OVERLAY);
 		
 		boidSearch = new BoidSearch(this);
 		aStarSearch = new AStarSearch(this);
@@ -72,7 +72,7 @@ public class GameStateTehDeh implements State {
 		
 		goal = new Vector3(width/2,32,0);
 		
-		addOverlay(goal, (Texture) getAssetManager().get("goal.png"));
+		addOverlay(goal, (Texture) getAssetManager().get(Constant.OVERLAY_GOAL));
 	}
 
 	private AssetManager setAssetManager() {
