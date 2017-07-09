@@ -1,11 +1,10 @@
 package space.imaginehave.tehdeh.gui;
 
-import java.util.Optional;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -14,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.Util;
-import space.imaginehave.tehdeh.button.TowerButton;
+import space.imaginehave.tehdeh.button.HUDButton;
 
 public class HUD {
 
@@ -27,8 +26,12 @@ public class HUD {
 		hud.setBounds(viewport.getWorldWidth()*0.75f, 0, viewport.getWorldWidth()*0.25f, viewport.getWorldHeight());
 		hud.setDebug(true);
 
-		final TowerButton towerButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER));
-		hud.add(towerButton).top().left().expand();
+		Label towerButtonLabel = new Label(Constant.TEST_TOWER, skin);
+		final HUDButton towerButton = new HUDButton(skin, 
+				(Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER));
+		hud.add(towerButtonLabel);
+		hud.add(towerButton);
+		hud.row();
 		
 		towerButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
@@ -39,21 +42,36 @@ public class HUD {
 			}
 		});
 		
-		final TowerButton goalChangeButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("goal.png"));
-		hud.add(goalChangeButton).top().left().expand();
+		Label goalChangeButtonLabel = new Label(Constant.OVERLAY_GOAL, skin);
+		final HUDButton goalChangeButton = new HUDButton(skin, (Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL));
+		hud.add(goalChangeButtonLabel);
+		hud.add(goalChangeButton);
+		hud.row();
 		
 		goalChangeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				Vector3 vector = game.getState().getGoal();
-				game.getState().removeFromOverlay(game.getState().getFromOverlay(vector));
+				
+				game.getState().getLayerService().removeFromTiledMapTileLayer(
+						game.getState().getLayerService().getDtaFromTiledMapTileLayer(vector, game.getState().getOverlay()),
+						game.getState().getOverlay());
+				
 				game.getState().setGoal(Util.getRandomPosition());
-				game.getState().addToOverlay(game.getState().getGoal(), (Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL));
+				
+				game.getState().getLayerService().addToTiledMapTileLayer(
+						game.getState().getGoal(), 
+						(Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL), 
+						game.getState().getOverlay(), 
+						game.getState());
+				
 			}
 		});
 
-		
-		final TowerButton resetButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get(Constant.BUTTON_RESET));
-		hud.add(resetButton).top().left().expand();
+		Label resetLabel = new Label(Constant.BUTTON_RESET, skin);
+		final HUDButton resetButton = new HUDButton(skin, (Texture) game.getState().getAssetManager().get(Constant.BUTTON_RESET));
+		hud.add(resetLabel);
+		hud.add(resetButton);
+		hud.row();
 		
 		resetButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
@@ -62,8 +80,11 @@ public class HUD {
 		});
 		
 		
-		final TowerButton moreButton = new TowerButton(skin, (Texture) game.getState().getAssetManager().get("reset.png"));
-		hud.add(moreButton).top().left().expand();
+		Label moreLabel = new Label(Constant.BUTTON_MORE, skin);
+		final HUDButton moreButton = new HUDButton(skin, (Texture) game.getState().getAssetManager().get(Constant.BUTTON_MORE));
+		hud.add(moreLabel);
+		hud.add(moreButton);
+		hud.row();
 		
 		moreButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {

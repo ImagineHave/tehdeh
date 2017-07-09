@@ -15,6 +15,7 @@ public class Constant {
 	public static final String TEST_BULLET = "testBullet.png";
 	
 	public static final String BUTTON_RESET = "reset.png";
+	public static final String BUTTON_MORE = "more.png";
 	
 	public static final String OVERLAY_GOAL = "goal.png";
 

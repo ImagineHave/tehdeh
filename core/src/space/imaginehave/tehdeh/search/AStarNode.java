@@ -2,8 +2,6 @@ package space.imaginehave.tehdeh.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 

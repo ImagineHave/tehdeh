@@ -1,8 +1,6 @@
 package space.imaginehave.tehdeh.state;
 
 import java.util.Optional;
-import java.util.Random;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
@@ -10,18 +8,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
-import space.imaginehave.tehdeh.Util;
-import space.imaginehave.tehdeh.agent.Agent;
 import space.imaginehave.tehdeh.agent.AgentService;
 import space.imaginehave.tehdeh.agent.Bullet;
-import space.imaginehave.tehdeh.agent.DummyTowerAgent;
-import space.imaginehave.tehdeh.entity.TowerCell;
+import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.search.AStarSearch;
 import space.imaginehave.tehdeh.search.BoidSearch;
 import space.imaginehave.tehdeh.search.ThetaStarLazySearch;
@@ -36,6 +29,7 @@ public class GameStateTehDeh implements State {
 	private final MapLayer agentLayer;
 	private final TiledMap tiledMap;
 	private final AgentService agentService;
+	private final LayerService layerService;
 	private final BoidSearch boidSearch;
 	private final AStarSearch aStarSearch;
 	private final ThetaStarLazySearch thetaStarSearch;
@@ -51,6 +45,7 @@ public class GameStateTehDeh implements State {
 		getAssetManager().load(Constant.TEST_AGENT, Texture.class);
 		getAssetManager().load(Constant.OVERLAY_GOAL, Texture.class);
 		getAssetManager().load(Constant.BUTTON_RESET, Texture.class);
+		getAssetManager().load(Constant.BUTTON_MORE, Texture.class);
 		getAssetManager().load(Constant.TEST_BULLET, Texture.class);
 		getAssetManager().finishLoading();
 		
@@ -59,9 +54,12 @@ public class GameStateTehDeh implements State {
 		agentService = new AgentService();
 		
 		tiledMap = new TmxMapLoader().load(Constant.TMX);
-		towerLayer = (TiledMapTileLayer) tiledMap.getLayers().get(Constant.LAYER_TOWER);
-		agentLayer = (MapLayer) tiledMap.getLayers().get(Constant.LAYER_AGENT);
-		overlay = (TiledMapTileLayer) tiledMap.getLayers().get(Constant.OVERLAY);
+		
+		towerLayer = fetchTowerLayer();
+		
+		agentLayer = fetchAgentLayer();
+		
+		overlay = fetchOverlay();
 		
 		boidSearch = new BoidSearch(this);
 		aStarSearch = new AStarSearch(this);
@@ -69,7 +67,38 @@ public class GameStateTehDeh implements State {
 		
 		goal = new Vector3(Constant.GAME_WIDTH/2,32,0);
 		
-		addToOverlay(goal, (Texture) getAssetManager().get(Constant.OVERLAY_GOAL));
+		layerService = new LayerService();
+		
+		layerService.addToTiledMapTileLayer(goal, 
+				(Texture) getAssetManager().get(Constant.OVERLAY_GOAL), 
+				overlay, 
+				this);
+		
+	}
+
+	private TiledMapTileLayer fetchTowerLayer() {
+		if (tiledMap.getLayers().get(Constant.LAYER_TOWER) instanceof TiledMapTileLayer) {
+			return (TiledMapTileLayer) tiledMap.getLayers().get(Constant.LAYER_TOWER);
+		} else {
+			throw new RuntimeException("layer is not a TiledMapTileLayer.");
+		}
+		
+	}
+
+	private MapLayer fetchAgentLayer() {
+		if (tiledMap.getLayers().get(Constant.LAYER_AGENT) instanceof MapLayer) {
+			return (MapLayer) tiledMap.getLayers().get(Constant.LAYER_AGENT);
+		} else {
+			throw new RuntimeException("layer is not a MapLayer.");
+		}
+	}
+
+	private TiledMapTileLayer fetchOverlay() {
+		if (tiledMap.getLayers().get(Constant.OVERLAY) instanceof TiledMapTileLayer) {
+			return (TiledMapTileLayer) tiledMap.getLayers().get(Constant.OVERLAY);
+		} else {
+			throw new RuntimeException("layer is not a TiledMapTileLayer.");
+		}
 	}
 
 	private AssetManager setAssetManager() {
@@ -104,69 +133,8 @@ public class GameStateTehDeh implements State {
 		return agentLayer;
 	}
 	
-	public TiledMapTileLayer getOverLay() {
+	public TiledMapTileLayer getOverlay() {
 		return overlay;
-	}
-	
-	public void addToOverlay(Vector3 vector, Texture texture) {
-		TowerCell cell = new TowerCell(texture);
-		overlay.setCell((int) (vector.x/overlay.getTileWidth()), (int) (vector.y/overlay.getTileHeight()), cell);
-		
-		DummyTowerAgent dta = new DummyTowerAgent(new Vector3(vector), this);
-		overlay.getObjects().add(dta);
-	}
-	
-	public void removeFromOverlay(DummyTowerAgent dta) {
-		overlay.setCell((int) (dta.getPosition().x/overlay.getTileWidth()), (int) (dta.getPosition().y/overlay.getTileHeight()), null);
-		overlay.getObjects().remove(dta);
-	}
-	
-	/**
-	 * returns null if not found
-	 * @param vector
-	 * @return
-	 */
-	public DummyTowerAgent getFromOverlay(Vector3 vector) {
-		
-		Array<DummyTowerAgent> agents = overlay.getObjects().getByType(DummyTowerAgent.class);
-		DummyTowerAgent dta = null;
-		for (Agent agent : agents) {
-			if(agent.getPosition().x == vector.x && agent.getPosition().y == vector.y) {
-				dta = (DummyTowerAgent) agent;
-			}
-		}
-		return dta;
-	}
-	
-	public void addToTowerLayer(Vector3 vector, Texture texture) {
-		TowerCell cell = new TowerCell(texture);
-		towerLayer.setCell((int) (vector.x/towerLayer.getTileWidth()), (int) (vector.y/towerLayer.getTileHeight()), cell);
-		
-		DummyTowerAgent dta = new DummyTowerAgent(new Vector3(vector), this);
-		agentLayer.getObjects().add(dta);
-		dta.setAgents(getAgentLayer().getObjects());
-	}
-	
-	public void removeFromTowerLayer(DummyTowerAgent dta) {
-		towerLayer.setCell((int) (dta.getPosition().x/towerLayer.getTileWidth()), (int) (dta.getPosition().y/towerLayer.getTileHeight()), null);
-		agentLayer.getObjects().remove(dta);
-	}
-	
-	/**
-	 * returns null if not found
-	 * @param vector
-	 * @return
-	 */
-	public DummyTowerAgent getFromTowerLayer(Vector3 vector) {
-		
-		Array<DummyTowerAgent> agents = towerLayer.getObjects().getByType(DummyTowerAgent.class);
-		DummyTowerAgent dta = null;
-		for (Agent agent : agents) {
-			if(agent.getPosition().x == vector.x && agent.getPosition().y == vector.y) {
-				dta = (DummyTowerAgent) agent;
-			}
-		}
-		return dta;
 	}
 	
 	public void calculatePaths() {
@@ -179,13 +147,16 @@ public class GameStateTehDeh implements State {
 		
 		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
 			if( i % 128 != 0)
-				this.addToTowerLayer(new Vector3(i,400,0), (Texture) getAssetManager().get(Constant.TEST_TOWER));
+				layerService.addToTiledMapTileLayer(new Vector3(i,400,0), 
+						(Texture) getAssetManager().get(Constant.TEST_TOWER), 
+						towerLayer, 
+						this);
 		}
 		
 	}
 	
 	public void createAgents() {
-//		agentService.createAgents(this, boidSearch, 100);
+		agentService.createAgents(this, boidSearch, 100);
 		agentService.createAgents(this, aStarSearch, 1);
 		agentService.createAgents(this, thetaStarSearch, 1);
 	}
@@ -214,13 +185,21 @@ public class GameStateTehDeh implements State {
 	public void reset() {
 		
 		agentService.reset(this);
-//		agentService.createAgents(this, boidSearch, 100);
+		agentService.createAgents(this, boidSearch, 100);
 		agentService.createAgents(this, aStarSearch, 1);
 		
 	}
 
 	public void addBullet(Bullet bullet) {
 		getAgentLayer().getObjects().add(bullet);
+	}
+
+	public LayerService getLayerService() {
+		return layerService;
+	}
+
+	public TehDehGame getGame() {
+		return game;
 	}
 
 }

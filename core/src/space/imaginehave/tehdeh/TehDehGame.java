@@ -1,9 +1,6 @@
 package space.imaginehave.tehdeh;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 

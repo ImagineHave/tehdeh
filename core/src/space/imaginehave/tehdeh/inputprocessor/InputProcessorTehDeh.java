@@ -52,7 +52,12 @@ public class InputProcessorTehDeh implements InputProcessor {
 		if(game.getState().getPlacementTexture().isPresent()) {
 			if (game.getScreen() instanceof GameScreenTehDeh) {
 				Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
-				game.getState().addToTowerLayer(vector, game.getState().getPlacementTexture().get());
+				game.getState().getLayerService().addToTiledMapTileLayer(
+						vector, 
+						game.getState().getPlacementTexture().get(),
+						game.getState().getTowerLayer(),
+						game.getState()
+						);
 				game.getState().setPlacementTexture(null);
 				return true;
 			}

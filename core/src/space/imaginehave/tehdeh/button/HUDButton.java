@@ -6,11 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 
-public class TowerButton extends ImageButton {
+public class HUDButton extends ImageButton {
 
 	private Texture texture;
 
-	public TowerButton(Skin skin, Texture texture) {
+	public HUDButton(Skin skin, Texture texture) {
 		super(skin);
 		this.texture = texture;
 		super.getStyle().imageUp = new Image(texture).getDrawable();

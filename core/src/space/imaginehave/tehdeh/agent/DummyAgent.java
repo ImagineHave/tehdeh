@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Vector3;
 
 public class DummyAgent extends MapObjectAgent {
 	
-	private int name;
-	
 	public DummyAgent (Vector3 postion, Vector3 velocity, Vector3 goal) {
 		super(postion, velocity, goal);
 	}
