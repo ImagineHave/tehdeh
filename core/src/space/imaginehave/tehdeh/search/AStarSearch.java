@@ -88,6 +88,17 @@ public class AStarSearch extends Search {
     Construct the path, not including the start node.
   */
   protected List<Vector3> constructPath(AStarNode node, AgentCore agent) {
+	  AStarNode a = node;
+	  //Smooth Path
+	while(a.pathParent!=null){
+		//If line of sight between current and grandparent
+		if(a.pathParent.pathParent !=null && lineOfSight(a, a.pathParent.pathParent)) {
+			//Set parent to grandparent
+			a.pathParent = a.pathParent.pathParent;
+		}
+		//Continue with parent
+		a=a.pathParent;
+	}
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
     	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
@@ -99,11 +110,11 @@ public class AStarSearch extends Search {
     	float difY = nodeYPixels - node.pathParent.y*tiledMapTileLayer.getTileHeight();
 
     	if(node.pathParent.pathParent == null ) {
-    		node.pathParent.x = Math.round(agent.getPosition().x);
-    		node.pathParent.y = Math.round(agent.getPosition().y);
-    		distanceBetweenNodes = Math.hypot(node.pathParent.x-nodeXPixels, node.pathParent.y-nodeYPixels);
-    		difX = nodeXPixels-node.pathParent.x;
-    		difY = nodeYPixels-node.pathParent.y;
+    		float firstX = agent.getPosition().x;
+    		float firstY = agent.getPosition().y;
+    		difX = nodeXPixels-firstX;
+    		difY = nodeYPixels-firstY;
+    		distanceBetweenNodes = Math.hypot(difX, difY);
     	}
       Vector3 diffVector = new Vector3(difX, difY,0);
       diffVector.setLength(agent.getSpeed());
@@ -128,5 +139,70 @@ public class AStarSearch extends Search {
 }
 
 
-  
+  private boolean lineOfSight(AStarNode s, AStarNode s1) {
+		int x0 = s.x;
+		int y0 = s.y;
+		int x1 = s1.x;
+		int y1 = s1.y;
+		int dy = y1 - y0;
+		int dx = x1 - x0;
+		float f = 0;
+		int sy = 1;
+		int sx = 1;
+
+		if (dy < 0) {
+			dy = -dy;
+			sy = -1;
+		}
+		if (dx < 0) {
+			dx = -dx;
+			sx = -1;
+		}
+
+		if (dx >= dy) {
+			while (x0 != x1) {
+				f += dy;
+				int cellx = x0 + ((sx - 1) / 2);
+				int celly = y0 + ((sy - 1) / 2);
+				if (f >= dx) {
+
+					if (state.getTowerLayer().getCell(cellx, celly) != null) {
+						return false;
+					}
+					y0 += sy;
+					f -= dx;
+				}
+				if (f != 0 && state.getTowerLayer().getCell(cellx, celly) != null) {
+					return false;
+				}
+				if (dy == 0 && state.getTowerLayer().getCell(cellx, y0) != null && state.getTowerLayer().getCell(cellx, y0 - 1) != null) {
+					return false;
+				}
+				x0 += sx;
+			}
+		} else {
+			while (y0 != y1) {
+				f += dx;
+				int cellx = x0 + ((sx - 1) / 2);
+				int celly = y0 + ((sy - 1) / 2);
+				if (f >= dy) {
+
+					if (state.getTowerLayer().getCell(cellx, celly) != null) {
+						return false;
+					}
+					x0 += sx;
+					f -= dy;
+				}
+				if (f != 0 && state.getTowerLayer().getCell(cellx, celly) != null) {
+					return false;
+				}
+				if (dx == 0 && state.getTowerLayer().getCell(x0, celly) != null && state.getTowerLayer().getCell(x0 - 1, celly) != null) {
+					return false;
+				}
+				y0 += sy;
+			}
+		}
+		return true;
+	}
+
 }
