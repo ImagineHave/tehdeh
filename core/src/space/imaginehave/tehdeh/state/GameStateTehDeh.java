@@ -30,9 +30,6 @@ public class GameStateTehDeh implements State {
 	private final TiledMap tiledMap;
 	private final AgentService agentService;
 	private final LayerService layerService;
-	private final BoidSearch boidSearch;
-	private final AStarSearch aStarSearch;
-	private final ThetaStarLazySearch thetaStarSearch;
 	private Viewport viewport;
 	private final TehDehGame game;
 	private Vector3 goal;
@@ -40,7 +37,7 @@ public class GameStateTehDeh implements State {
 	public GameStateTehDeh (TehDehGame tehDehGame) {
 		this.game = tehDehGame;
 		
-		setAssetManager();
+		createAssetManager();
 		getAssetManager().load(Constant.TEST_TOWER_PNG, Texture.class);
 		getAssetManager().load(Constant.TEST_AGENT_PNG, Texture.class);
 		getAssetManager().load(Constant.OVERLAY_GOAL_PNG, Texture.class);
@@ -60,20 +57,15 @@ public class GameStateTehDeh implements State {
 		agentLayer = layerService.fetchAgentLayer(tiledMap);
 		overlay = layerService.fetchOverlay(tiledMap);
 		
-		boidSearch = new BoidSearch(this);
-		aStarSearch = new AStarSearch(this);
-		thetaStarSearch = new ThetaStarLazySearch(this);
-		
 		goal = new Vector3(Constant.GAME_WIDTH/2,32,0);
 		
 		layerService.addToTiledMapTileLayer(goal, 
 				(Texture) getAssetManager().get(Constant.OVERLAY_GOAL_PNG), 
 				overlay, 
 				this);
-		
 	}
 
-	private AssetManager setAssetManager() {
+	private AssetManager createAssetManager() {
 		return assetManager = new AssetManager();
 	}
 	
@@ -113,7 +105,7 @@ public class GameStateTehDeh implements State {
 		
 		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
 			if( i % 128 != 0)
-				layerService.addToTiledMapTileLayer(new Vector3(i,400,0), 
+				layerService.addToTiledMapTileLayer(new Vector3(i,Constant.GAME_HEIGHT/2,0), 
 						(Texture) getAssetManager().get(Constant.TEST_TOWER_PNG), 
 						towerLayer, 
 						this);

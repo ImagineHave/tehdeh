@@ -34,13 +34,4 @@ public class AgentCore extends AgentMapObject {
 	public float getSpeed() {
 		return 1;
 	}
-
-	@Override
-	public void suicide() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-
 }

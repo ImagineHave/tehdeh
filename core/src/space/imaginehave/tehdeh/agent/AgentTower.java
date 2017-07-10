@@ -85,10 +85,4 @@ public class AgentTower extends AgentMapObject {
 		this.agents = mapObjects;
 	}
 
-	@Override
-	public void suicide() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

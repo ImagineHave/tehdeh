@@ -41,10 +41,4 @@ public class AgentBullet extends AgentCore {
 		return remove;
 	}
 
-	@Override
-	public void suicide() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

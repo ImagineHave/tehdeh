@@ -46,9 +46,10 @@ public class BoidSearch extends Search {
 		newVelocity.add(boid.getVelocity());
 		newVelocity.clamp(0, 2);
 		
-		boid.getVelocityPath().add(newVelocity);
 		Vector3 newPosition = new Vector3(boid.getPosition());
 		newPosition = newPosition.add(newVelocity);
+		
+		boid.getVelocityPath().add(newVelocity);
 		boid.getPostionPath().add(newPosition);
 			
 		

@@ -47,6 +47,5 @@ public abstract class AgentMapObject extends MapObject {
 	
 	public abstract void update();
 	
-	public abstract void suicide();
 
 }
