@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.agent.AgentBullet;
 import space.imaginehave.tehdeh.agent.AgentCore;
@@ -24,7 +25,6 @@ public class TowerMapObject extends MapObject {
 	int firingDelay = 3;
 	float delayTimer=3;
 	int directionalInaccuracyInDegrees = 15;
-	private MapObjects agents;
 	private GameStateTehDeh state;
 	private List<AgentBullet> bullets = new ArrayList<AgentBullet>();
 	private Vector3 position;
@@ -37,29 +37,28 @@ public class TowerMapObject extends MapObject {
 	}
 
 	public void update() {
-		if (false) {
-			delayTimer += Gdx.graphics.getDeltaTime();
-			if (delayTimer > firingDelay) {
-				Optional<AgentCore> agent = getClosestAgentInRange();
-				if (agent.isPresent()) {
-					fireBullet(agent.get());
-					delayTimer = 0;
-				}
+		delayTimer += Gdx.graphics.getDeltaTime();
+		if (delayTimer > firingDelay) {
+			Optional<AgentCore> agent = getClosestAgentInRange();
+			if (agent.isPresent()) {
+				fireBullet(agent.get());
+				delayTimer = 0;
 			}
-			for (int i = 0; i < bullets.size(); i++) {
-				AgentBullet bullet = bullets.get(i);
-				if (bullet.isToRemove()) {
-					bullets.remove(bullet);
-					state.getAgentLayer().getObjects().remove(bullet);
-				}
-			} 
 		}
+		for (int i = 0; i < bullets.size(); i++) {
+			AgentBullet bullet = bullets.get(i);
+			if (bullet.isToRemove()) {
+				bullets.remove(bullet);
+				state.getAgentLayer().getObjects().remove(bullet);
+			}
+		} 
 		
 	}
 
 	private Optional<AgentCore> getClosestAgentInRange() {
 		AgentCore agentToReturn = null;
-		for(int i = 0; i<agents.getCount(); i++) {
+		Array<AgentCore> agents = state.getAgentLayer().getObjects().getByType(AgentCore.class);
+		for(int i = 0; i < agents.size; i++) {
 			MapObject mapObject = agents.get(i);
 			if(mapObject instanceof AgentCore) {
 				AgentCore agent = (AgentCore) mapObject;
@@ -87,10 +86,6 @@ public class TowerMapObject extends MapObject {
 	
 	public int getRange() {
 		return range;
-	}
-	
-	public void setAgents(MapObjects mapObjects) {
-		this.agents = mapObjects;
 	}
 	
 	public Vector3 getPosition() {
