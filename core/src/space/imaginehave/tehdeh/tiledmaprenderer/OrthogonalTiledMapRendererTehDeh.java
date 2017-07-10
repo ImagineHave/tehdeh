@@ -9,8 +9,8 @@ import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.AgentBullet;
 import space.imaginehave.tehdeh.agent.AgentCore;
-import space.imaginehave.tehdeh.agent.TowerMapObject;
 import space.imaginehave.tehdeh.agent.AgentMapObject;
+import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 
 public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer {

@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.agent.AgentBoid;
 import space.imaginehave.tehdeh.agent.AgentCore;
-import space.imaginehave.tehdeh.agent.TowerMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
+import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class BoidSearch extends Search {
 

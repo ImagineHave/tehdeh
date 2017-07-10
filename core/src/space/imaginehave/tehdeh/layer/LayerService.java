@@ -8,9 +8,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
-import space.imaginehave.tehdeh.agent.TowerMapObject;
 import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
+import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class LayerService {
 	

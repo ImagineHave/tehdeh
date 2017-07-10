@@ -1,4 +1,4 @@
-package space.imaginehave.tehdeh.agent;
+package space.imaginehave.tehdeh.tower;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import space.imaginehave.tehdeh.agent.AgentBullet;
+import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class TowerMapObject extends MapObject {
