@@ -1,4 +1,4 @@
-package space.imaginehave.tehdeh.cell;
+package space.imaginehave.tehdeh.tower;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

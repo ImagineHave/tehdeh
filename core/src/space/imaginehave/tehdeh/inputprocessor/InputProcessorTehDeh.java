@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
+import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class InputProcessorTehDeh implements InputProcessor {
 	
@@ -52,12 +53,15 @@ public class InputProcessorTehDeh implements InputProcessor {
 		if(game.getState().getPlacementTexture().isPresent()) {
 			if (game.getScreen() instanceof GameScreenTehDeh) {
 				Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
-				game.getState().getLayerService().addToTiledMapTileLayer(
-						vector, 
-						game.getState().getPlacementTexture().get(),
-						game.getState().getTowerLayer(),
-						game.getState()
-						);
+				
+				TowerMapObject towerMapObject = new TowerMapObject(vector, game.getState(), game.getState().getPlacementTexture().get());
+				
+				game.getState().getLayerService().addTower(
+						towerMapObject, 
+						game.getState().getTowerLayer(), 
+						game.getState().getAgentLayer(), 
+						game.getState());
+				
 				game.getState().setPlacementTexture(null);
 				return true;
 			}

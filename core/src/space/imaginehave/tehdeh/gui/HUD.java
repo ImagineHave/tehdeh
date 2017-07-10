@@ -17,6 +17,7 @@ import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.button.HUDButton;
+import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 
 public class HUD {
 
@@ -55,15 +56,14 @@ public class HUD {
 			public void changed(ChangeEvent event, Actor actor) {
 				Vector3 vector = game.getState().getGoal();
 				
-				game.getState().getLayerService().removeFromTiledMapTileLayer(
-						game.getState().getLayerService().getDtaFromTiledMapTileLayer(vector, game.getState().getOverlay()),
+				game.getState().getLayerService().removeFromOverlay(
+						game.getState().getLayerService().getFromOverlay(vector, game.getState().getOverlay()),
 						game.getState().getOverlay());
 				
 				game.getState().setGoal(Util.getRandomPosition());
 				
-				game.getState().getLayerService().addToTiledMapTileLayer(
-						game.getState().getGoal(), 
-						(Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL_PNG), 
+				game.getState().getLayerService().addToOverlay(
+						new GoalOverlayMapObject(game.getState()),
 						game.getState().getOverlay(), 
 						game.getState());
 				

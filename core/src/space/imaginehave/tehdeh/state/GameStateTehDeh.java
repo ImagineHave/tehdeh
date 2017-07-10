@@ -15,9 +15,12 @@ import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.AgentService;
 import space.imaginehave.tehdeh.agent.AgentBullet;
 import space.imaginehave.tehdeh.layer.LayerService;
+import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
+import space.imaginehave.tehdeh.overlay.OverlayMapObject;
 import space.imaginehave.tehdeh.search.AStarSearch;
 import space.imaginehave.tehdeh.search.BoidSearch;
 import space.imaginehave.tehdeh.search.ThetaStarLazySearch;
+import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class GameStateTehDeh implements State {
 	
@@ -59,8 +62,8 @@ public class GameStateTehDeh implements State {
 		
 		goal = new Vector3(Constant.GAME_WIDTH/2,32,0);
 		
-		layerService.addToTiledMapTileLayer(goal, 
-				(Texture) getAssetManager().get(Constant.OVERLAY_GOAL_PNG), 
+		
+		layerService.addToOverlay(new GoalOverlayMapObject(this), 
 				overlay, 
 				this);
 	}
@@ -104,11 +107,13 @@ public class GameStateTehDeh implements State {
 	public void createWalls() {
 		
 		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
-			if( i % 128 != 0)
-				layerService.addToTiledMapTileLayer(new Vector3(i,Constant.GAME_HEIGHT/2,0), 
-						(Texture) getAssetManager().get(Constant.TEST_TOWER_PNG), 
-						towerLayer, 
+			if( i % 128 != 0){
+				TowerMapObject tmo = new TowerMapObject(new Vector3(i,Constant.GAME_HEIGHT/2,0), this, (Texture) getAssetManager().get(Constant.TEST_TOWER_PNG));
+				layerService.addTower(tmo,
+						towerLayer,
+						agentLayer,
 						this);
+			}
 		}
 		
 	}

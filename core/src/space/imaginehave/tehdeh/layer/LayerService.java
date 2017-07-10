@@ -1,6 +1,5 @@
 package space.imaginehave.tehdeh.layer;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -8,30 +7,25 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
-import space.imaginehave.tehdeh.cell.TowerCell;
+import space.imaginehave.tehdeh.overlay.OverlayMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class LayerService {
 	
-	/**
-	 * For Overlay and Towerlayer
-	 * @param vector
-	 * @param texture
-	 * @param layer
-	 */
-	public void addToTiledMapTileLayer(Vector3 vector, Texture texture, TiledMapTileLayer layer, GameStateTehDeh state) {
-		TowerCell cell = new TowerCell(texture);
-		layer.setCell((int) (vector.x/layer.getTileWidth()), (int) (vector.y/layer.getTileHeight()), cell);
+	public void addToOverlay(OverlayMapObject overlayMapObject, TiledMapTileLayer layer, GameStateTehDeh state) {
+		layer.setCell(
+				(int) (overlayMapObject.getPosition().x/layer.getTileWidth()), 
+				(int) (overlayMapObject.getPosition().y/layer.getTileHeight()), 
+				overlayMapObject.getCell());
 		
-		TowerMapObject dta = new TowerMapObject(new Vector3(vector), state);
-		layer.getObjects().add(dta);
+		layer.getObjects().add(overlayMapObject);
 	}
 	
-	public void removeFromTiledMapTileLayer(TowerMapObject dta, TiledMapTileLayer layer) {
-		if (dta != null) {
-			layer.setCell((int) (dta.getPosition().x/layer.getTileWidth()), (int) (dta.getPosition().y/layer.getTileHeight()), null);
-			layer.getObjects().remove(dta);
+	public void removeFromOverlay(OverlayMapObject omo, TiledMapTileLayer layer) {
+		if (omo != null) {
+			layer.setCell((int) (omo.getPosition().x/layer.getTileWidth()), (int) (omo.getPosition().y/layer.getTileHeight()), null);
+			layer.getObjects().remove(omo);
 		}
 	}
 	
@@ -40,16 +34,51 @@ public class LayerService {
 	 * @param vector
 	 * @return
 	 */
-	public TowerMapObject getDtaFromTiledMapTileLayer(Vector3 vector, TiledMapTileLayer layer) {
+	public OverlayMapObject getFromOverlay(Vector3 vector, TiledMapTileLayer layer) {
 		
-		Array<TowerMapObject> agents = layer.getObjects().getByType(TowerMapObject.class);
-		TowerMapObject dta = null;
-		for (TowerMapObject agent : agents) {
-			if(agent.getPosition().x == vector.x && agent.getPosition().y == vector.y) {
-				dta = (TowerMapObject) agent;
+		Array<OverlayMapObject> overlayObjects = layer.getObjects().getByType(OverlayMapObject.class);
+		OverlayMapObject omo = null;
+		for (OverlayMapObject overlayObject : overlayObjects) {
+			if(overlayObject.getPosition().x == vector.x && overlayObject.getPosition().y == vector.y) {
+				omo = overlayObject;
 			}
 		}
-		return dta;
+		return omo;
+	}
+	
+	public void addTower(
+			TowerMapObject towerMapObject, 
+			TiledMapTileLayer tileLayer,
+			MapLayer agentLayer,
+			GameStateTehDeh state) {
+		
+		tileLayer.setCell(
+				(int) (towerMapObject.getPosition().x/tileLayer.getTileWidth()), 
+				(int) (towerMapObject.getPosition().y/tileLayer.getTileHeight()), 
+				towerMapObject.getCell());
+		
+		// tileLayer.getObjects().add(towerMapObject);
+		agentLayer.getObjects().add(towerMapObject);
+		
+	}
+	
+	public void removeTower(TowerMapObject towerMapObject, TiledMapTileLayer tileLayer, MapLayer agentLayer) {
+		if (towerMapObject != null) {
+			tileLayer.setCell((int) (towerMapObject.getPosition().x/tileLayer.getTileWidth()), (int) (towerMapObject.getPosition().y/tileLayer.getTileHeight()), null);
+			agentLayer.getObjects().remove(towerMapObject);
+		}
+	}
+	
+	public TowerMapObject getTower(Vector3 vector, MapLayer layer) {
+		
+		Array<TowerMapObject> towers = layer.getObjects().getByType(TowerMapObject.class);
+		TowerMapObject tmo = null;
+		for (TowerMapObject towerMapObject : towers) {
+			if(towerMapObject.getPosition().x == vector.x && towerMapObject.getPosition().y == vector.y) {
+				tmo = towerMapObject;
+			}
+		}
+		return tmo;
 	}
 	
 	public TiledMapTileLayer fetchTowerLayer(TiledMap tiledMap) {

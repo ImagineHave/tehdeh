@@ -101,7 +101,7 @@ public class BoidSearch extends Search {
 	
 	private Vector3 getAvoids(AgentCore boid) {
 		Vector3 avoid = new Vector3(0,0,0);
-		Array<TowerMapObject> dtas = state.getTowerLayer().getObjects().getByType(TowerMapObject.class);
+		Array<TowerMapObject> dtas = state.getAgentLayer().getObjects().getByType(TowerMapObject.class);
 		for( TowerMapObject dta : dtas){
 			if (dta.getPosition().dst(boid.getPosition()) < 16) {
 				avoid = new Vector3(boid.getPosition());

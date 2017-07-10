@@ -54,7 +54,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 					agent.getPosition().y);
 		}	
 		else if(object instanceof TowerMapObject) {
-			AgentMapObject agent = ((AgentMapObject) object);
+			TowerMapObject agent = ((TowerMapObject) object);
 			agent.update();
 //			batch.draw(
 //					(Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER), 
