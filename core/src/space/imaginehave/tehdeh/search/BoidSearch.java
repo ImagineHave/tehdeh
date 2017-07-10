@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.agent.AgentBoid;
 import space.imaginehave.tehdeh.agent.AgentCore;
-import space.imaginehave.tehdeh.agent.AgentTower;
+import space.imaginehave.tehdeh.agent.TowerMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class BoidSearch extends Search {
@@ -101,8 +101,8 @@ public class BoidSearch extends Search {
 	
 	private Vector3 getAvoids(AgentCore boid) {
 		Vector3 avoid = new Vector3(0,0,0);
-		Array<AgentTower> dtas = state.getTowerLayer().getObjects().getByType(AgentTower.class);
-		for( AgentTower dta : dtas){
+		Array<TowerMapObject> dtas = state.getTowerLayer().getObjects().getByType(TowerMapObject.class);
+		for( TowerMapObject dta : dtas){
 			if (dta.getPosition().dst(boid.getPosition()) < 16) {
 				avoid = new Vector3(boid.getPosition());
 				avoid.sub(dta.getPosition());

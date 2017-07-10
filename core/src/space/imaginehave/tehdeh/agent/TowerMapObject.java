@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
-public class AgentTower extends AgentMapObject {
+public class TowerMapObject extends MapObject {
 	
 	int range = 50;
 	int firingDelay = 3;
@@ -23,13 +23,13 @@ public class AgentTower extends AgentMapObject {
 	private MapObjects agents;
 	private GameStateTehDeh state;
 	private List<AgentBullet> bullets = new ArrayList<AgentBullet>();
+	private Vector3 position;
 
-	public AgentTower (Vector3 position, GameStateTehDeh state) {
-		super(position, new Vector3(0,0,0), new Vector3(0,0,0));
+	public TowerMapObject (Vector3 position, GameStateTehDeh state) {
+		this.position = position;
 		this.state = state;
 	}
 
-	@Override
 	public void update() {
 		delayTimer += Gdx.graphics.getDeltaTime();
 		if(delayTimer > firingDelay) {
@@ -83,6 +83,10 @@ public class AgentTower extends AgentMapObject {
 	
 	public void setAgents(MapObjects mapObjects) {
 		this.agents = mapObjects;
+	}
+	
+	public Vector3 getPosition() {
+		return this.position;
 	}
 
 }

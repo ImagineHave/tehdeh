@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
-import space.imaginehave.tehdeh.agent.AgentTower;
+import space.imaginehave.tehdeh.agent.TowerMapObject;
 import space.imaginehave.tehdeh.entity.TowerCell;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
@@ -24,11 +24,11 @@ public class LayerService {
 		TowerCell cell = new TowerCell(texture);
 		layer.setCell((int) (vector.x/layer.getTileWidth()), (int) (vector.y/layer.getTileHeight()), cell);
 		
-		AgentTower dta = new AgentTower(new Vector3(vector), state);
+		TowerMapObject dta = new TowerMapObject(new Vector3(vector), state);
 		layer.getObjects().add(dta);
 	}
 	
-	public void removeFromTiledMapTileLayer(AgentTower dta, TiledMapTileLayer layer) {
+	public void removeFromTiledMapTileLayer(TowerMapObject dta, TiledMapTileLayer layer) {
 		if (dta != null) {
 			layer.setCell((int) (dta.getPosition().x/layer.getTileWidth()), (int) (dta.getPosition().y/layer.getTileHeight()), null);
 			layer.getObjects().remove(dta);
@@ -40,13 +40,13 @@ public class LayerService {
 	 * @param vector
 	 * @return
 	 */
-	public AgentTower getDtaFromTiledMapTileLayer(Vector3 vector, TiledMapTileLayer layer) {
+	public TowerMapObject getDtaFromTiledMapTileLayer(Vector3 vector, TiledMapTileLayer layer) {
 		
-		Array<AgentTower> agents = layer.getObjects().getByType(AgentTower.class);
-		AgentTower dta = null;
-		for (AgentTower agent : agents) {
+		Array<TowerMapObject> agents = layer.getObjects().getByType(TowerMapObject.class);
+		TowerMapObject dta = null;
+		for (TowerMapObject agent : agents) {
 			if(agent.getPosition().x == vector.x && agent.getPosition().y == vector.y) {
-				dta = (AgentTower) agent;
+				dta = (TowerMapObject) agent;
 			}
 		}
 		return dta;

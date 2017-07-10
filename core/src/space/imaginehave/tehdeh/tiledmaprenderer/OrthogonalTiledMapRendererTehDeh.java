@@ -9,7 +9,7 @@ import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.AgentBullet;
 import space.imaginehave.tehdeh.agent.AgentCore;
-import space.imaginehave.tehdeh.agent.AgentTower;
+import space.imaginehave.tehdeh.agent.TowerMapObject;
 import space.imaginehave.tehdeh.agent.AgentMapObject;
 
 
@@ -53,7 +53,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 					agent.getPosition().x,
 					agent.getPosition().y);
 		}	
-		else if(object instanceof AgentTower) {
+		else if(object instanceof TowerMapObject) {
 			AgentMapObject agent = ((AgentMapObject) object);
 			agent.update();
 //			batch.draw(
