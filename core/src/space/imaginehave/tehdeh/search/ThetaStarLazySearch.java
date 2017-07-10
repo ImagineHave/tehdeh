@@ -114,15 +114,17 @@ public class ThetaStarLazySearch extends Search {
     while (node.pathParent != node) {
     	float nodeXPixels = node.x*state.getTowerLayer().getTileWidth();
 		float nodeYPixels = node.y*state.getTowerLayer().getTileHeight();
+		float nodeParentXPixels = node.pathParent.x*state.getTowerLayer().getTileWidth();
+		float nodeParentYPixels = node.pathParent.y*state.getTowerLayer().getTileHeight();
 		path.addLast(new Vector3(nodeXPixels, nodeYPixels, 0));
 		
-		float difX = nodeXPixels - node.pathParent.x*tiledMapTileLayer.getTileWidth();
-		float difY = nodeYPixels - node.pathParent.y*tiledMapTileLayer.getTileHeight();
+		float difX = nodeXPixels - nodeParentXPixels;
+		float difY = nodeYPixels - nodeParentYPixels;
 		double distanceBetweenNodes = Math.hypot(difX, difY);  
 
     	if(node.pathParent.pathParent == node.pathParent) {
-    		float firstX = Math.round(agent.getPosition().x);
-    		float firstY = Math.round(agent.getPosition().y);
+    		float firstX = agent.getPosition().x;
+    		float firstY = agent.getPosition().y;
     		difX = nodeXPixels-firstX;
     		difY = nodeYPixels-firstY;
     		distanceBetweenNodes = Math.hypot(difX, difY);
@@ -130,7 +132,7 @@ public class ThetaStarLazySearch extends Search {
       Vector3 diffVector = new Vector3(difX, difY,0);
       diffVector.setLength(agent.getSpeed());
       while(distanceBetweenNodes - agent.getSpeed() > agent.getSpeed()) {
-    	  path.addLast(path.get(path.size()-1).cpy().sub(diffVector));
+    	  path.addLast(path.get(path.size()-1).cpy().sub(diffVector.cpy()));
     	  distanceBetweenNodes-=agent.getSpeed();
       }
       node = node.pathParent;
