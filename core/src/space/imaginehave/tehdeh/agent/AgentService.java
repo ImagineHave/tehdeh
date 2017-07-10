@@ -18,7 +18,7 @@ public class AgentService {
 	
 	
 	public void placeholderAgentStarter(GameStateTehDeh state){
-		createAgentsOfType(state, 100, SearchType.BOID);
+//		createAgentsOfType(state, 100, SearchType.BOID);
 		createAgentsOfType(state, 1, SearchType.ASTAR);
 		createAgentsOfType(state, 1, SearchType.THETASTAR);
 	}

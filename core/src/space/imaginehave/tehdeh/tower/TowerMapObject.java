@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import space.imaginehave.tehdeh.agent.AgentAStar;
 import space.imaginehave.tehdeh.agent.AgentBullet;
 import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
@@ -60,7 +61,7 @@ public class TowerMapObject extends MapObject {
 		Array<AgentCore> agents = state.getAgentLayer().getObjects().getByType(AgentCore.class);
 		for(int i = 0; i < agents.size; i++) {
 			MapObject mapObject = agents.get(i);
-			if(mapObject instanceof AgentCore) {
+			if(mapObject instanceof AgentCore && !(mapObject instanceof AgentBullet)) { //TODO: refactor. Need better way to handle type of mapobject
 				AgentCore agent = (AgentCore) mapObject;
 				float nearestAgentDistance = Integer.MAX_VALUE;
 				Circle circle = new Circle(position.x, position.y, range);

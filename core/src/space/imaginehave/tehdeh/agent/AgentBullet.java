@@ -1,18 +1,20 @@
 package space.imaginehave.tehdeh.agent;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class AgentBullet extends AgentCore {
 
-	private int lifeTime = 4;
+	private int lifeTime = 2;
 	private int speed = 3;
 	private float lifeTimer;
 	private boolean remove;
+	private Vector2 origin;
 	
 	public AgentBullet(Vector3 position, Vector3 velocity, Vector3 goal) {
 		super(position, velocity, goal);
-		// TODO Auto-generated constructor stub
+		this.origin = new Vector2(position.cpy().x, position.cpy().y);
 	}
 	
 	@Override
@@ -39,6 +41,10 @@ public class AgentBullet extends AgentCore {
 	
 	public boolean isToRemove() {
 		return remove;
+	}
+	
+	public Vector2 getOrigin() {
+		return origin;
 	}
 
 }
