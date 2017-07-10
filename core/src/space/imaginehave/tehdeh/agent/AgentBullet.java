@@ -3,14 +3,14 @@ package space.imaginehave.tehdeh.agent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
-public class Bullet extends MapObjectAgent {
+public class AgentBullet extends AgentCore {
 
 	private int lifeTime = 4;
 	private int speed = 3;
 	private float lifeTimer;
 	private boolean remove;
 	
-	public Bullet(Vector3 position, Vector3 velocity, Vector3 goal) {
+	public AgentBullet(Vector3 position, Vector3 velocity, Vector3 goal) {
 		super(position, velocity, goal);
 		// TODO Auto-generated constructor stub
 	}
@@ -39,6 +39,12 @@ public class Bullet extends MapObjectAgent {
 	
 	public boolean isToRemove() {
 		return remove;
+	}
+
+	@Override
+	public void suicide() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

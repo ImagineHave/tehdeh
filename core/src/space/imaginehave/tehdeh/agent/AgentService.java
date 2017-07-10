@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.search.Search;
+import space.imaginehave.tehdeh.search.SearchType;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 /**
@@ -15,22 +16,42 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
  */
 public class AgentService {
 	
-	public void createAgents(GameStateTehDeh state,
-			Search search,
-			int count
+	
+	public void placeholderAgentStarter(GameStateTehDeh state){
+		createAgentsOfType(state, 100, SearchType.BOID);
+		createAgentsOfType(state, 1, SearchType.ASTAR);
+		createAgentsOfType(state, 1, SearchType.THETASTAR);
+	}
+	
+	
+	public void createAgentsOfType(GameStateTehDeh state, int count, SearchType searchType) {
+		for(int i = 0; i < count; i++) {
+			createAddAgentToPopulation(state, searchType);
+		}
+	}
+	
+	public void createAddAgentToPopulation(GameStateTehDeh state,
+			SearchType searchType
 			) {
 		
-		for (int i = 0; i < count; i++) {
-			MapObjectAgent moa = createDummyAgent(state);
-			state.getAgentLayer().getObjects().add(moa);
-			search.getAgents().add(moa);
+		switch (searchType) {
+			case BOID : 
+				state.getAgentLayer().getObjects().add(createAgentBoid(state));
+				break;
+			case ASTAR : 
+				state.getAgentLayer().getObjects().add(createAgentAStar(state));
+				break;
+			case THETASTAR : 
+				state.getAgentLayer().getObjects().add(createAgentThetaStar(state));
+				break;
+			default :
+				throw new RuntimeException("Search type not known: " + searchType);
 		}
-	
 	}
 	
 	public void reset(GameStateTehDeh state){
 		
-		for(MapObjectAgent moa : state.getAgentLayer().getObjects().getByType(MapObjectAgent.class)){
+		for(AgentMapObject moa : state.getAgentLayer().getObjects().getByType(AgentMapObject.class)){
 			state.getAgentLayer().getObjects().remove(moa);
 		}
 		
@@ -38,15 +59,23 @@ public class AgentService {
 	
 	public void resetGoals(GameStateTehDeh state) {
 		
-		Array<MapObjectAgent> agents = state.getAgentLayer().getObjects().getByType(MapObjectAgent.class);
+		Array<AgentCore> agents = state.getAgentLayer().getObjects().getByType(AgentCore.class);
 		
-		for(MapObjectAgent agent : agents ) {
+		for(AgentCore agent : agents ) {
 			agent.setGoal(state.getGoal());
 		}
 	}
 	
-	private DummyAgent createDummyAgent(GameStateTehDeh state) {
-		return new DummyAgent(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector3(0,0,0), state.getGoal());
+	private AgentBoid createAgentBoid(GameStateTehDeh state) {
+		return new AgentBoid(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector3(0,0,0), state.getGoal(), state);
+	}
+	
+	private AgentAStar createAgentAStar(GameStateTehDeh state) {
+		return new AgentAStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector3(0,0,0), state.getGoal(), state);
+	}
+	
+	private AgentThetaStar createAgentThetaStar(GameStateTehDeh state) {
+		return new AgentThetaStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector3(0,0,0), state.getGoal(), state);
 	}
 	
 }

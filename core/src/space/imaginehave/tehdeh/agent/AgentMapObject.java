@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector3;
 
 
-public abstract class MapObjectAgent extends MapObject implements Agent {
+public abstract class AgentMapObject extends MapObject {
 	
 	Vector3 position;
 	Vector3 velocity;
@@ -15,7 +15,7 @@ public abstract class MapObjectAgent extends MapObject implements Agent {
 	List<Vector3> velocityPath;
 	List<Vector3> positionPath;
 	
-	public MapObjectAgent(Vector3 position, Vector3 velocity, Vector3 goal) {
+	public AgentMapObject(Vector3 position, Vector3 velocity, Vector3 goal) {
 		
 		this.position = position;
 		this.velocity = velocity;
@@ -25,31 +25,28 @@ public abstract class MapObjectAgent extends MapObject implements Agent {
 		this.velocityPath = new ArrayList<Vector3>();
 	}
 	
-	@Override
 	public Vector3 getPosition() {
 		return position;
 	}
 
-	@Override
 	public Vector3 getVelocity() {
 		return velocity;
 	}
 
-	@Override
 	public Vector3 getGoal() {
 		return goal;
 	}
 
-	@Override
 	public List<Vector3> getPostionPath() {
 		return positionPath;
 	}
 
-	@Override
 	public List<Vector3> getVelocityPath() {
 		return velocityPath;
 	}
 	
 	public abstract void update();
+	
+	public abstract void suicide();
 
 }

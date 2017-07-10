@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.AgentService;
-import space.imaginehave.tehdeh.agent.Bullet;
+import space.imaginehave.tehdeh.agent.AgentBullet;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.search.AStarSearch;
 import space.imaginehave.tehdeh.search.BoidSearch;
@@ -41,12 +41,12 @@ public class GameStateTehDeh implements State {
 		this.game = tehDehGame;
 		
 		setAssetManager();
-		getAssetManager().load(Constant.TEST_TOWER, Texture.class);
-		getAssetManager().load(Constant.TEST_AGENT, Texture.class);
-		getAssetManager().load(Constant.OVERLAY_GOAL, Texture.class);
-		getAssetManager().load(Constant.BUTTON_RESET, Texture.class);
-		getAssetManager().load(Constant.BUTTON_MORE, Texture.class);
-		getAssetManager().load(Constant.TEST_BULLET, Texture.class);
+		getAssetManager().load(Constant.TEST_TOWER_PNG, Texture.class);
+		getAssetManager().load(Constant.TEST_AGENT_PNG, Texture.class);
+		getAssetManager().load(Constant.OVERLAY_GOAL_PNG, Texture.class);
+		getAssetManager().load(Constant.BUTTON_RESET_PNG, Texture.class);
+		getAssetManager().load(Constant.BUTTON_MORE_PNG, Texture.class);
+		getAssetManager().load(Constant.TEST_BULLET_PNG, Texture.class);
 		getAssetManager().finishLoading();
 		
 		placementTexture = Optional.empty();
@@ -55,11 +55,10 @@ public class GameStateTehDeh implements State {
 		
 		tiledMap = new TmxMapLoader().load(Constant.TMX);
 		
-		towerLayer = fetchTowerLayer();
-		
-		agentLayer = fetchAgentLayer();
-		
-		overlay = fetchOverlay();
+		layerService = new LayerService();
+		towerLayer = layerService.fetchTowerLayer(tiledMap);
+		agentLayer = layerService.fetchAgentLayer(tiledMap);
+		overlay = layerService.fetchOverlay(tiledMap);
 		
 		boidSearch = new BoidSearch(this);
 		aStarSearch = new AStarSearch(this);
@@ -67,38 +66,11 @@ public class GameStateTehDeh implements State {
 		
 		goal = new Vector3(Constant.GAME_WIDTH/2,32,0);
 		
-		layerService = new LayerService();
-		
 		layerService.addToTiledMapTileLayer(goal, 
-				(Texture) getAssetManager().get(Constant.OVERLAY_GOAL), 
+				(Texture) getAssetManager().get(Constant.OVERLAY_GOAL_PNG), 
 				overlay, 
 				this);
 		
-	}
-
-	private TiledMapTileLayer fetchTowerLayer() {
-		if (tiledMap.getLayers().get(Constant.LAYER_TOWER) instanceof TiledMapTileLayer) {
-			return (TiledMapTileLayer) tiledMap.getLayers().get(Constant.LAYER_TOWER);
-		} else {
-			throw new RuntimeException("layer is not a TiledMapTileLayer.");
-		}
-		
-	}
-
-	private MapLayer fetchAgentLayer() {
-		if (tiledMap.getLayers().get(Constant.LAYER_AGENT) instanceof MapLayer) {
-			return (MapLayer) tiledMap.getLayers().get(Constant.LAYER_AGENT);
-		} else {
-			throw new RuntimeException("layer is not a MapLayer.");
-		}
-	}
-
-	private TiledMapTileLayer fetchOverlay() {
-		if (tiledMap.getLayers().get(Constant.OVERLAY) instanceof TiledMapTileLayer) {
-			return (TiledMapTileLayer) tiledMap.getLayers().get(Constant.OVERLAY);
-		} else {
-			throw new RuntimeException("layer is not a TiledMapTileLayer.");
-		}
 	}
 
 	private AssetManager setAssetManager() {
@@ -122,7 +94,7 @@ public class GameStateTehDeh implements State {
 	}
 
 	public TiledMap getTiledMap() {
-		return this.tiledMap;
+		return tiledMap;
 	}
 
 	public TiledMapTileLayer getTowerLayer() {
@@ -137,18 +109,12 @@ public class GameStateTehDeh implements State {
 		return overlay;
 	}
 	
-	public void calculatePaths() {
-		aStarSearch.calculatePathsForRegisteredAgents();
-		thetaStarSearch.calculatePathsForRegisteredAgents();
-		boidSearch.calculatePathsForRegisteredAgents();
-	}
-	
 	public void createWalls() {
 		
 		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
 			if( i % 128 != 0)
 				layerService.addToTiledMapTileLayer(new Vector3(i,400,0), 
-						(Texture) getAssetManager().get(Constant.TEST_TOWER), 
+						(Texture) getAssetManager().get(Constant.TEST_TOWER_PNG), 
 						towerLayer, 
 						this);
 		}
@@ -156,9 +122,7 @@ public class GameStateTehDeh implements State {
 	}
 	
 	public void createAgents() {
-		agentService.createAgents(this, boidSearch, 100);
-		agentService.createAgents(this, aStarSearch, 1);
-		agentService.createAgents(this, thetaStarSearch, 1);
+		agentService.placeholderAgentStarter(this);
 	}
 	
 	public Vector3 getGoal() {
@@ -185,12 +149,11 @@ public class GameStateTehDeh implements State {
 	public void reset() {
 		
 		agentService.reset(this);
-		agentService.createAgents(this, boidSearch, 100);
-		agentService.createAgents(this, aStarSearch, 1);
+		agentService.placeholderAgentStarter(this);
 		
 	}
 
-	public void addBullet(Bullet bullet) {
+	public void addBullet(AgentBullet bullet) {
 		getAgentLayer().getObjects().add(bullet);
 	}
 

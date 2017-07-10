@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
-public class DummyTowerAgent extends MapObjectAgent {
+public class AgentTower extends AgentMapObject {
 	
 	int range = 50;
 	int firingDelay = 3;
@@ -22,31 +22,25 @@ public class DummyTowerAgent extends MapObjectAgent {
 	int directionalInaccuracyInDegrees = 15;
 	private MapObjects agents;
 	private GameStateTehDeh state;
-	private List<Bullet> bullets = new ArrayList<Bullet>();
+	private List<AgentBullet> bullets = new ArrayList<AgentBullet>();
 
-	public DummyTowerAgent (Vector3 position, GameStateTehDeh state) {
+	public AgentTower (Vector3 position, GameStateTehDeh state) {
 		super(position, new Vector3(0,0,0), new Vector3(0,0,0));
 		this.state = state;
-	}
-
-	@Override
-	public void setGoal(Vector3 goalVector) {
-		// no-op
-		
 	}
 
 	@Override
 	public void update() {
 		delayTimer += Gdx.graphics.getDeltaTime();
 		if(delayTimer > firingDelay) {
-			Optional<Agent> agent = getClosestAgentInRange();
+			Optional<AgentCore> agent = getClosestAgentInRange();
 			if(agent.isPresent()) {
 				fireBullet(agent.get());
 				delayTimer = 0;
 			}
 		}
 		for(int i = 0; i < bullets.size(); i++) {
-			Bullet bullet = bullets.get(i);
+			AgentBullet bullet = bullets.get(i);
 			if (bullet.isToRemove()) {
 				bullets.remove(bullet);
 				state.getAgentLayer().getObjects().remove(bullet);
@@ -55,12 +49,12 @@ public class DummyTowerAgent extends MapObjectAgent {
 		
 	}
 
-	private Optional<Agent> getClosestAgentInRange() {
-		Agent agentToReturn = null;
+	private Optional<AgentCore> getClosestAgentInRange() {
+		AgentCore agentToReturn = null;
 		for(int i = 0; i<agents.getCount(); i++) {
 			MapObject mapObject = agents.get(i);
-			if(mapObject instanceof DummyAgent) {
-				Agent agent = (DummyAgent) mapObject;
+			if(mapObject instanceof AgentCore) {
+				AgentCore agent = (AgentCore) mapObject;
 				float nearestAgentDistance = Integer.MAX_VALUE;
 				Circle circle = new Circle(position.x, position.y, range);
 				if(circle.contains(new Vector2(agent.getPosition().x, agent.getPosition().y)) &&
@@ -73,20 +67,14 @@ public class DummyTowerAgent extends MapObjectAgent {
 		return Optional.ofNullable(agentToReturn);
 	}
 
-	private void fireBullet(Agent agent) {
+	private void fireBullet(AgentCore agent) {
 		Vector3 targetVector = agent.getPosition().cpy().sub(position.cpy());
 		int inaccuracy = MathUtils.random(-directionalInaccuracyInDegrees, directionalInaccuracyInDegrees);
 		Vector2 targetVector2 = new Vector2(targetVector.x, targetVector.y);
 		targetVector2.rotate(inaccuracy);
-		Bullet bullet = new Bullet(position, new Vector3(), new Vector3(targetVector2.x, targetVector2.y , 0));
+		AgentBullet bullet = new AgentBullet(position, new Vector3(), new Vector3(targetVector2.x, targetVector2.y , 0));
 		state.addBullet(bullet);
 		bullets.add(bullet);
-	}
-
-	@Override
-	public float getSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 	public int getRange() {
@@ -95,6 +83,12 @@ public class DummyTowerAgent extends MapObjectAgent {
 	
 	public void setAgents(MapObjects mapObjects) {
 		this.agents = mapObjects;
+	}
+
+	@Override
+	public void suicide() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

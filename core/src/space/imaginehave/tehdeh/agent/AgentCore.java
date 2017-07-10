@@ -2,19 +2,24 @@ package space.imaginehave.tehdeh.agent;
 
 import com.badlogic.gdx.math.Vector3;
 
-public class DummyAgent extends MapObjectAgent {
+import space.imaginehave.tehdeh.search.Search;
+
+public class AgentCore extends AgentMapObject {
 	
-	public DummyAgent (Vector3 postion, Vector3 velocity, Vector3 goal) {
+	Search search;
+	
+	public AgentCore (Vector3 postion, Vector3 velocity, Vector3 goal) {
 		super(postion, velocity, goal);
 	}
 
-	@Override
 	public void setGoal(Vector3 goalVector) {
 		this.goal = goalVector;
 	}
 
 	@Override
 	public void update() {
+		
+		search.calculatePathsForAgent(this);
 		
 		if(!positionPath.isEmpty()) {
 			position = new Vector3(positionPath.get(positionPath.size()-1));
@@ -26,9 +31,16 @@ public class DummyAgent extends MapObjectAgent {
 		}
 	}
 
-	@Override
 	public float getSpeed() {
 		return 1;
 	}
+
+	@Override
+	public void suicide() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 
 }

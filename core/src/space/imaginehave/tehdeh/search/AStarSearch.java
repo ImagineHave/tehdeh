@@ -5,8 +5,10 @@ import java.util.PriorityQueue;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
-import space.imaginehave.tehdeh.agent.Agent;
+import space.imaginehave.tehdeh.agent.AgentBoid;
+import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class AStarSearch extends Search {
@@ -24,7 +26,7 @@ public class AStarSearch extends Search {
     of AStarNodes is returned, or null if the path is not
     found. 
   */
-  public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, Agent agent) {
+  public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, AgentCore agent) {
 
     PriorityQueue<AStarNode> openList = new PriorityQueue<AStarNode>();
     LinkedList<AStarNode> closedList = new LinkedList<AStarNode>();
@@ -85,7 +87,7 @@ public class AStarSearch extends Search {
   /**
     Construct the path, not including the start node.
   */
-  protected List<Vector3> constructPath(AStarNode node, Agent agent) {
+  protected List<Vector3> constructPath(AStarNode node, AgentCore agent) {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
     	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
@@ -116,15 +118,13 @@ public class AStarSearch extends Search {
 
 
   @Override
-  public void calculatePathsForRegisteredAgents() {
-	for(Agent agent: agents) {
-		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), state.getTowerLayer());
-		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), state.getTowerLayer());
-		List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
-		agent.getPostionPath().clear();
-		agent.getPostionPath().addAll(aStarPath);
-	}
+  public void calculatePathsForAgent(AgentCore agent) {
 	
+	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), state.getTowerLayer());
+	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), state.getTowerLayer());
+	List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
+	agent.getPostionPath().clear();
+	agent.getPostionPath().addAll(aStarPath);
 }
 
 

@@ -2,12 +2,15 @@ package space.imaginehave.tehdeh.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.Constant;
@@ -18,19 +21,20 @@ import space.imaginehave.tehdeh.button.HUDButton;
 public class HUD {
 
 	private Table hud;
+	private final float hudWidth;
 
 	public HUD (Skin skin, Viewport viewport, final TehDehGame game) {
 		skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
 
 		hud = new Table();
-		hud.setBounds(viewport.getWorldWidth()*0.75f, 0, viewport.getWorldWidth()*0.25f, viewport.getWorldHeight());
+		hudWidth = 0.2f;
+		hud.setBounds(Constant.VIEWPORT_WIDTH*(1-hudWidth), 0, Constant.VIEWPORT_HEIGHT*hudWidth, Constant.VIEWPORT_HEIGHT);
 		hud.setDebug(true);
 
-		Label towerButtonLabel = new Label(Constant.TEST_TOWER, skin);
-		final HUDButton towerButton = new HUDButton(skin, 
-				(Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER));
-		hud.add(towerButtonLabel);
-		hud.add(towerButton);
+		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG)));
+		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
+		towerButton.setTexture((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG));
+		hud.add(towerButton).left();
 		hud.row();
 		
 		towerButton.addListener(new ChangeListener() {
@@ -42,10 +46,9 @@ public class HUD {
 			}
 		});
 		
-		Label goalChangeButtonLabel = new Label(Constant.OVERLAY_GOAL, skin);
-		final HUDButton goalChangeButton = new HUDButton(skin, (Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL));
-		hud.add(goalChangeButtonLabel);
-		hud.add(goalChangeButton);
+		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
+		final HUDButton goalChangeButton = new HUDButton(goalDrawable);
+		hud.add(goalChangeButton).left();
 		hud.row();
 		
 		goalChangeButton.addListener(new ChangeListener() {
@@ -60,17 +63,16 @@ public class HUD {
 				
 				game.getState().getLayerService().addToTiledMapTileLayer(
 						game.getState().getGoal(), 
-						(Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL), 
+						(Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL_PNG), 
 						game.getState().getOverlay(), 
 						game.getState());
 				
 			}
 		});
 
-		Label resetLabel = new Label(Constant.BUTTON_RESET, skin);
-		final HUDButton resetButton = new HUDButton(skin, (Texture) game.getState().getAssetManager().get(Constant.BUTTON_RESET));
-		hud.add(resetLabel);
-		hud.add(resetButton);
+		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_RESET_PNG)));
+		final HUDButton resetButton = new HUDButton(resetDrawable);
+		hud.add(resetButton).left();
 		hud.row();
 		
 		resetButton.addListener(new ChangeListener() {
@@ -80,10 +82,9 @@ public class HUD {
 		});
 		
 		
-		Label moreLabel = new Label(Constant.BUTTON_MORE, skin);
-		final HUDButton moreButton = new HUDButton(skin, (Texture) game.getState().getAssetManager().get(Constant.BUTTON_MORE));
-		hud.add(moreLabel);
-		hud.add(moreButton);
+		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_MORE_PNG)));
+		final HUDButton moreButton = new HUDButton(moreDrawable);
+		hud.add(moreButton).left();
 		hud.row();
 		
 		moreButton.addListener(new ChangeListener() {

@@ -7,10 +7,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
-import space.imaginehave.tehdeh.agent.Bullet;
-import space.imaginehave.tehdeh.agent.DummyAgent;
-import space.imaginehave.tehdeh.agent.DummyTowerAgent;
-import space.imaginehave.tehdeh.agent.MapObjectAgent;
+import space.imaginehave.tehdeh.agent.AgentBullet;
+import space.imaginehave.tehdeh.agent.AgentCore;
+import space.imaginehave.tehdeh.agent.AgentTower;
+import space.imaginehave.tehdeh.agent.AgentMapObject;
 
 
 public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer {
@@ -30,32 +30,31 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 	public void render() {
 		super.render();
 		game.getState().redefineGoals();
-		game.getState().calculatePaths();
 	}
 	
 	
 	@Override
 	public void renderObject(MapObject object) {
 		
-		if(object instanceof DummyAgent) {
-			MapObjectAgent agent = ((MapObjectAgent) object);
+		if(object instanceof AgentCore) {
+			AgentMapObject agent = ((AgentMapObject) object);
 			agent.update();
 			batch.draw(
-					(Texture) game.getState().getAssetManager().get(Constant.TEST_AGENT), 
+					(Texture) game.getState().getAssetManager().get(Constant.TEST_AGENT_PNG), 
 					agent.getPosition().x,
 					agent.getPosition().y);
 		}
 		
-		else if(object instanceof Bullet) {
-			MapObjectAgent agent = ((MapObjectAgent) object);
+		else if(object instanceof AgentBullet) {
+			AgentMapObject agent = ((AgentMapObject) object);
 			agent.update();
 			batch.draw(
-					(Texture) game.getState().getAssetManager().get(Constant.TEST_BULLET), 
+					(Texture) game.getState().getAssetManager().get(Constant.TEST_BULLET_PNG), 
 					agent.getPosition().x,
 					agent.getPosition().y);
 		}	
-		else if(object instanceof DummyTowerAgent) {
-			MapObjectAgent agent = ((MapObjectAgent) object);
+		else if(object instanceof AgentTower) {
+			AgentMapObject agent = ((AgentMapObject) object);
 			agent.update();
 //			batch.draw(
 //					(Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER), 

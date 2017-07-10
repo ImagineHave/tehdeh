@@ -10,14 +10,14 @@ public class Constant {
 	public static final int VIEWPORT_HEIGHT = 800;
 	public static final int VIEWPORT_WIDTH = 800;
 
-	public static final String TEST_TOWER = "testTower.png";
-	public static final String TEST_AGENT = "testAgent.png";
-	public static final String TEST_BULLET = "testBullet.png";
+	public static final String TEST_TOWER_PNG = "testTower.png";
+	public static final String TEST_AGENT_PNG = "testAgent.png";
+	public static final String TEST_BULLET_PNG = "testBullet.png";
 	
-	public static final String BUTTON_RESET = "reset.png";
-	public static final String BUTTON_MORE = "more.png";
+	public static final String BUTTON_RESET_PNG = "reset.png";
+	public static final String BUTTON_MORE_PNG = "more.png";
 	
-	public static final String OVERLAY_GOAL = "goal.png";
+	public static final String OVERLAY_GOAL_PNG = "goal.png";
 
 	public static final String TMX = "tehdeh.tmx";
 	public static final String LAYER_TOWER = "towerLayer";

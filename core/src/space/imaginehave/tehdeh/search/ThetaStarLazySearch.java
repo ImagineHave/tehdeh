@@ -4,7 +4,7 @@ import java.util.*;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 
-import space.imaginehave.tehdeh.agent.Agent;
+import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class ThetaStarLazySearch extends Search {
@@ -26,7 +26,7 @@ public class ThetaStarLazySearch extends Search {
     found. 
 	 * @param agent 
   */
-  public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, Agent agent) {
+  public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, AgentCore agent) {
  
 	openList = new PriorityQueue<AStarNode>();
     closedList = new HashSet<AStarNode>();
@@ -109,7 +109,7 @@ public class ThetaStarLazySearch extends Search {
   /**
     Construct the path, not including the start node.
   */
-  protected List<Vector3> constructPath(AStarNode node, Agent agent) {
+  protected List<Vector3> constructPath(AStarNode node, AgentCore agent) {
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != node) {
     	float nodeXPixels = node.x*state.getTowerLayer().getTileWidth();
@@ -139,14 +139,12 @@ public class ThetaStarLazySearch extends Search {
   }
 
   @Override
-  public void calculatePathsForRegisteredAgents() {
-	for(Agent agent: agents) {
+  public void calculatePathsForAgent(AgentCore agent) {
 		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), tiledMapTileLayer);
 		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), tiledMapTileLayer);
 		List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
 		agent.getPostionPath().clear();
 		agent.getPostionPath().addAll(aStarPath);
-	}
   }
 
   private boolean lineOfSight(AStarNode s, AStarNode s1) {
@@ -214,4 +212,5 @@ public class ThetaStarLazySearch extends Search {
 		}
 		return true;
 	}
+
 }
