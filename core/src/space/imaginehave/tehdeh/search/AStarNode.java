@@ -44,7 +44,7 @@ public class AStarNode implements Comparable<AStarNode> {
 				int xToCheck = (int) (x+i);
 				int yToCheck = (int) (y+j);
 				if(xToCheck < 0 || xToCheck> tiledMapTileLayer.getWidth() ||
-					yToCheck < 0 //|| yToCheck > tiledMapTileLayer.getHeight() //TODO this allows neighbors outside of sceen in direction of agent start area.
+					yToCheck < 0 || yToCheck > tiledMapTileLayer.getHeight()+2 //TODO this allows neighbors outside of sceen in direction of agent start area.
 						) {
 					continue;
 				}

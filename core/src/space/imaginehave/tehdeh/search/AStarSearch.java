@@ -90,15 +90,15 @@ public class AStarSearch extends Search {
   protected List<Vector3> constructPath(AStarNode node, AgentCore agent) {
 	  AStarNode a = node;
 	  //Smooth Path
-	while(a.pathParent!=null){
-		//If line of sight between current and grandparent
-		if(a.pathParent.pathParent !=null && lineOfSight(a, a.pathParent.pathParent)) {
-			//Set parent to grandparent
-			a.pathParent = a.pathParent.pathParent;
-		}
-		//Continue with parent
-		a=a.pathParent;
+	  while(a.pathParent!=null){
+	      //Set pathParent to furthest visible node
+	      setLastVisibleNode(a);
+	                                     
+	      //Continue with parent
+	      a=a.pathParent;
+	
 	}
+	  
     LinkedList<Vector3> path = new LinkedList<Vector3>();
     while (node.pathParent != null) {
     	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
@@ -126,6 +126,16 @@ public class AStarSearch extends Search {
     }
     return path;
   }
+  
+  
+  private void setLastVisibleNode(AStarNode a) {
+	while(a.pathParent.pathParent != null) {
+      if(!lineOfSight(a, a.pathParent.pathParent)) {
+          break;
+      }             
+      a.pathParent = a.pathParent.pathParent;                           
+	}
+}   
 
 
   @Override
@@ -146,7 +156,7 @@ public class AStarSearch extends Search {
 		int y1 = s1.y;
 		int dy = y1 - y0;
 		int dx = x1 - x0;
-		float f = 0;
+		int f = 0;
 		int sy = 1;
 		int sx = 1;
 
