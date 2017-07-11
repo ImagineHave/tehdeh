@@ -97,4 +97,8 @@ public class TowerMapObject extends MapObject {
 		return towerCell;
 	}
 
+	@Override
+	public String toString() {
+		return ""+this.getClass();
+	}
 }

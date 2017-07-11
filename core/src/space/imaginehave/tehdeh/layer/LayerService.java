@@ -57,7 +57,6 @@ public class LayerService {
 				(int) (towerMapObject.getPosition().y/tileLayer.getTileHeight()), 
 				towerMapObject.getCell());
 		
-		// tileLayer.getObjects().add(towerMapObject);
 		agentLayer.getObjects().add(towerMapObject);
 		
 	}

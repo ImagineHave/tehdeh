@@ -54,7 +54,11 @@ public abstract class AgentMapObject extends MapObject {
 	}
 
 	public boolean atGoal() {
-		return goal.x == position.x && goal.y == position.y;
+		return goal.dst(position) < 15;
 	}
-
+	
+	@Override
+	public String toString() {
+		return ""+this.getClass();
+	}
 }
