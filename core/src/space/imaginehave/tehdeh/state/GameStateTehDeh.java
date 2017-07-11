@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.AgentService;
+import space.imaginehave.tehdeh.daemon.DaemonMapObject;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
@@ -69,6 +70,8 @@ public class GameStateTehDeh implements State {
 		layerService.addToOverlay(new GoalOverlayMapObject(this), 
 				overlay, 
 				this);
+		
+		agentLayer.getObjects().add(new DaemonMapObject(this));
 	}
 
 	private AssetManager createAssetManager() {

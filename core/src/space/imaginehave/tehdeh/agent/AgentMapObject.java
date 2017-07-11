@@ -53,4 +53,8 @@ public abstract class AgentMapObject extends MapObject {
 		return texture;
 	}
 
+	public boolean atGoal() {
+		return goal.x == position.x && goal.y == position.y;
+	}
+
 }

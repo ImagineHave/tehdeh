@@ -11,6 +11,7 @@ import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.agent.AgentMapObject;
+import space.imaginehave.tehdeh.daemon.DaemonMapObject;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
@@ -67,6 +68,10 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 					agent.getPosition().x,
 					agent.getPosition().y);
 		}	
+		else if (object instanceof DaemonMapObject) {
+			DaemonMapObject daemon = ((DaemonMapObject) object);
+			daemon.update();
+		}
 		
 	}
 }
