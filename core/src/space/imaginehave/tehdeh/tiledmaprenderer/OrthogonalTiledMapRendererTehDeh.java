@@ -44,7 +44,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 			float rotation = new Vector2(hurtyThing.getOrigin().x, hurtyThing.getOrigin().y).angle(new Vector2(hurtyThing.getGoal().x, hurtyThing.getGoal().y));
 			
 			batch.draw(
-					new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.TEST_HURTYTHING_PNG)), 
+					hurtyThing.getTextureRegion(), 
 					hurtyThing.getPosition().x,
 					hurtyThing.getPosition().y,
 					0,0,
@@ -55,7 +55,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 			TowerMapObject agent = ((TowerMapObject) object);
 			agent.update();
 //			batch.draw(
-//					(Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER), 
+//					agent.getTexture(), 
 //					agent.getPosition().x,
 //					agent.getPosition().y);
 		} 

@@ -1,9 +1,8 @@
 package space.imaginehave.tehdeh.hurtythings;
 
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector3;
 
-public abstract class HurtyThingCore extends MapObject {
+public abstract class HurtyThingCore extends HurtyThingMapObject {
 
 	protected Vector3 position;
 	protected Vector3 velocity;

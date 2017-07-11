@@ -80,7 +80,7 @@ public class TowerMapObject extends MapObject {
 		int inaccuracy = MathUtils.random(-directionalInaccuracyInDegrees, directionalInaccuracyInDegrees);
 		Vector2 targetVector2 = new Vector2(targetVector.x, targetVector.y);
 		targetVector2.rotate(inaccuracy);
-		HurtyThingBullet bullet = new HurtyThingBullet(position, new Vector3(), new Vector3(targetVector2.x, targetVector2.y , 0));
+		HurtyThingBullet bullet = new HurtyThingBullet(position, new Vector3(), new Vector3(targetVector2.x, targetVector2.y , 0), state);
 		state.addBullet(bullet);
 		bullets.add(bullet);
 	}
