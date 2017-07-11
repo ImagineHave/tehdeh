@@ -39,30 +39,31 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 	public void renderObject(MapObject object) {
 		
 		if(object instanceof HurtyThingBullet) {
-			HurtyThingBullet agent = ((HurtyThingBullet) object);
-			agent.update();
-			float rotation = new Vector2(agent.getOrigin().x, agent.getOrigin().y).angle(new Vector2(agent.getGoal().x, agent.getGoal().y));
+			HurtyThingBullet hurtyThing = ((HurtyThingBullet) object);
+			hurtyThing.update();
+			float rotation = new Vector2(hurtyThing.getOrigin().x, hurtyThing.getOrigin().y).angle(new Vector2(hurtyThing.getGoal().x, hurtyThing.getGoal().y));
 			
 			batch.draw(
-					new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.TEST_BULLET_PNG)), 
-					agent.getPosition().x,
-					agent.getPosition().y,
+					new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.TEST_HURTYTHING_PNG)), 
+					hurtyThing.getPosition().x,
+					hurtyThing.getPosition().y,
 					0,0,
 					8f,8f,8f,8f,
 					rotation-210);
 		}	
-		else if(object instanceof TowerMapObject) {
+		else if (object instanceof TowerMapObject) {
 			TowerMapObject agent = ((TowerMapObject) object);
 			agent.update();
 //			batch.draw(
 //					(Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER), 
 //					agent.getPosition().x,
 //					agent.getPosition().y);
-		} else if(object instanceof AgentCore) {
+		} 
+		else if (object instanceof AgentCore) {
 			AgentMapObject agent = ((AgentMapObject) object);
 			agent.update();
 			batch.draw(
-					(Texture) game.getState().getAssetManager().get(Constant.TEST_AGENT_PNG), 
+					agent.getTexture(), 
 					agent.getPosition().x,
 					agent.getPosition().y);
 		}	

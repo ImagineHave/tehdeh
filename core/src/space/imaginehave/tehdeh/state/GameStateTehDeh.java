@@ -43,10 +43,13 @@ public class GameStateTehDeh implements State {
 		createAssetManager();
 		getAssetManager().load(Constant.TEST_TOWER_PNG, Texture.class);
 		getAssetManager().load(Constant.TEST_AGENT_PNG, Texture.class);
+		getAssetManager().load(Constant.BOID_AGENT_PNG, Texture.class);
+		getAssetManager().load(Constant.ASTAR_AGENT_PNG, Texture.class);
+		getAssetManager().load(Constant.TSTAR_AGENT_PNG, Texture.class);
 		getAssetManager().load(Constant.OVERLAY_GOAL_PNG, Texture.class);
 		getAssetManager().load(Constant.BUTTON_RESET_PNG, Texture.class);
 		getAssetManager().load(Constant.BUTTON_MORE_PNG, Texture.class);
-		getAssetManager().load(Constant.TEST_BULLET_PNG, Texture.class);
+		getAssetManager().load(Constant.TEST_HURTYTHING_PNG, Texture.class);
 		getAssetManager().finishLoading();
 		
 		placementTexture = Optional.empty();

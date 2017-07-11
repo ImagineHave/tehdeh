@@ -1,10 +1,12 @@
 package space.imaginehave.tehdeh.agent;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 
+import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.search.Search;
 
-public class AgentCore extends AgentMapObject {
+public abstract class AgentCore extends AgentMapObject {
 	
 	Search search;
 	

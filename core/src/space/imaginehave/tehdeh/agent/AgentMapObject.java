@@ -3,12 +3,14 @@ package space.imaginehave.tehdeh.agent;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector3;
 
 
 public abstract class AgentMapObject extends MapObject {
 	
+	Texture texture;
 	Vector3 position;
 	Vector3 velocity;
 	Vector3 goal;
@@ -46,6 +48,9 @@ public abstract class AgentMapObject extends MapObject {
 	}
 	
 	public abstract void update();
-	
+
+	public Texture getTexture() {
+		return texture;
+	}
 
 }
