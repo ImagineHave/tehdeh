@@ -17,6 +17,7 @@ public class Constant {
 	public static final String BUTTON_RESET_PNG = "reset.png";
 	public static final String BUTTON_MORE_PNG = "more.png";
 	public static final int BUTTON_SIZE = 50;
+	public static final int BUTTON_SPACE = 10;
 	
 	public static final String OVERLAY_GOAL_PNG = "goal.png";
 

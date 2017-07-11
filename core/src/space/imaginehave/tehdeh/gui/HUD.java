@@ -21,10 +21,8 @@ import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 public class HUD {
 
 	private Table hud;
-	private final float hudWidth;
 
 	public HUD (Viewport viewport, final TehDehGame game) {
-		Skin skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
 
 		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG))));
 		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
@@ -39,21 +37,24 @@ public class HUD {
 		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_MORE_PNG)));
 		final HUDButton moreButton = new HUDButton(moreDrawable);
 
-		hud = new Table(skin);
-		hudWidth = 0.2f;
-		hud.setBounds(Constant.VIEWPORT_WIDTH*(1-hudWidth), 0, Constant.VIEWPORT_HEIGHT*hudWidth, Constant.VIEWPORT_HEIGHT);
+		hud = new Table();
+		hud.defaults().size(Constant.BUTTON_SIZE);
+		hud.defaults().space(Constant.BUTTON_SPACE);
+		hud.pad(10);
 		hud.setDebug(true);
 
-		hud.add(towerButton).size(Constant.BUTTON_SIZE).top().left().fill();
+		hud.add(towerButton);
 		
-		hud.add(goalChangeButton).size(Constant.BUTTON_SIZE).top().left().fill();
+		hud.add(goalChangeButton);
 		hud.row();
 
-		hud.add(resetButton).size(Constant.BUTTON_SIZE).top().left().fill();
+		hud.add(resetButton); 
 		
-		hud.add(moreButton).size(Constant.BUTTON_SIZE).top().left().expand().fill();
+		hud.add(moreButton); 
 		hud.row();
-//		hud.pack();
+		
+		hud.pack();
+		hud.setPosition(Constant.VIEWPORT_WIDTH-hud.getWidth(), Constant.VIEWPORT_HEIGHT-hud.getHeight());
 
 		addListenersToButtons(game, towerButton, goalChangeButton, resetButton, moreButton);
 	}
