@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.AgentService;
-import space.imaginehave.tehdeh.agent.AgentBullet;
+import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 import space.imaginehave.tehdeh.overlay.OverlayMapObject;
@@ -150,7 +150,7 @@ public class GameStateTehDeh implements State {
 		
 	}
 
-	public void addBullet(AgentBullet bullet) {
+	public void addBullet(HurtyThingBullet bullet) {
 		getAgentLayer().getObjects().add(bullet);
 	}
 

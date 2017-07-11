@@ -1,10 +1,13 @@
-package space.imaginehave.tehdeh.agent;
+package space.imaginehave.tehdeh.hurtythings;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class AgentBullet extends AgentCore {
+import space.imaginehave.tehdeh.agent.AgentCore;
+import space.imaginehave.tehdeh.overlay.OverlayMapObject;
+
+public class HurtyThingBullet extends HurtyThingCore {
 
 	private int lifeTime = 2;
 	private int speed = 3;
@@ -12,22 +15,16 @@ public class AgentBullet extends AgentCore {
 	private boolean remove;
 	private Vector2 origin;
 	
-	public AgentBullet(Vector3 position, Vector3 velocity, Vector3 goal) {
+	public HurtyThingBullet(Vector3 position, Vector3 velocity, Vector3 goal) {
 		super(position, velocity, goal);
 		this.origin = new Vector2(position.cpy().x, position.cpy().y);
 	}
 	
 	@Override
 	public float getSpeed() {
-		// TODO Auto-generated method stub
 		return speed;
 	}
 
-	@Override
-	public void setGoal(Vector3 goalVector) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void update() {

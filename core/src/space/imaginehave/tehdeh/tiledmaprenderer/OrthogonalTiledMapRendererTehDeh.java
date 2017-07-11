@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
-import space.imaginehave.tehdeh.agent.AgentBullet;
 import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.agent.AgentMapObject;
+import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 
@@ -38,8 +38,8 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 	@Override
 	public void renderObject(MapObject object) {
 		
-		if(object instanceof AgentBullet) {
-			AgentBullet agent = ((AgentBullet) object);
+		if(object instanceof HurtyThingBullet) {
+			HurtyThingBullet agent = ((HurtyThingBullet) object);
 			agent.update();
 			float rotation = new Vector2(agent.getOrigin().x, agent.getOrigin().y).angle(new Vector2(agent.getGoal().x, agent.getGoal().y));
 			

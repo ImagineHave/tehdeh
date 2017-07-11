@@ -16,8 +16,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.agent.AgentAStar;
-import space.imaginehave.tehdeh.agent.AgentBullet;
 import space.imaginehave.tehdeh.agent.AgentCore;
+import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class TowerMapObject extends MapObject {
@@ -27,7 +27,7 @@ public class TowerMapObject extends MapObject {
 	float delayTimer=3;
 	int directionalInaccuracyInDegrees = 15;
 	private GameStateTehDeh state;
-	private List<AgentBullet> bullets = new ArrayList<AgentBullet>();
+	private List<HurtyThingBullet> bullets = new ArrayList<HurtyThingBullet>();
 	private Vector3 position;
 	private TowerCell towerCell;
 
@@ -47,7 +47,7 @@ public class TowerMapObject extends MapObject {
 			}
 		}
 		for (int i = 0; i < bullets.size(); i++) {
-			AgentBullet bullet = bullets.get(i);
+			HurtyThingBullet bullet = bullets.get(i);
 			if (bullet.isToRemove()) {
 				bullets.remove(bullet);
 				state.getAgentLayer().getObjects().remove(bullet);
@@ -61,7 +61,7 @@ public class TowerMapObject extends MapObject {
 		Array<AgentCore> agents = state.getAgentLayer().getObjects().getByType(AgentCore.class);
 		for(int i = 0; i < agents.size; i++) {
 			MapObject mapObject = agents.get(i);
-			if(mapObject instanceof AgentCore && !(mapObject instanceof AgentBullet)) { //TODO: refactor. Need better way to handle type of mapobject
+			if(mapObject instanceof AgentCore && !(mapObject instanceof HurtyThingBullet)) { //TODO: refactor. Need better way to handle type of mapobject
 				AgentCore agent = (AgentCore) mapObject;
 				float nearestAgentDistance = Integer.MAX_VALUE;
 				Circle circle = new Circle(position.x, position.y, range);
@@ -80,7 +80,7 @@ public class TowerMapObject extends MapObject {
 		int inaccuracy = MathUtils.random(-directionalInaccuracyInDegrees, directionalInaccuracyInDegrees);
 		Vector2 targetVector2 = new Vector2(targetVector.x, targetVector.y);
 		targetVector2.rotate(inaccuracy);
-		AgentBullet bullet = new AgentBullet(position, new Vector3(), new Vector3(targetVector2.x, targetVector2.y , 0));
+		HurtyThingBullet bullet = new HurtyThingBullet(position, new Vector3(), new Vector3(targetVector2.x, targetVector2.y , 0));
 		state.addBullet(bullet);
 		bullets.add(bullet);
 	}
