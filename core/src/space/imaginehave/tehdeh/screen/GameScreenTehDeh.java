@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -42,6 +43,7 @@ public class GameScreenTehDeh implements Screen {
 		viewport = new StretchViewport(Constant.GAME_WIDTH, Constant.GAME_HEIGHT, camera);
 
 		stage = new Stage();
+
 		stage.setViewport(viewport);
 
 		InputMultiplexer im = new InputMultiplexer();
@@ -58,10 +60,11 @@ public class GameScreenTehDeh implements Screen {
 		game.getState().createAgents();
 		
 		game.getState().createWalls();
+		
 	}
 
 	private void createUI() {
-		HUD hud = new HUD(skin, viewport, game);
+		HUD hud = new HUD(viewport, game);
 		stage.addActor(hud.getHud());
 	}
 
@@ -72,7 +75,6 @@ public class GameScreenTehDeh implements Screen {
 
 	@Override
 	public void render(float delta) {
-
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.6f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		

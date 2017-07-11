@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
+import space.imaginehave.tehdeh.Constant;
+
 
 public class HUDButton extends ImageButton {
 
@@ -13,7 +15,7 @@ public class HUDButton extends ImageButton {
 		super(drawable);
 	}
 
-	public void setTexture(Texture texture) {
+	public void setMouseFollowTexture(Texture texture) {
 		this.texture = texture;
 	}
 

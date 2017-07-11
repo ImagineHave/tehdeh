@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -24,19 +23,49 @@ public class HUD {
 	private Table hud;
 	private final float hudWidth;
 
-	public HUD (Skin skin, Viewport viewport, final TehDehGame game) {
-		skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
+	public HUD (Viewport viewport, final TehDehGame game) {
+		Skin skin = new Skin(Gdx.files.internal("skin/plain-james-ui.json"));
 
-		hud = new Table();
+		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG))));
+		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
+		towerButton.setMouseFollowTexture((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG));
+
+		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
+		final HUDButton goalChangeButton = new HUDButton(goalDrawable);
+
+		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_RESET_PNG)));
+		final HUDButton resetButton = new HUDButton(resetDrawable);
+
+		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_MORE_PNG)));
+		final HUDButton moreButton = new HUDButton(moreDrawable);
+
+		hud = new Table(skin);
 		hudWidth = 0.2f;
 		hud.setBounds(Constant.VIEWPORT_WIDTH*(1-hudWidth), 0, Constant.VIEWPORT_HEIGHT*hudWidth, Constant.VIEWPORT_HEIGHT);
 		hud.setDebug(true);
 
-		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG)));
-		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
-		towerButton.setTexture((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG));
-		hud.add(towerButton).left();
+		hud.add(towerButton).size(Constant.BUTTON_SIZE).top().left().fill();
+		
+		hud.add(goalChangeButton).size(Constant.BUTTON_SIZE).top().left().fill();
 		hud.row();
+
+		hud.add(resetButton).size(Constant.BUTTON_SIZE).top().left().fill();
+		
+		hud.add(moreButton).size(Constant.BUTTON_SIZE).top().left().expand().fill();
+		hud.row();
+//		hud.pack();
+
+		addListenersToButtons(game, towerButton, goalChangeButton, resetButton, moreButton);
+	}
+
+	private void addListenersToButtons(final TehDehGame game, final HUDButton towerButton, final HUDButton goalChangeButton,
+			final HUDButton resetButton, final HUDButton moreButton) {
+		
+		resetButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				game.getState().reset();
+			}
+		});
 		
 		towerButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
@@ -46,11 +75,6 @@ public class HUD {
 				} 
 			}
 		});
-		
-		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
-		final HUDButton goalChangeButton = new HUDButton(goalDrawable);
-		hud.add(goalChangeButton).left();
-		hud.row();
 		
 		goalChangeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
@@ -69,23 +93,6 @@ public class HUD {
 				
 			}
 		});
-
-		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_RESET_PNG)));
-		final HUDButton resetButton = new HUDButton(resetDrawable);
-		hud.add(resetButton).left();
-		hud.row();
-		
-		resetButton.addListener(new ChangeListener() {
-			public void changed(ChangeEvent event, Actor actor) {
-				game.getState().reset();
-			}
-		});
-		
-		
-		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_MORE_PNG)));
-		final HUDButton moreButton = new HUDButton(moreDrawable);
-		hud.add(moreButton).left();
-		hud.row();
 		
 		moreButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
