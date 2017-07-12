@@ -23,6 +23,7 @@ public class HurtyThingBullet extends HurtyThingCore {
 		super(position, velocity, goal);
 		this.origin = new Vector2(position.cpy().x, position.cpy().y);
 		texture = state.getAssetManager().get(Constant.TEST_HURTYTHING_PNG);
+		batch = state.getBatch();
 	}
 	
 	@Override
@@ -47,6 +48,19 @@ public class HurtyThingBullet extends HurtyThingCore {
 	
 	public Vector2 getOrigin() {
 		return origin;
+	}
+
+	@Override
+	public void draw() {
+		float rotation = new Vector2(this.getOrigin().x, this.getOrigin().y).angle(new Vector2(this.getGoal().x, this.getGoal().y));
+		batch.draw(
+				this.getTextureRegion(), 
+				this.getPosition().x,
+				this.getPosition().y,
+				0,0,
+				8f,8f,8f,8f,
+				rotation-210);
+		
 	}
 
 }

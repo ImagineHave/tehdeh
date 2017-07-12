@@ -3,6 +3,7 @@ package space.imaginehave.tehdeh.state;
 import java.util.Optional;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -37,6 +38,7 @@ public class GameStateTehDeh implements State {
 	private Viewport viewport;
 	private final TehDehGame game;
 	private Vector2 goal;
+	private Optional<SpriteBatch> batch;
 	
 	public GameStateTehDeh (TehDehGame tehDehGame) {
 		this.game = tehDehGame;
@@ -152,7 +154,6 @@ public class GameStateTehDeh implements State {
 	public void reset() {
 		
 		agentService.reset(this);
-		agentService.placeholderAgentStarter(this);
 		
 	}
 
@@ -166,6 +167,18 @@ public class GameStateTehDeh implements State {
 
 	public TehDehGame getGame() {
 		return game;
+	}
+	
+	public SpriteBatch getBatch() {
+		if (batch.isPresent()) {
+			return this.batch.get();
+		} else {
+			throw new RuntimeException("Batch not initialised");
+		}
+	}
+	
+	public void setBatch(SpriteBatch batch){
+		this.batch = Optional.ofNullable(batch);
 	}
 
 }

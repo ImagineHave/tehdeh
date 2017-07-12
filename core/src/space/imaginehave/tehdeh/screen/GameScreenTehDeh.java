@@ -19,11 +19,12 @@ import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
+import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
 
 public class GameScreenTehDeh implements Screen {
 
-	private final TehDehGame game;
+	private GameStateTehDeh state;
 	private Stage stage;
 	private Skin skin;
 	private InputProcessor processor;
@@ -31,12 +32,13 @@ public class GameScreenTehDeh implements Screen {
 	private TiledMapRenderer tiledMapRenderer;
 	private SpriteBatch	batch;
 
-	public GameScreenTehDeh(final TehDehGame tehDehGame) {
-		game = tehDehGame;
+	public GameScreenTehDeh(final GameStateTehDeh state) {
 		
-		batch = new SpriteBatch();
+		this.state = state;
 		
-		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(game, batch);
+		state.setBatch(new SpriteBatch());
+		
+		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(state);
 		
 		OrthographicCamera camera = new OrthographicCamera();
 		
@@ -47,7 +49,7 @@ public class GameScreenTehDeh implements Screen {
 		stage.setViewport(viewport);
 
 		InputMultiplexer im = new InputMultiplexer();
-		processor = new InputProcessorTehDeh(tehDehGame, camera);
+		processor = new InputProcessorTehDeh(state.getGame(), camera);
 		im.addProcessor(processor);
 		im.addProcessor(stage);
 
@@ -55,16 +57,16 @@ public class GameScreenTehDeh implements Screen {
 		createUI();
 		viewport.apply();
 		
-		game.getState().setViewport(viewport);
+		state.setViewport(viewport);
 		
-		game.getState().createAgents();
+		state.createAgents();
 		
-		game.getState().createWalls();
+		state.createWalls();
 		
 	}
 
 	private void createUI() {
-		HUD hud = new HUD(viewport, game);
+		HUD hud = new HUD(viewport, state);
 		stage.addActor(hud.getHud());
 	}
 
@@ -84,16 +86,16 @@ public class GameScreenTehDeh implements Screen {
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
 		
-		batch.begin();
-		if (game.getState().getPlacementTexture().isPresent()) {
-			Texture placementTexture = game.getState().getPlacementTexture().get();
-			batch.draw(
+		state.getBatch().begin();
+		if (state.getPlacementTexture().isPresent()) {
+			Texture placementTexture = state.getPlacementTexture().get();
+			state.getBatch().draw(
 					placementTexture, 
-					game.getState().getMouseCoords().x - placementTexture.getWidth()/2, 
-					game.getState().getMouseCoords().y - placementTexture.getHeight()/2
+					state.getMouseCoords().x - placementTexture.getWidth()/2, 
+					state.getMouseCoords().y - placementTexture.getHeight()/2
 					);
 		}
-		batch.end();
+		state.getBatch().end();
 
         
 	}

@@ -14,13 +14,12 @@ public class TehDehGame extends Game {
 	public void create() {
 		
 		state = new GameStateTehDeh(this);
-		this.setScreen(new GameScreenTehDeh(this));
+		this.setScreen(new GameScreenTehDeh(state));
 	}
 	
 
 	@Override
 	public void render() {
-
 		super.render();
 	}
 

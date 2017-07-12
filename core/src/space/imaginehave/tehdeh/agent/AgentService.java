@@ -1,5 +1,6 @@
 package space.imaginehave.tehdeh.agent;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -24,15 +25,15 @@ public class AgentService {
 	}
 	
 	
-	public void createAgentsOfType(GameStateTehDeh state, int count, SearchType searchType) {
+	public void createAgentsOfType(GameStateTehDeh state, 
+			int count, 
+			SearchType searchType) {
 		for(int i = 0; i < count; i++) {
 			createAddAgentToPopulation(state, searchType);
 		}
 	}
 	
-	public void createAddAgentToPopulation(GameStateTehDeh state,
-			SearchType searchType
-			) {
+	public void createAddAgentToPopulation(GameStateTehDeh state, SearchType searchType) {
 		
 		switch (searchType) {
 			case BOID : 
@@ -55,6 +56,8 @@ public class AgentService {
 			state.getAgentLayer().getObjects().remove(moa);
 		}
 		
+		this.placeholderAgentStarter(state);
+		
 	}
 	
 	public void resetGoals(GameStateTehDeh state) {
@@ -67,15 +70,15 @@ public class AgentService {
 	}
 	
 	private AgentBoid createAgentBoid(GameStateTehDeh state) {
-		return new AgentBoid(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state.getGoal(), state);
+		return new AgentBoid(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state);
 	}
 	
 	private AgentAStar createAgentAStar(GameStateTehDeh state) {
-		return new AgentAStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state.getGoal(), state);
+		return new AgentAStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state);
 	}
 	
 	private AgentThetaStar createAgentThetaStar(GameStateTehDeh state) {
-		return new AgentThetaStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state.getGoal(), state);
+		return new AgentThetaStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state);
 	}
 	
 }

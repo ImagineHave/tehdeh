@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 
@@ -14,6 +15,7 @@ public abstract class AgentMapObject extends MapObject {
 	Vector2 position;
 	Vector2 velocity;
 	Vector2 goal;
+	SpriteBatch batch;
 	List<Vector2> velocityPath;
 	List<Vector2> positionPath;
 	
@@ -61,4 +63,10 @@ public abstract class AgentMapObject extends MapObject {
 	public String toString() {
 		return ""+this.getClass();
 	}
+
+	public SpriteBatch getBatch() {
+		return batch;
+	}
+
+	public abstract void draw();
 }

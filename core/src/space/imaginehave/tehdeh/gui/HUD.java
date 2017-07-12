@@ -17,24 +17,25 @@ import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.button.HUDButton;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
+import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class HUD {
 
 	private Table hud;
 
-	public HUD (Viewport viewport, final TehDehGame game) {
+	public HUD (Viewport viewport, final GameStateTehDeh state) {
 
-		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG))));
+		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) state.getAssetManager().get(Constant.TEST_TOWER_PNG))));
 		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
-		towerButton.setMouseFollowTexture((Texture) game.getState().getAssetManager().get(Constant.TEST_TOWER_PNG));
+		towerButton.setMouseFollowTexture((Texture) state.getAssetManager().get(Constant.TEST_TOWER_PNG));
 
-		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
+		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) state.getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
 		final HUDButton goalChangeButton = new HUDButton(goalDrawable);
 
-		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_RESET_PNG)));
+		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion((Texture) state.getAssetManager().get(Constant.BUTTON_RESET_PNG)));
 		final HUDButton resetButton = new HUDButton(resetDrawable);
 
-		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) game.getState().getAssetManager().get(Constant.BUTTON_MORE_PNG)));
+		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) state.getAssetManager().get(Constant.BUTTON_MORE_PNG)));
 		final HUDButton moreButton = new HUDButton(moreDrawable);
 
 		hud = new Table();
@@ -56,48 +57,48 @@ public class HUD {
 		hud.pack();
 		hud.setPosition(Constant.VIEWPORT_WIDTH-hud.getWidth(), Constant.VIEWPORT_HEIGHT-hud.getHeight());
 
-		addListenersToButtons(game, towerButton, goalChangeButton, resetButton, moreButton);
+		addListenersToButtons(state, towerButton, goalChangeButton, resetButton, moreButton);
 	}
 
-	private void addListenersToButtons(final TehDehGame game, final HUDButton towerButton, final HUDButton goalChangeButton,
+	private void addListenersToButtons(final GameStateTehDeh state, final HUDButton towerButton, final HUDButton goalChangeButton,
 			final HUDButton resetButton, final HUDButton moreButton) {
 		
 		resetButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				game.getState().reset();
+				state.reset();
 			}
 		});
 		
 		towerButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				if(!game.getState().getPlacementTexture().isPresent()) {
-					game.getState().setPlacementTexture(towerButton.getTexture());
-					game.getState().setMouseCoords(game.getState().getMouseCoords());	
+				if(!state.getPlacementTexture().isPresent()) {
+					state.setPlacementTexture(towerButton.getTexture());
+					state.setMouseCoords(state.getMouseCoords());	
 				} 
 			}
 		});
 		
 		goalChangeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				Vector2 vector = game.getState().getGoal();
+				Vector2 vector = state.getGoal();
 				
-				game.getState().getLayerService().removeFromOverlay(
-						game.getState().getLayerService().getFromOverlay(vector, game.getState().getOverlay()),
-						game.getState().getOverlay());
+				state.getLayerService().removeFromOverlay(
+						state.getLayerService().getFromOverlay(vector, state.getOverlay()),
+						state.getOverlay());
 				
-				game.getState().setGoal(Util.getRandomPosition());
+				state.setGoal(Util.getRandomPosition());
 				
-				game.getState().getLayerService().addToOverlay(
-						new GoalOverlayMapObject(game.getState()),
-						game.getState().getOverlay(), 
-						game.getState());
+				state.getLayerService().addToOverlay(
+						new GoalOverlayMapObject(state),
+						state.getOverlay(), 
+						state);
 				
 			}
 		});
 		
 		moreButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				game.getState().createAgents();
+				state.createAgents();
 			}
 		});
 	}
