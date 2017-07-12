@@ -52,11 +52,11 @@ public class InputProcessorTehDeh implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if(game.getState().getPlacementTexture().isPresent()) {
+		if(game.getState().getMouse().getPlacementTexture().isPresent()) {
 			if (game.getScreen() instanceof GameScreenTehDeh) {
 				Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
 				
-				TowerMapObject towerMapObject = new TowerMapObject(vector, game.getState(), game.getState().getPlacementTexture().get());
+				TowerMapObject towerMapObject = new TowerMapObject(vector, game.getState(), game.getState().getMouse().getPlacementTexture().get());
 				
 				game.getState().getLayerService().addTower(
 						towerMapObject, 
@@ -64,7 +64,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 						game.getState().getAgentLayer(), 
 						game.getState());
 				
-				game.getState().setPlacementTexture(null);
+				game.getState().getMouse().setPlacementTexture(null);
 				return true;
 			}
 		}
@@ -80,7 +80,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
-		game.getState().setMouseCoords(vector);
+		game.getState().getMouse().setMouseCoords(vector);
 		return false;
 	}
 

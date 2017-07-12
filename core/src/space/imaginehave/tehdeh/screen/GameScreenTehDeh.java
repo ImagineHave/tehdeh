@@ -30,7 +30,6 @@ public class GameScreenTehDeh implements Screen {
 	private InputProcessor processor;
 	private Viewport viewport;
 	private TiledMapRenderer tiledMapRenderer;
-	private SpriteBatch	batch;
 
 	public GameScreenTehDeh(final GameStateTehDeh state) {
 		
@@ -86,18 +85,8 @@ public class GameScreenTehDeh implements Screen {
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
 		
-		state.getBatch().begin();
-		if (state.getPlacementTexture().isPresent()) {
-			Texture placementTexture = state.getPlacementTexture().get();
-			state.getBatch().draw(
-					placementTexture, 
-					state.getMouseCoords().x - placementTexture.getWidth()/2, 
-					state.getMouseCoords().y - placementTexture.getHeight()/2
-					);
-		}
-		state.getBatch().end();
-
-        
+		state.getMouse().render();
+	    
 	}
 
 	@Override

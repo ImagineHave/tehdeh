@@ -16,6 +16,7 @@ import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.agent.AgentService;
 import space.imaginehave.tehdeh.daemon.DaemonMapObject;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
+import space.imaginehave.tehdeh.inputprocessor.Mouse;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 import space.imaginehave.tehdeh.overlay.OverlayMapObject;
@@ -27,8 +28,6 @@ import space.imaginehave.tehdeh.tower.TowerMapObject;
 public class GameStateTehDeh implements State {
 	
 	private AssetManager assetManager;
-	private Optional<Texture> placementTexture;
-	private Vector2 mouseVector;
 	private final TiledMapTileLayer towerLayer;
 	private final TiledMapTileLayer overlay;
 	private final MapLayer agentLayer;
@@ -39,6 +38,7 @@ public class GameStateTehDeh implements State {
 	private final TehDehGame game;
 	private Vector2 goal;
 	private Optional<SpriteBatch> batch;
+	private Mouse mouse;
 	
 	public GameStateTehDeh (TehDehGame tehDehGame) {
 		this.game = tehDehGame;
@@ -55,8 +55,8 @@ public class GameStateTehDeh implements State {
 		getAssetManager().load(Constant.TEST_HURTYTHING_PNG, Texture.class);
 		getAssetManager().finishLoading();
 		
-		placementTexture = Optional.empty();
-		mouseVector = new Vector2(0,0);
+		mouse = new Mouse(this);
+		
 		agentService = new AgentService();
 		
 		tiledMap = new TmxMapLoader().load(Constant.TMX);
@@ -78,22 +78,6 @@ public class GameStateTehDeh implements State {
 
 	private AssetManager createAssetManager() {
 		return assetManager = new AssetManager();
-	}
-	
-	public Optional<Texture> getPlacementTexture(){
-		return placementTexture;
-	}
-	
-	public void setPlacementTexture(Texture texture){
-		this.placementTexture = Optional.ofNullable(texture);
-	}
-	
-	public void setMouseCoords(Vector2 vector){
-		this.mouseVector = vector;
-	}
-
-	public Vector2 getMouseCoords(){
-		return mouseVector;
 	}
 
 	public TiledMap getTiledMap() {
@@ -179,6 +163,10 @@ public class GameStateTehDeh implements State {
 	
 	public void setBatch(SpriteBatch batch){
 		this.batch = Optional.ofNullable(batch);
+	}
+	
+	public Mouse getMouse(){
+		return this.mouse;
 	}
 
 }

@@ -71,9 +71,9 @@ public class HUD {
 		
 		towerButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				if(!state.getPlacementTexture().isPresent()) {
-					state.setPlacementTexture(towerButton.getTexture());
-					state.setMouseCoords(state.getMouseCoords());	
+				if(!state.getMouse().getPlacementTexture().isPresent()) {
+					state.getMouse().setPlacementTexture(towerButton.getTexture());
+					state.getMouse().setMouseCoords(state.getMouse().getMouseCoords());	
 				} 
 			}
 		});
