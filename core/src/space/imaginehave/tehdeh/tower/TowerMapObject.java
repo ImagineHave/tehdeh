@@ -12,7 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.agent.AgentAStar;
@@ -28,10 +28,10 @@ public class TowerMapObject extends MapObject {
 	int directionalInaccuracyInDegrees = 15;
 	private GameStateTehDeh state;
 	private List<HurtyThingBullet> bullets = new ArrayList<HurtyThingBullet>();
-	private Vector3 position;
+	private Vector2 position;
 	private TowerCell towerCell;
 
-	public TowerMapObject (Vector3 position, GameStateTehDeh state, Texture texture) {
+	public TowerMapObject (Vector2 position, GameStateTehDeh state, Texture texture) {
 		this.position = position;
 		this.state = state;
 		this.towerCell = new TowerCell(texture);
@@ -76,11 +76,11 @@ public class TowerMapObject extends MapObject {
 	}
 
 	private void fireBullet(AgentCore agent) {
-		Vector3 targetVector = agent.getPosition().cpy().sub(position.cpy());
+		Vector2 targetVector = agent.getPosition().cpy().sub(position.cpy());
 		int inaccuracy = MathUtils.random(-directionalInaccuracyInDegrees, directionalInaccuracyInDegrees);
 		Vector2 targetVector2 = new Vector2(targetVector.x, targetVector.y);
 		targetVector2.rotate(inaccuracy);
-		HurtyThingBullet bullet = new HurtyThingBullet(position, new Vector3(), new Vector3(targetVector2.x, targetVector2.y , 0), state);
+		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy(), new Vector2(), new Vector2(targetVector2.x, targetVector2.y), state);
 		state.addBullet(bullet);
 		bullets.add(bullet);
 	}
@@ -89,7 +89,7 @@ public class TowerMapObject extends MapObject {
 		return range;
 	}
 	
-	public Vector3 getPosition() {
+	public Vector2 getPosition() {
 		return this.position;
 	}
 
@@ -99,6 +99,6 @@ public class TowerMapObject extends MapObject {
 
 	@Override
 	public String toString() {
-		return ""+this.getClass();
+		return this.getClass() + "p" + position.x + ":" + position.y;
 	}
 }

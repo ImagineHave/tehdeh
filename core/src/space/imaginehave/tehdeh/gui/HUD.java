@@ -3,7 +3,7 @@ package space.imaginehave.tehdeh.gui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -79,7 +79,7 @@ public class HUD {
 		
 		goalChangeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				Vector3 vector = game.getState().getGoal();
+				Vector2 vector = game.getState().getGoal();
 				
 				game.getState().getLayerService().removeFromOverlay(
 						game.getState().getLayerService().getFromOverlay(vector, game.getState().getOverlay()),

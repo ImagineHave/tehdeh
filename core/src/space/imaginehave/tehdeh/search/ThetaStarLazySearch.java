@@ -2,7 +2,7 @@ package space.imaginehave.tehdeh.search;
 import java.util.*;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
@@ -26,7 +26,7 @@ public class ThetaStarLazySearch extends Search {
     found. 
 	 * @param agent 
   */
-  public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, AgentCore agent) {
+  public List<Vector2> findPath(AStarNode startNode, AStarNode goalNode, AgentCore agent) {
  
 	openList = new PriorityQueue<AStarNode>();
     closedList = new HashSet<AStarNode>();
@@ -109,14 +109,14 @@ public class ThetaStarLazySearch extends Search {
   /**
     Construct the path, not including the start node.
   */
-  protected List<Vector3> constructPath(AStarNode node, AgentCore agent) {
-    LinkedList<Vector3> path = new LinkedList<Vector3>();
+  protected List<Vector2> constructPath(AStarNode node, AgentCore agent) {
+    LinkedList<Vector2> path = new LinkedList<Vector2>();
     while (node.pathParent != node) {
     	float nodeXPixels = node.x*state.getTowerLayer().getTileWidth();
 		float nodeYPixels = node.y*state.getTowerLayer().getTileHeight();
 		float nodeParentXPixels = node.pathParent.x*state.getTowerLayer().getTileWidth();
 		float nodeParentYPixels = node.pathParent.y*state.getTowerLayer().getTileHeight();
-		path.addLast(new Vector3(nodeXPixels, nodeYPixels, 0));
+		path.addLast(new Vector2(nodeXPixels, nodeYPixels));
 		
 		float difX = nodeXPixels - nodeParentXPixels;
 		float difY = nodeYPixels - nodeParentYPixels;
@@ -129,7 +129,7 @@ public class ThetaStarLazySearch extends Search {
     		difY = nodeYPixels-firstY;
     		distanceBetweenNodes = Math.hypot(difX, difY);
     	}
-      Vector3 diffVector = new Vector3(difX, difY,0);
+      Vector2 diffVector = new Vector2(difX, difY);
       diffVector.setLength(agent.getSpeed());
       while(distanceBetweenNodes - agent.getSpeed() > agent.getSpeed()) {
     	  path.addLast(path.get(path.size()-1).cpy().sub(diffVector.cpy()));
@@ -144,7 +144,7 @@ public class ThetaStarLazySearch extends Search {
   public void calculatePathsForAgent(AgentCore agent) {
 		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), tiledMapTileLayer);
 		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), tiledMapTileLayer);
-		List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
+		List<Vector2> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
 		agent.getPostionPath().clear();
 		agent.getPostionPath().addAll(aStarPath);
   }

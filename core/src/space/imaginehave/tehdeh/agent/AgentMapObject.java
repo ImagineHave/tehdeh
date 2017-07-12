@@ -5,45 +5,45 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 
 public abstract class AgentMapObject extends MapObject {
 	
 	Texture texture;
-	Vector3 position;
-	Vector3 velocity;
-	Vector3 goal;
-	List<Vector3> velocityPath;
-	List<Vector3> positionPath;
+	Vector2 position;
+	Vector2 velocity;
+	Vector2 goal;
+	List<Vector2> velocityPath;
+	List<Vector2> positionPath;
 	
-	public AgentMapObject(Vector3 position, Vector3 velocity, Vector3 goal) {
+	public AgentMapObject(Vector2 position, Vector2 velocity, Vector2 goal) {
 		
 		this.position = position;
 		this.velocity = velocity;
 		this.goal = goal;
 		
-		this.positionPath = new ArrayList<Vector3>();
-		this.velocityPath = new ArrayList<Vector3>();
+		this.positionPath = new ArrayList<Vector2>();
+		this.velocityPath = new ArrayList<Vector2>();
 	}
 	
-	public Vector3 getPosition() {
+	public Vector2 getPosition() {
 		return position;
 	}
 
-	public Vector3 getVelocity() {
+	public Vector2 getVelocity() {
 		return velocity;
 	}
 
-	public Vector3 getGoal() {
+	public Vector2 getGoal() {
 		return goal;
 	}
 
-	public List<Vector3> getPostionPath() {
+	public List<Vector2> getPostionPath() {
 		return positionPath;
 	}
 
-	public List<Vector3> getVelocityPath() {
+	public List<Vector2> getVelocityPath() {
 		return velocityPath;
 	}
 	

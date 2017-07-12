@@ -3,7 +3,7 @@ package space.imaginehave.tehdeh.layer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
@@ -34,7 +34,7 @@ public class LayerService {
 	 * @param vector
 	 * @return
 	 */
-	public OverlayMapObject getFromOverlay(Vector3 vector, TiledMapTileLayer layer) {
+	public OverlayMapObject getFromOverlay(Vector2 vector, TiledMapTileLayer layer) {
 		
 		Array<OverlayMapObject> overlayObjects = layer.getObjects().getByType(OverlayMapObject.class);
 		OverlayMapObject omo = null;
@@ -68,7 +68,7 @@ public class LayerService {
 		}
 	}
 	
-	public TowerMapObject getTower(Vector3 vector, MapLayer layer) {
+	public TowerMapObject getTower(Vector2 vector, MapLayer layer) {
 		
 		Array<TowerMapObject> towers = layer.getObjects().getByType(TowerMapObject.class);
 		TowerMapObject tmo = null;

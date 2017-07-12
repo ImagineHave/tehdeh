@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.Constant;
@@ -27,7 +27,7 @@ public class GameStateTehDeh implements State {
 	
 	private AssetManager assetManager;
 	private Optional<Texture> placementTexture;
-	private Vector3 mouseVector;
+	private Vector2 mouseVector;
 	private final TiledMapTileLayer towerLayer;
 	private final TiledMapTileLayer overlay;
 	private final MapLayer agentLayer;
@@ -36,7 +36,7 @@ public class GameStateTehDeh implements State {
 	private final LayerService layerService;
 	private Viewport viewport;
 	private final TehDehGame game;
-	private Vector3 goal;
+	private Vector2 goal;
 	
 	public GameStateTehDeh (TehDehGame tehDehGame) {
 		this.game = tehDehGame;
@@ -54,7 +54,7 @@ public class GameStateTehDeh implements State {
 		getAssetManager().finishLoading();
 		
 		placementTexture = Optional.empty();
-		mouseVector = new Vector3(0,0,0);
+		mouseVector = new Vector2(0,0);
 		agentService = new AgentService();
 		
 		tiledMap = new TmxMapLoader().load(Constant.TMX);
@@ -64,7 +64,7 @@ public class GameStateTehDeh implements State {
 		agentLayer = layerService.fetchAgentLayer(tiledMap);
 		overlay = layerService.fetchOverlay(tiledMap);
 		
-		goal = new Vector3(Constant.GAME_WIDTH/2,32,0);
+		goal = new Vector2(Constant.GAME_WIDTH/2,32);
 		
 		
 		layerService.addToOverlay(new GoalOverlayMapObject(this), 
@@ -86,11 +86,11 @@ public class GameStateTehDeh implements State {
 		this.placementTexture = Optional.ofNullable(texture);
 	}
 	
-	public void setMouseCoords(Vector3 vector){
+	public void setMouseCoords(Vector2 vector){
 		this.mouseVector = vector;
 	}
 
-	public Vector3 getMouseCoords(){
+	public Vector2 getMouseCoords(){
 		return mouseVector;
 	}
 
@@ -114,7 +114,7 @@ public class GameStateTehDeh implements State {
 		
 		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
 			if( i % 128 != 0){
-				TowerMapObject tmo = new TowerMapObject(new Vector3(i,Constant.GAME_HEIGHT/2,0), this, (Texture) getAssetManager().get(Constant.TEST_TOWER_PNG));
+				TowerMapObject tmo = new TowerMapObject(new Vector2(i,Constant.GAME_HEIGHT/2), this, (Texture) getAssetManager().get(Constant.TEST_TOWER_PNG));
 				layerService.addTower(tmo,
 						towerLayer,
 						agentLayer,
@@ -128,11 +128,11 @@ public class GameStateTehDeh implements State {
 		agentService.placeholderAgentStarter(this);
 	}
 	
-	public Vector3 getGoal() {
+	public Vector2 getGoal() {
 		return goal;
 	}
 	
-	public void setGoal(Vector3 position) {
+	public void setGoal(Vector2 position) {
 		goal = position;
 	}
 

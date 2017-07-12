@@ -3,7 +3,7 @@ package space.imaginehave.tehdeh.search;
 import java.util.ArrayList;
 import java.util.List;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 public class AStarNode implements Comparable<AStarNode> {
 	
@@ -23,7 +23,7 @@ public class AStarNode implements Comparable<AStarNode> {
 		this.y = y;
 	}
 	
-	public AStarNode(Vector3 position, TiledMapTileLayer tiledMapTileLayer) {
+	public AStarNode(Vector2 position, TiledMapTileLayer tiledMapTileLayer) {
 		this.tiledMapTileLayer = tiledMapTileLayer;
 		this.x = (int) (position.x /tiledMapTileLayer.getTileWidth());
 		this.y = (int) (position.y / tiledMapTileLayer.getTileHeight());

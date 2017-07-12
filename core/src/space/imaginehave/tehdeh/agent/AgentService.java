@@ -1,6 +1,6 @@
 package space.imaginehave.tehdeh.agent;
 
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
@@ -67,15 +67,15 @@ public class AgentService {
 	}
 	
 	private AgentBoid createAgentBoid(GameStateTehDeh state) {
-		return new AgentBoid(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector3(0,0,0), state.getGoal(), state);
+		return new AgentBoid(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state.getGoal(), state);
 	}
 	
 	private AgentAStar createAgentAStar(GameStateTehDeh state) {
-		return new AgentAStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector3(0,0,0), state.getGoal(), state);
+		return new AgentAStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state.getGoal(), state);
 	}
 	
 	private AgentThetaStar createAgentThetaStar(GameStateTehDeh state) {
-		return new AgentThetaStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector3(0,0,0), state.getGoal(), state);
+		return new AgentThetaStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state.getGoal(), state);
 	}
 	
 }

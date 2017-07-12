@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.agent.AgentBoid;
@@ -26,7 +26,7 @@ public class AStarSearch extends Search {
     of AStarNodes is returned, or null if the path is not
     found. 
   */
-  public List<Vector3> findPath(AStarNode startNode, AStarNode goalNode, AgentCore agent) {
+  public List<Vector2> findPath(AStarNode startNode, AStarNode goalNode, AgentCore agent) {
 
     PriorityQueue<AStarNode> openList = new PriorityQueue<AStarNode>();
     LinkedList<AStarNode> closedList = new LinkedList<AStarNode>();
@@ -87,7 +87,7 @@ public class AStarSearch extends Search {
   /**
     Construct the path, not including the start node.
   */
-  protected List<Vector3> constructPath(AStarNode node, AgentCore agent) {
+  protected List<Vector2> constructPath(AStarNode node, AgentCore agent) {
 	  AStarNode a = node;
 	  //Smooth Path
 	  while(a.pathParent!=null){
@@ -99,13 +99,13 @@ public class AStarSearch extends Search {
 	
 	}
 	  
-    LinkedList<Vector3> path = new LinkedList<Vector3>();
+    LinkedList<Vector2> path = new LinkedList<Vector2>();
     while (node.pathParent != null) {
     	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
     	float nodeXPixels = node.x*state.getTowerLayer().getTileWidth();
 		float nodeYPixels = node.y*state.getTowerLayer().getTileHeight();
 		
-		path.addLast(new Vector3(nodeXPixels, nodeYPixels, 0));
+		path.addLast(new Vector2(nodeXPixels, nodeYPixels));
     	float difX = nodeXPixels - node.pathParent.x*tiledMapTileLayer.getTileWidth();
     	float difY = nodeYPixels - node.pathParent.y*tiledMapTileLayer.getTileHeight();
 
@@ -116,7 +116,7 @@ public class AStarSearch extends Search {
     		difY = nodeYPixels-firstY;
     		distanceBetweenNodes = Math.hypot(difX, difY);
     	}
-      Vector3 diffVector = new Vector3(difX, difY,0);
+      Vector2 diffVector = new Vector2(difX, difY);
       diffVector.setLength(agent.getSpeed());
       while(distanceBetweenNodes - agent.getSpeed() > agent.getSpeed()) {
     	  path.addLast(path.get(path.size()-1).cpy().sub(diffVector));
@@ -143,7 +143,7 @@ public class AStarSearch extends Search {
 	
 	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), state.getTowerLayer());
 	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), state.getTowerLayer());
-	List<Vector3> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
+	List<Vector2> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
 	agent.getPostionPath().clear();
 	agent.getPostionPath().addAll(aStarPath);
 }

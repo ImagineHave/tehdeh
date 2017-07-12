@@ -2,9 +2,11 @@ package space.imaginehave.tehdeh.inputprocessor;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import space.imaginehave.tehdeh.TehDehGame;
+import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
@@ -39,7 +41,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 //		if(!game.getState().getPlacementTexture().isPresent()) {
-//			Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
+//			Vector2 vector = camera.unproject(new Vector2(screenX, screenY, 0));
 //			for(MapObject a : game.getState().getAgentLayer().getObjects()) {
 //				((Agent)a).setGoal(vector);
 //			}
@@ -52,7 +54,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(game.getState().getPlacementTexture().isPresent()) {
 			if (game.getScreen() instanceof GameScreenTehDeh) {
-				Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
+				Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
 				
 				TowerMapObject towerMapObject = new TowerMapObject(vector, game.getState(), game.getState().getPlacementTexture().get());
 				
@@ -77,7 +79,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		Vector3 vector = camera.unproject(new Vector3(screenX, screenY, 0));
+		Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
 		game.getState().setMouseCoords(vector);
 		return false;
 	}

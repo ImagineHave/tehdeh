@@ -1,6 +1,6 @@
 package space.imaginehave.tehdeh;
 
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 public class Constant {
 
@@ -32,7 +32,7 @@ public class Constant {
 	public static final String OVERLAY = "overlay";
 	
 	
-	public static final Vector3 VIEWPORT_BOTTOM_LEFT = new Vector3(0,0,0);
-	public static final Vector3 VIEWPORT_TOP_RIGHT = new Vector3(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 0);
+	public static final Vector2 VIEWPORT_BOTTOM_LEFT = new Vector2(0,0);
+	public static final Vector2 VIEWPORT_TOP_RIGHT = new Vector2(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 	
 }
