@@ -13,8 +13,12 @@ import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer {
 
+	private GameStateTehDeh state;
+
+
 	public OrthogonalTiledMapRendererTehDeh(final GameStateTehDeh state) {
 		super(state.getTiledMap(), state.getBatch());
+		this.state = state;
 	}
 	
 	
@@ -39,7 +43,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 		else if (object instanceof AgentCore) {
 			AgentMapObject agent = ((AgentMapObject) object);
 			agent.update();
-			agent.draw();
+			agent.draw(state.getBatch());
 		}	
 		else if (object instanceof DaemonMapObject) {
 			DaemonMapObject daemon = ((DaemonMapObject) object);

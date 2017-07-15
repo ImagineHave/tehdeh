@@ -14,11 +14,10 @@ public class AgentThetaStar extends AgentCore {
 		super(postion, velocity, state.getGoal());
 		search = new ThetaStarLazySearch(state);
 		texture = (Texture) state.getAssetManager().get(Constant.TSTAR_AGENT_PNG);
-		this.batch = state.getBatch();
 	}
 	
 	@Override
-	public void draw() {
+	public void draw(SpriteBatch batch) {
 		batch.draw(
 				texture, 
 				position.x,

@@ -15,7 +15,6 @@ public abstract class AgentMapObject extends MapObject {
 	Vector2 position;
 	Vector2 velocity;
 	Vector2 goal;
-	SpriteBatch batch;
 	List<Vector2> velocityPath;
 	List<Vector2> positionPath;
 	
@@ -64,9 +63,5 @@ public abstract class AgentMapObject extends MapObject {
 		return ""+this.getClass();
 	}
 
-	public SpriteBatch getBatch() {
-		return batch;
-	}
-
-	public abstract void draw();
+	public abstract void draw(SpriteBatch batch);
 }
