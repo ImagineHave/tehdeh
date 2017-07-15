@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.Constant;
-import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
@@ -30,14 +29,15 @@ public class GameScreenTehDeh implements Screen {
 	private InputProcessor processor;
 	private Viewport viewport;
 	private TiledMapRenderer tiledMapRenderer;
+	private SpriteBatch batch;
 
 	public GameScreenTehDeh(final GameStateTehDeh state) {
 		
 		this.state = state;
 		
-		state.setBatch(new SpriteBatch());
+		batch = new SpriteBatch();
 		
-		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(state);
+		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(this);
 		
 		OrthographicCamera camera = new OrthographicCamera();
 		
@@ -84,9 +84,18 @@ public class GameScreenTehDeh implements Screen {
 		
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
-		
-		state.getMouse().render();
+		batch.begin();
+		state.getMouse().render(batch);
+		batch.end();
 	    
+	}
+	
+	public GameStateTehDeh getState() {
+		return state;
+	}
+	
+	public SpriteBatch getBatch() {
+		return batch;
 	}
 
 	@Override

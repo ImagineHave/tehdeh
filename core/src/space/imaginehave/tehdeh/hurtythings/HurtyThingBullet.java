@@ -2,6 +2,7 @@ package space.imaginehave.tehdeh.hurtythings;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +14,8 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class HurtyThingBullet extends HurtyThingCore {
 
+	private static final float height = 32f;
+	private static final float width = 32f;
 	private int lifeTime = 2;
 	private int speed = 3;
 	private float lifeTimer;
@@ -21,9 +24,8 @@ public class HurtyThingBullet extends HurtyThingCore {
 	
 	public HurtyThingBullet(Vector2 position, Vector2 velocity, Vector2 goal, GameStateTehDeh state) {
 		super(position, velocity, goal);
-		this.origin = new Vector2(position.cpy().x, position.cpy().y);
+		this.origin = position;
 		texture = state.getAssetManager().get(Constant.TEST_HURTYTHING_PNG);
-		batch = state.getBatch();
 	}
 	
 	@Override
@@ -51,14 +53,14 @@ public class HurtyThingBullet extends HurtyThingCore {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(SpriteBatch batch) {
 		float rotation = new Vector2(this.getOrigin().x, this.getOrigin().y).angle(new Vector2(this.getGoal().x, this.getGoal().y));
 		batch.draw(
 				this.getTextureRegion(), 
 				this.getPosition().x,
 				this.getPosition().y,
 				0,0,
-				8f,8f,8f,8f,
+				width,height,1f,1f,
 				rotation-210);
 		
 	}

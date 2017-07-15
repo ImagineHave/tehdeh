@@ -37,7 +37,6 @@ public class GameStateTehDeh implements State {
 	private Viewport viewport;
 	private final TehDehGame game;
 	private Vector2 goal;
-	private Optional<SpriteBatch> batch;
 	private Mouse mouse;
 	
 	public GameStateTehDeh (TehDehGame tehDehGame) {
@@ -55,7 +54,7 @@ public class GameStateTehDeh implements State {
 		getAssetManager().load(Constant.TEST_HURTYTHING_PNG, Texture.class);
 		getAssetManager().finishLoading();
 		
-		mouse = new Mouse(this);
+		mouse = new Mouse();
 		
 		agentService = new AgentService();
 		
@@ -151,18 +150,6 @@ public class GameStateTehDeh implements State {
 
 	public TehDehGame getGame() {
 		return game;
-	}
-	
-	public SpriteBatch getBatch() {
-		if (batch.isPresent()) {
-			return this.batch.get();
-		} else {
-			throw new RuntimeException("Batch not initialised");
-		}
-	}
-	
-	public void setBatch(SpriteBatch batch){
-		this.batch = Optional.ofNullable(batch);
 	}
 	
 	public Mouse getMouse(){

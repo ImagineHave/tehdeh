@@ -8,7 +8,6 @@ public abstract class HurtyThingCore extends HurtyThingMapObject {
 	protected Vector2 position;
 	protected Vector2 velocity;
 	protected Vector2 goal;
-	protected SpriteBatch batch;
 	
 	public HurtyThingCore(Vector2 position, Vector2 velocity, Vector2 goal) {
 		this.position = position;
@@ -44,5 +43,5 @@ public abstract class HurtyThingCore extends HurtyThingMapObject {
 	
 	public abstract void update();
 
-	public abstract void draw();
+	public abstract void draw(SpriteBatch batch);
 }
