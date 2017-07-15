@@ -6,10 +6,14 @@ import java.util.List;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
 
 public abstract class AgentMapObject extends MapObject {
+	
+	protected static final float height = 16f;
+	protected static final float width = 16;
 	
 	Texture texture;
 	Vector2 position;
@@ -17,6 +21,7 @@ public abstract class AgentMapObject extends MapObject {
 	Vector2 goal;
 	List<Vector2> velocityPath;
 	List<Vector2> positionPath;
+	Polygon polygon;
 	
 	public AgentMapObject(Vector2 position, Vector2 velocity, Vector2 goal) {
 		
@@ -26,6 +31,7 @@ public abstract class AgentMapObject extends MapObject {
 		
 		this.positionPath = new ArrayList<Vector2>();
 		this.velocityPath = new ArrayList<Vector2>();
+		polygon = new Polygon(new float[]{0,0,width,0,width,height,0,height});
 	}
 	
 	public Vector2 getPosition() {
@@ -56,6 +62,10 @@ public abstract class AgentMapObject extends MapObject {
 
 	public boolean atGoal() {
 		return goal.dst(position) < 15;
+	}
+	
+	public Polygon getBoundingBox() {
+		return polygon;
 	}
 	
 	@Override

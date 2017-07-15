@@ -14,8 +14,6 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class HurtyThingBullet extends HurtyThingCore {
 
-	private static final float height = 32f;
-	private static final float width = 32f;
 	private int lifeTime = 2;
 	private int speed = 3;
 	private float lifeTimer;
@@ -42,6 +40,7 @@ public class HurtyThingBullet extends HurtyThingCore {
 		}
 		
 		position.add(goal.cpy().setLength(speed));
+		polygon.setPosition(position.x, position.y);
 	}
 	
 	public boolean isToRemove() {
@@ -62,7 +61,6 @@ public class HurtyThingBullet extends HurtyThingCore {
 				0,0,
 				width,height,1f,1f,
 				rotation-210);
-		
 	}
 
 }

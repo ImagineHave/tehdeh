@@ -29,6 +29,7 @@ public abstract class AgentCore extends AgentMapObject {
 			velocity = new Vector2(velocityPath.get(velocityPath.size()-1));
 			velocityPath.clear();
 		}
+		polygon.setPosition(position.x, position.y);
 	}
 
 	public float getSpeed() {
