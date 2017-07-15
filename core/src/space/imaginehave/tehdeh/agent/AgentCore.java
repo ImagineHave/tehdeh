@@ -26,7 +26,7 @@ public abstract class AgentCore extends AgentMapObject {
 		
 		if(!positionPath.isEmpty()) {
 			position = new Vector2(positionPath.get(positionPath.size()-1));
-			positionPath.clear();
+			positionPath.remove(positionPath.size()-1);
 		}			
 		if(!velocityPath.isEmpty()) {
 			velocity = new Vector2(velocityPath.get(velocityPath.size()-1));
