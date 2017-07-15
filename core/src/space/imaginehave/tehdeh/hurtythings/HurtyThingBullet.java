@@ -1,15 +1,10 @@
 package space.imaginehave.tehdeh.hurtythings;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector2;
 
 import space.imaginehave.tehdeh.Constant;
-import space.imaginehave.tehdeh.agent.AgentCore;
-import space.imaginehave.tehdeh.overlay.OverlayMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class HurtyThingBullet extends HurtyThingCore {

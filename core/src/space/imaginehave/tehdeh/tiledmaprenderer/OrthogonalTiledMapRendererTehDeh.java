@@ -9,7 +9,6 @@ import space.imaginehave.tehdeh.agent.AgentMapObject;
 import space.imaginehave.tehdeh.daemon.DaemonMapObject;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
-import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 

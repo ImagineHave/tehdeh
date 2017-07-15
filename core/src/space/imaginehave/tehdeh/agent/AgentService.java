@@ -1,12 +1,10 @@
 package space.imaginehave.tehdeh.agent;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.Util;
-import space.imaginehave.tehdeh.search.Search;
 import space.imaginehave.tehdeh.search.SearchType;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 

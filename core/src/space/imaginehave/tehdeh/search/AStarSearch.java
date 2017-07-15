@@ -5,9 +5,7 @@ import java.util.PriorityQueue;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
-import space.imaginehave.tehdeh.agent.AgentBoid;
 import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 

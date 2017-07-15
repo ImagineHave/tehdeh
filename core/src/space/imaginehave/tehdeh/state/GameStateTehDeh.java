@@ -1,9 +1,7 @@
 package space.imaginehave.tehdeh.state;
 
-import java.util.Optional;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -19,10 +17,6 @@ import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.inputprocessor.Mouse;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
-import space.imaginehave.tehdeh.overlay.OverlayMapObject;
-import space.imaginehave.tehdeh.search.AStarSearch;
-import space.imaginehave.tehdeh.search.BoidSearch;
-import space.imaginehave.tehdeh.search.ThetaStarLazySearch;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class GameStateTehDeh implements State {

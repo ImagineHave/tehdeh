@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.agent.AgentMapObject;
-import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
