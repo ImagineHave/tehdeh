@@ -4,20 +4,28 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
-import space.imaginehave.tehdeh.agent.AgentBoid;
 import space.imaginehave.tehdeh.agent.AgentMapObject;
+import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class BoidSearch extends Search {
 
+	private Array<AgentMob> agents = new Array<AgentMob>();
+
+
 	public BoidSearch(final GameStateTehDeh state) {
 		super(state);
-		
 	}
 
 	@Override
 	public void calculatePathsForAgent(AgentMapObject boid) {
+		agents.clear();
+		for(AgentMob agent: state.getAgentLayer().getObjects().getByType(AgentMob.class)) {
+			if(agent.type.search instanceof BoidSearch) {
+				agents.add(agent);
+			}
+		}
 		
 		Vector2 cohesion;
 		Vector2 separation;
@@ -65,9 +73,7 @@ public class BoidSearch extends Search {
 	private Vector2 getCohesion(AgentMapObject boid) {
 		Vector2 cohesion = new Vector2(0,0);
 		
-		Array<AgentBoid> agents = state.getAgentLayer().getObjects().getByType(AgentBoid.class);
-		
-		for (AgentBoid notBoid : agents) {
+		for (AgentMob notBoid : agents) {
 			if (notBoid != boid) {
 				cohesion.add(notBoid.getPosition());
 			}
@@ -87,9 +93,7 @@ public class BoidSearch extends Search {
 	private Vector2 getSeparation(AgentMapObject boid) {
 		Vector2 separation = new Vector2(0,0);
 		
-		Array<AgentBoid> agents = state.getAgentLayer().getObjects().getByType(AgentBoid.class);
-		
-		for (AgentBoid notBoid : agents) {
+		for (AgentMob notBoid : agents) {
 			if (notBoid != boid) {
 				if (notBoid.getPosition().dst(boid.getPosition()) < 32) {
 					separation = new Vector2(boid.getPosition());
@@ -119,9 +123,7 @@ public class BoidSearch extends Search {
 	private Vector2 getAlignment(AgentMapObject boid) {
 		Vector2 alignment = new Vector2(0,0);
 		
-		Array<AgentBoid> agents = state.getAgentLayer().getObjects().getByType(AgentBoid.class);
-		
-		for (AgentBoid notBoid : agents) {
+		for (AgentMob notBoid : agents) {
 			if (notBoid != boid) {
 				alignment.add(notBoid.getVelocity());
 			}

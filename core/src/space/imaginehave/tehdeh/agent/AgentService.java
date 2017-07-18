@@ -1,11 +1,15 @@
 package space.imaginehave.tehdeh.agent;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.Util;
+import space.imaginehave.tehdeh.search.AStarSearch;
+import space.imaginehave.tehdeh.search.BoidSearch;
 import space.imaginehave.tehdeh.search.SearchType;
+import space.imaginehave.tehdeh.search.ThetaStarLazySearch;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 /**
@@ -67,16 +71,19 @@ public class AgentService {
 		}
 	}
 	
-	private AgentBoid createAgentBoid(GameStateTehDeh state) {
-		return new AgentBoid(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state);
+	private AgentMob createAgentBoid(GameStateTehDeh state) {
+		AgentType type = new AgentType(new BoidSearch(state), state.getAssetManager().get("boidAgent.png", Texture.class));
+		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
 	}
 	
-	private AgentAStar createAgentAStar(GameStateTehDeh state) {
-		return new AgentAStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state);
+	private AgentMob createAgentAStar(GameStateTehDeh state) {
+		AgentType type = new AgentType(new AStarSearch(state), state.getAssetManager().get("aStarAgent.png", Texture.class));
+		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
 	}
 	
-	private AgentThetaStar createAgentThetaStar(GameStateTehDeh state) {
-		return new AgentThetaStar(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state);
+	private AgentMob createAgentThetaStar(GameStateTehDeh state) {
+		AgentType type = new AgentType(new ThetaStarLazySearch(state), state.getAssetManager().get("tStarAgent.png", Texture.class));
+		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
 	}
 	
 }

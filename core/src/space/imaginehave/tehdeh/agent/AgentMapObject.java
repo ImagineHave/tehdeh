@@ -24,7 +24,6 @@ public abstract class AgentMapObject extends MapObject {
 	List<Vector2> velocityPath;
 	List<Vector2> positionPath;
 	Polygon polygon;
-	protected Search search;
 	
 	public AgentMapObject(Vector2 position, Vector2 velocity, Vector2 goal) {
 		
@@ -80,20 +79,6 @@ public abstract class AgentMapObject extends MapObject {
 		this.goal = goalVector;
 	}
 
-	public void update() {
-		
-		search.calculatePathsForAgent(this);
-		
-		if(!positionPath.isEmpty()) {
-			position = new Vector2(positionPath.get(positionPath.size()-1));
-			positionPath.remove(positionPath.size()-1);
-		}			
-		if(!velocityPath.isEmpty()) {
-			velocity = new Vector2(velocityPath.get(velocityPath.size()-1));
-			velocityPath.clear();
-		}
-		polygon.setPosition(position.x, position.y);
-	}
 
 	public float getSpeed() {
 		return 1;
