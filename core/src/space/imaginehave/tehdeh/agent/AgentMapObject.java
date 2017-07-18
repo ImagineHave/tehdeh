@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
+import space.imaginehave.tehdeh.search.Search;
+
 
 public abstract class AgentMapObject extends MapObject {
 	
@@ -22,6 +24,7 @@ public abstract class AgentMapObject extends MapObject {
 	List<Vector2> velocityPath;
 	List<Vector2> positionPath;
 	Polygon polygon;
+	protected Search search;
 	
 	public AgentMapObject(Vector2 position, Vector2 velocity, Vector2 goal) {
 		
@@ -53,8 +56,6 @@ public abstract class AgentMapObject extends MapObject {
 	public List<Vector2> getVelocityPath() {
 		return velocityPath;
 	}
-	
-	public abstract void update();
 
 	public Texture getTexture() {
 		return texture;
@@ -74,4 +75,27 @@ public abstract class AgentMapObject extends MapObject {
 	}
 
 	public abstract void draw(SpriteBatch batch);
+
+	public void setGoal(Vector2 goalVector) {
+		this.goal = goalVector;
+	}
+
+	public void update() {
+		
+		search.calculatePathsForAgent(this);
+		
+		if(!positionPath.isEmpty()) {
+			position = new Vector2(positionPath.get(positionPath.size()-1));
+			positionPath.remove(positionPath.size()-1);
+		}			
+		if(!velocityPath.isEmpty()) {
+			velocity = new Vector2(velocityPath.get(velocityPath.size()-1));
+			velocityPath.clear();
+		}
+		polygon.setPosition(position.x, position.y);
+	}
+
+	public float getSpeed() {
+		return 1;
+	}
 }

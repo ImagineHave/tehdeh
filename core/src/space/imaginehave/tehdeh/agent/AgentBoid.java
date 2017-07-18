@@ -8,7 +8,7 @@ import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.search.BoidSearch;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
-public class AgentBoid extends AgentCore {
+public class AgentBoid extends AgentMapObject {
 
 	public AgentBoid(Vector2 postion, Vector2 velocity, GameStateTehDeh state) {
 		super(postion, velocity, state.getGoal());

@@ -1,6 +1,7 @@
 package space.imaginehave.tehdeh.hurtythings;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
@@ -58,4 +59,10 @@ public abstract class HurtyThingMapObject extends MapObject {
 	public Polygon getBoundingBox() {
 		return polygon;
 	}
+	
+	public abstract float getSpeed();
+	
+	public abstract void update();
+
+	public abstract void draw(SpriteBatch batch);
 }

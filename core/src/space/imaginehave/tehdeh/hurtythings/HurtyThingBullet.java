@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
-public class HurtyThingBullet extends HurtyThingCore {
+public class HurtyThingBullet extends HurtyThingMapObject {
 
 	private int lifeTime = 2;
 	private int speed = 3;

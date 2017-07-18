@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.agent.AgentBoid;
-import space.imaginehave.tehdeh.agent.AgentCore;
+import space.imaginehave.tehdeh.agent.AgentMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
@@ -17,7 +17,7 @@ public class BoidSearch extends Search {
 	}
 
 	@Override
-	public void calculatePathsForAgent(AgentCore boid) {
+	public void calculatePathsForAgent(AgentMapObject boid) {
 		
 		Vector2 cohesion;
 		Vector2 separation;
@@ -62,7 +62,7 @@ public class BoidSearch extends Search {
 	 * Find the centre of everyone else.
 	 * 
 	 */
-	private Vector2 getCohesion(AgentCore boid) {
+	private Vector2 getCohesion(AgentMapObject boid) {
 		Vector2 cohesion = new Vector2(0,0);
 		
 		Array<AgentBoid> agents = state.getAgentLayer().getObjects().getByType(AgentBoid.class);
@@ -84,7 +84,7 @@ public class BoidSearch extends Search {
 	 * 
 	 * Don't move too close to everyone else.
 	 */
-	private Vector2 getSeparation(AgentCore boid) {
+	private Vector2 getSeparation(AgentMapObject boid) {
 		Vector2 separation = new Vector2(0,0);
 		
 		Array<AgentBoid> agents = state.getAgentLayer().getObjects().getByType(AgentBoid.class);
@@ -100,7 +100,7 @@ public class BoidSearch extends Search {
 		return separation.scl(1/(float)20);
 	}
 	
-	private Vector2 getAvoids(AgentCore boid) {
+	private Vector2 getAvoids(AgentMapObject boid) {
 		Vector2 avoid = new Vector2(0,0);
 		Array<TowerMapObject> dtas = state.getAgentLayer().getObjects().getByType(TowerMapObject.class);
 		for( TowerMapObject dta : dtas){
@@ -116,7 +116,7 @@ public class BoidSearch extends Search {
 	/**
 	 * Keep swimming the same direction
 	 */
-	private Vector2 getAlignment(AgentCore boid) {
+	private Vector2 getAlignment(AgentMapObject boid) {
 		Vector2 alignment = new Vector2(0,0);
 		
 		Array<AgentBoid> agents = state.getAgentLayer().getObjects().getByType(AgentBoid.class);
@@ -135,7 +135,7 @@ public class BoidSearch extends Search {
 	/**
 	 * head to the finish
 	 */
-	private Vector2 getGoal(AgentCore boid) {
+	private Vector2 getGoal(AgentMapObject boid) {
 		Vector2 goal = new Vector2(boid.getGoal());
 		goal = goal.sub(boid.getPosition()).scl(1/(float)1000);
 		return goal;
@@ -145,7 +145,7 @@ public class BoidSearch extends Search {
 	/**
 	 * bound me up
 	 */
-	private Vector2 getBounds(AgentCore boid) {
+	private Vector2 getBounds(AgentMapObject boid) {
 		Vector2 bound = new Vector2(0,0);
 		
 		if (boid.getPosition().x < Constant.VIEWPORT_BOTTOM_LEFT.x) {

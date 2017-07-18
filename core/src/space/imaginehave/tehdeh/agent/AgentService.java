@@ -60,9 +60,9 @@ public class AgentService {
 	
 	public void resetGoals(GameStateTehDeh state) {
 		
-		Array<AgentCore> agents = state.getAgentLayer().getObjects().getByType(AgentCore.class);
+		Array<AgentMapObject> agents = state.getAgentLayer().getObjects().getByType(AgentMapObject.class);
 		
-		for(AgentCore agent : agents ) {
+		for(AgentMapObject agent : agents ) {
 			agent.setGoal(state.getGoal());
 		}
 	}

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-import space.imaginehave.tehdeh.agent.AgentCore;
 import space.imaginehave.tehdeh.agent.AgentMapObject;
 import space.imaginehave.tehdeh.daemon.DaemonMapObject;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
@@ -38,7 +37,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 			TowerMapObject agent = ((TowerMapObject) object);
 			agent.update();
 		} 
-		else if (object instanceof AgentCore) {
+		else if (object instanceof AgentMapObject) {
 			AgentMapObject agent = ((AgentMapObject) object);
 			agent.update();
 			agent.draw((SpriteBatch) batch);
