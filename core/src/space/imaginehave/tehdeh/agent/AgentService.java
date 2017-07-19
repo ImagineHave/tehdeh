@@ -8,6 +8,7 @@ import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.search.AStarSearch;
 import space.imaginehave.tehdeh.search.BoidSearch;
+import space.imaginehave.tehdeh.search.Search;
 import space.imaginehave.tehdeh.search.SearchType;
 import space.imaginehave.tehdeh.search.ThetaStarLazySearch;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
@@ -39,13 +40,13 @@ public class AgentService {
 		
 		switch (searchType) {
 			case BOID : 
-				state.getAgentLayer().getObjects().add(createAgentBoid(state));
+				state.getAgentLayer().getObjects().add(createAgent(state, new BoidSearch(state), state.getAssetManager().get("boidAgent.png", Texture.class)));
 				break;
 			case ASTAR : 
-				state.getAgentLayer().getObjects().add(createAgentAStar(state));
+				state.getAgentLayer().getObjects().add(createAgent(state, new AStarSearch(state), state.getAssetManager().get("aStarAgent.png", Texture.class)));
 				break;
 			case THETASTAR : 
-				state.getAgentLayer().getObjects().add(createAgentThetaStar(state));
+				state.getAgentLayer().getObjects().add(createAgent(state,new ThetaStarLazySearch(state), state.getAssetManager().get("tStarAgent.png", Texture.class)));
 				break;
 			default :
 				throw new RuntimeException("Search type not known: " + searchType);
@@ -71,19 +72,9 @@ public class AgentService {
 		}
 	}
 	
-	private AgentMob createAgentBoid(GameStateTehDeh state) {
-		AgentType type = new AgentType(new BoidSearch(state), state.getAssetManager().get("boidAgent.png", Texture.class));
+	private AgentMob createAgent(GameStateTehDeh state, Search search, Texture texture) {
+		AgentType type = new AgentType(search, texture);
 		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
 	}
-	
-	private AgentMob createAgentAStar(GameStateTehDeh state) {
-		AgentType type = new AgentType(new AStarSearch(state), state.getAssetManager().get("aStarAgent.png", Texture.class));
-		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
-	}
-	
-	private AgentMob createAgentThetaStar(GameStateTehDeh state) {
-		AgentType type = new AgentType(new ThetaStarLazySearch(state), state.getAssetManager().get("tStarAgent.png", Texture.class));
-		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
-	}
-	
 }
+	
