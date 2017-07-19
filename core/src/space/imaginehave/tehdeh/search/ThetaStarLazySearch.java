@@ -214,5 +214,10 @@ public class ThetaStarLazySearch extends Search {
 		}
 		return true;
 	}
+  
+  @Override
+public boolean isPathFollowing() {
+	return true;
+}
 
 }

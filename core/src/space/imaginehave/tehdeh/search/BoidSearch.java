@@ -164,4 +164,9 @@ public class BoidSearch extends Search {
 
 		return bound;
 	}
+	
+	@Override
+	public boolean isPathFollowing() {
+		return false;
+	}
 }

@@ -212,5 +212,10 @@ public class AStarSearch extends Search {
 		}
 		return true;
 	}
+  
+  @Override
+	public boolean isPathFollowing() {
+		return true;
+	}
 
 }

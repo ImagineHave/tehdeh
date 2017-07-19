@@ -12,4 +12,6 @@ public abstract class Search {
 	}
 	
 	public abstract void calculatePathsForAgent(AgentMapObject boid);
+	
+	public abstract boolean isPathFollowing();
 }

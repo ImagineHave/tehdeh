@@ -8,6 +8,7 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 public class AgentMob extends AgentMapObject {
 
 	public AgentType type;
+	private int stepsMoved;
 	
 	public AgentMob(Vector2 postion, Vector2 velocity, GameStateTehDeh state, AgentType type) {
 		super(postion, velocity, state.getGoal());
@@ -25,11 +26,26 @@ public class AgentMob extends AgentMapObject {
 	
 	public void update() {
 		
-		type.search.calculatePathsForAgent(this);
+		if(type.search.isPathFollowing()) {
+			if(stepsMoved % type.stepsToFollowPath == 0 ||
+				
+					) {
+				type.search.calculatePathsForAgent(this);
+			}
+		} else {
+			type.search.calculatePathsForAgent(this);
+		}
 		
 		if(!positionPath.isEmpty()) {
+			if(position.equals(positionPath.get(positionPath.size()-1))) {
+				stepsStuck++;
+			} else {
+				stepsStuck = 0;
+			}
+			
 			position = new Vector2(positionPath.get(positionPath.size()-1));
 			positionPath.remove(positionPath.size()-1);
+			stepsMoved++;
 		}			
 		if(!velocityPath.isEmpty()) {
 			velocity = new Vector2(velocityPath.get(velocityPath.size()-1));
