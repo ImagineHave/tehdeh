@@ -9,10 +9,12 @@ public class AgentMob extends AgentMapObject {
 
 	public AgentType type;
 	private int stepsMoved;
-	
+	private int stepsStuck;
+	private int currentHealth;
 	public AgentMob(Vector2 postion, Vector2 velocity, GameStateTehDeh state, AgentType type) {
 		super(postion, velocity, state.getGoal());
 		this.type = type;
+		this.currentHealth = type.maxHealth;
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class AgentMob extends AgentMapObject {
 		
 		if(type.search.isPathFollowing()) {
 			if(stepsMoved % type.stepsToFollowPath == 0 ||
-				
+				stepsStuck > type.patience
 					) {
 				type.search.calculatePathsForAgent(this);
 			}
@@ -52,6 +54,14 @@ public class AgentMob extends AgentMapObject {
 			velocityPath.clear();
 		}
 		polygon.setPosition(position.x, position.y);
+	}
+	
+	@Override
+	public void doDamage(int damage) {
+		currentHealth -= damage;
+		if(currentHealth <= 0) {
+			dead = true;
+		}
 	}
 
 }

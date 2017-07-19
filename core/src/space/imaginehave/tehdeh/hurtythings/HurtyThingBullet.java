@@ -14,6 +14,7 @@ public class HurtyThingBullet extends HurtyThingMapObject {
 	private float lifeTimer;
 	private boolean remove;
 	private Vector2 origin;
+	private int damage = 3;
 	
 	public HurtyThingBullet(Vector2 position, Vector2 velocity, Vector2 goal, GameStateTehDeh state) {
 		super(position, velocity, goal);
@@ -58,4 +59,8 @@ public class HurtyThingBullet extends HurtyThingMapObject {
 				rotation-210);
 	}
 
+	@Override
+	public int getDamage() {
+		return damage;
+	}
 }

@@ -24,6 +24,7 @@ public abstract class AgentMapObject extends MapObject {
 	List<Vector2> velocityPath;
 	List<Vector2> positionPath;
 	Polygon polygon;
+	boolean dead;
 	
 	public AgentMapObject(Vector2 position, Vector2 velocity, Vector2 goal) {
 		
@@ -82,5 +83,11 @@ public abstract class AgentMapObject extends MapObject {
 
 	public float getSpeed() {
 		return 1;
+	}
+
+	public abstract void doDamage(int damage);
+	
+	public boolean isDead() {
+		return dead;
 	}
 }

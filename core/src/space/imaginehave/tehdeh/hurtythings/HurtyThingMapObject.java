@@ -65,4 +65,6 @@ public abstract class HurtyThingMapObject extends MapObject {
 	public abstract void update();
 
 	public abstract void draw(SpriteBatch batch);
+
+	public abstract int getDamage();
 }

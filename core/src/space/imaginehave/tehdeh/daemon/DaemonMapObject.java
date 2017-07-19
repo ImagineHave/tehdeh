@@ -27,17 +27,28 @@ public class DaemonMapObject extends MapObject {
 		
 		for (AgentMapObject agent : agents) {
 			if (agent.atGoal()){
-				theDead.add(agent);
-				state.getAgentLayer().getObjects().remove(agent);
+				killAgent(agent);
 			}
 			
-			for(HurtyThingMapObject projectile: projectiles) {
-				if(Intersector.overlapConvexPolygons(projectile.getBoundingBox(), agent.getBoundingBox())) {
-					state.getAgentLayer().getObjects().remove(agent);
-					state.getAgentLayer().getObjects().remove(projectile);
+			checkAgentProjectileCollisions(projectiles, agent);
+		}
+	}
+
+	private void checkAgentProjectileCollisions(Array<HurtyThingMapObject> projectiles, AgentMapObject agent) {
+		for(HurtyThingMapObject projectile: projectiles) {
+			if(Intersector.overlapConvexPolygons(projectile.getBoundingBox(), agent.getBoundingBox())) {
+				agent.doDamage(projectile.getDamage());
+				if(agent.isDead()) {
+					killAgent(agent);
 				}
+				state.getAgentLayer().getObjects().remove(projectile);
 			}
 		}
+	}
+
+	private void killAgent(AgentMapObject agent) {
+		theDead.add(agent);
+		state.getAgentLayer().getObjects().remove(agent);
 	}
 
 }

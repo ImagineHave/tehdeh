@@ -72,7 +72,7 @@ public class AgentService {
 		}
 	}
 	
-	private AgentMob createAgent(GameStateTehDeh state, Search search, Texture texture) {
+	private AgentMapObject createAgent(GameStateTehDeh state, Search search, Texture texture) {
 		AgentType type = new AgentType(search, texture);
 		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
 	}

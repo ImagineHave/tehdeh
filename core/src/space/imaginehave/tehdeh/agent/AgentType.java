@@ -10,12 +10,15 @@ public class AgentType {
 	Texture texture;
 	int stepsToFollowPath;
 	int patience;
+	int sight;
+	int maxHealth;
 
 	public AgentType(Search search, Texture texture){
 		this.search = search;
 		this.texture = texture;
 		stepsToFollowPath = 5;
 		patience = 3;
+		maxHealth = 4;
 	}
 
 }

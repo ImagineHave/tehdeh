@@ -73,7 +73,7 @@ public class BoidSearch extends Search {
 	private Vector2 getCohesion(AgentMapObject boid) {
 		Vector2 cohesion = new Vector2(0,0);
 		
-		for (AgentMob notBoid : agents) {
+		for (AgentMapObject notBoid : agents) {
 			if (notBoid != boid) {
 				cohesion.add(notBoid.getPosition());
 			}
@@ -93,7 +93,7 @@ public class BoidSearch extends Search {
 	private Vector2 getSeparation(AgentMapObject boid) {
 		Vector2 separation = new Vector2(0,0);
 		
-		for (AgentMob notBoid : agents) {
+		for (AgentMapObject notBoid : agents) {
 			if (notBoid != boid) {
 				if (notBoid.getPosition().dst(boid.getPosition()) < 32) {
 					separation = new Vector2(boid.getPosition());
@@ -123,7 +123,7 @@ public class BoidSearch extends Search {
 	private Vector2 getAlignment(AgentMapObject boid) {
 		Vector2 alignment = new Vector2(0,0);
 		
-		for (AgentMob notBoid : agents) {
+		for (AgentMapObject notBoid : agents) {
 			if (notBoid != boid) {
 				alignment.add(notBoid.getVelocity());
 			}
