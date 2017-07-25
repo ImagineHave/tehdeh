@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
 
-import space.imaginehave.tehdeh.agent.AgentMapObject;
+import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
@@ -22,10 +22,10 @@ public class DaemonMapObject extends MapObject {
 	}
 
 	public void update() {
-		Array<AgentMapObject> agents = state.getAgentLayer().getObjects().getByType(AgentMapObject.class);
+		Array<AgentMob> agents = state.getAgentLayer().getObjects().getByType(AgentMob.class);
 		Array<HurtyThingMapObject> projectiles = state.getAgentLayer().getObjects().getByType(HurtyThingMapObject.class);
 		
-		for (AgentMapObject agent : agents) {
+		for (AgentMob agent : agents) {
 			if (agent.atGoal()){
 				killAgent(agent);
 			}
@@ -34,7 +34,7 @@ public class DaemonMapObject extends MapObject {
 		}
 	}
 
-	private void checkAgentProjectileCollisions(Array<HurtyThingMapObject> projectiles, AgentMapObject agent) {
+	private void checkAgentProjectileCollisions(Array<HurtyThingMapObject> projectiles, AgentMob agent) {
 		for(HurtyThingMapObject projectile: projectiles) {
 			if(Intersector.overlapConvexPolygons(projectile.getBoundingBox(), agent.getBoundingBox())) {
 				agent.doDamage(projectile.getDamage());
@@ -46,7 +46,7 @@ public class DaemonMapObject extends MapObject {
 		}
 	}
 
-	private void killAgent(AgentMapObject agent) {
+	private void killAgent(AgentMob agent) {
 		theDead.add(agent);
 		state.getAgentLayer().getObjects().remove(agent);
 	}

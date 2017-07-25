@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.Constant;
-import space.imaginehave.tehdeh.agent.AgentMapObject;
+import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
@@ -19,7 +19,7 @@ public class BoidSearch extends Search {
 	}
 
 	@Override
-	public void calculatePathsForAgent(AgentMapObject boid) {
+	public void calculatePathsForAgent(AgentMob boid) {
 		agents.clear();
 		for(AgentMob agent: state.getAgentLayer().getObjects().getByType(AgentMob.class)) {
 			if(agent.getSearch() instanceof BoidSearch) {
@@ -70,10 +70,10 @@ public class BoidSearch extends Search {
 	 * Find the centre of everyone else.
 	 * 
 	 */
-	private Vector2 getCohesion(AgentMapObject boid) {
+	private Vector2 getCohesion(AgentMob boid) {
 		Vector2 cohesion = new Vector2(0,0);
 		
-		for (AgentMapObject notBoid : agents) {
+		for (AgentMob notBoid : agents) {
 			if (notBoid != boid) {
 				cohesion.add(notBoid.getPosition());
 			}
@@ -90,10 +90,10 @@ public class BoidSearch extends Search {
 	 * 
 	 * Don't move too close to everyone else.
 	 */
-	private Vector2 getSeparation(AgentMapObject boid) {
+	private Vector2 getSeparation(AgentMob boid) {
 		Vector2 separation = new Vector2(0,0);
 		
-		for (AgentMapObject notBoid : agents) {
+		for (AgentMob notBoid : agents) {
 			if (notBoid != boid) {
 				if (notBoid.getPosition().dst(boid.getPosition()) < 32) {
 					separation = new Vector2(boid.getPosition());
@@ -104,7 +104,7 @@ public class BoidSearch extends Search {
 		return separation.scl(1/(float)20);
 	}
 	
-	private Vector2 getAvoids(AgentMapObject boid) {
+	private Vector2 getAvoids(AgentMob boid) {
 		Vector2 avoid = new Vector2(0,0);
 		Array<TowerMapObject> dtas = state.getAgentLayer().getObjects().getByType(TowerMapObject.class);
 		for( TowerMapObject dta : dtas){
@@ -120,10 +120,10 @@ public class BoidSearch extends Search {
 	/**
 	 * Keep swimming the same direction
 	 */
-	private Vector2 getAlignment(AgentMapObject boid) {
+	private Vector2 getAlignment(AgentMob boid) {
 		Vector2 alignment = new Vector2(0,0);
 		
-		for (AgentMapObject notBoid : agents) {
+		for (AgentMob notBoid : agents) {
 			if (notBoid != boid) {
 				alignment.add(notBoid.getVelocity());
 			}
@@ -137,7 +137,7 @@ public class BoidSearch extends Search {
 	/**
 	 * head to the finish
 	 */
-	private Vector2 getGoal(AgentMapObject boid) {
+	private Vector2 getGoal(AgentMob boid) {
 		Vector2 goal = new Vector2(boid.getGoal());
 		goal = goal.sub(boid.getPosition()).scl(1/(float)1000);
 		return goal;
@@ -147,7 +147,7 @@ public class BoidSearch extends Search {
 	/**
 	 * bound me up
 	 */
-	private Vector2 getBounds(AgentMapObject boid) {
+	private Vector2 getBounds(AgentMob boid) {
 		Vector2 bound = new Vector2(0,0);
 		
 		if (boid.getPosition().x < Constant.VIEWPORT_BOTTOM_LEFT.x) {

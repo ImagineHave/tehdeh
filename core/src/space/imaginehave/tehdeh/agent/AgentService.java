@@ -55,7 +55,7 @@ public class AgentService {
 	
 	public void reset(GameStateTehDeh state){
 		
-		for(AgentMapObject moa : state.getAgentLayer().getObjects().getByType(AgentMapObject.class)){
+		for(AgentMob moa : state.getAgentLayer().getObjects().getByType(AgentMob.class)){
 			state.getAgentLayer().getObjects().remove(moa);
 		}
 		
@@ -65,14 +65,14 @@ public class AgentService {
 	
 	public void resetGoals(GameStateTehDeh state) {
 		
-		Array<AgentMapObject> agents = state.getAgentLayer().getObjects().getByType(AgentMapObject.class);
+		Array<AgentMob> agents = state.getAgentLayer().getObjects().getByType(AgentMob.class);
 		
-		for(AgentMapObject agent : agents ) {
+		for(AgentMob agent : agents ) {
 			agent.setGoal(state.getGoal());
 		}
 	}
 	
-	private AgentMapObject createAgent(GameStateTehDeh state, Search search, Texture texture) {
+	private AgentMob createAgent(GameStateTehDeh state, Search search, Texture texture) {
 		AgentType type = new AgentType(search, texture);
 		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
 	}

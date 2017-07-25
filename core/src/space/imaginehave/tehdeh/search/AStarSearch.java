@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
-import space.imaginehave.tehdeh.agent.AgentMapObject;
+import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class AStarSearch extends Search {
@@ -24,7 +24,7 @@ public class AStarSearch extends Search {
     of AStarNodes is returned, or null if the path is not
     found. 
   */
-  public List<Vector2> findPath(AStarNode startNode, AStarNode goalNode, AgentMapObject agent) {
+  public List<Vector2> findPath(AStarNode startNode, AStarNode goalNode, AgentMob agent) {
 
     PriorityQueue<AStarNode> openList = new PriorityQueue<AStarNode>();
     LinkedList<AStarNode> closedList = new LinkedList<AStarNode>();
@@ -85,7 +85,7 @@ public class AStarSearch extends Search {
   /**
     Construct the path, not including the start node.
   */
-  protected List<Vector2> constructPath(AStarNode node, AgentMapObject agent) {
+  protected List<Vector2> constructPath(AStarNode node, AgentMob agent) {
 	  AStarNode a = node;
 	  //Smooth Path
 	  while(a.pathParent!=null){
@@ -137,7 +137,7 @@ public class AStarSearch extends Search {
 
 
   @Override
-  public void calculatePathsForAgent(AgentMapObject agent) {
+  public void calculatePathsForAgent(AgentMob agent) {
 	
 	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), state.getTowerLayer());
 	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), state.getTowerLayer());

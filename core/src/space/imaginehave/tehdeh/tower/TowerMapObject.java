@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import space.imaginehave.tehdeh.agent.AgentMapObject;
+import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
@@ -36,7 +36,7 @@ public class TowerMapObject extends MapObject {
 	public void update() {
 		delayTimer += Gdx.graphics.getDeltaTime();
 		if (delayTimer > firingDelay) {
-			Optional<AgentMapObject> agent = getClosestAgentInRange();
+			Optional<AgentMob> agent = getClosestAgentInRange();
 			if (agent.isPresent()) {
 				fireBullet(agent.get());
 				delayTimer = 0;
@@ -52,13 +52,13 @@ public class TowerMapObject extends MapObject {
 		
 	}
 
-	private Optional<AgentMapObject> getClosestAgentInRange() {
-		AgentMapObject agentToReturn = null;
-		Array<AgentMapObject> agents = state.getAgentLayer().getObjects().getByType(AgentMapObject.class);
+	private Optional<AgentMob> getClosestAgentInRange() {
+		AgentMob agentToReturn = null;
+		Array<AgentMob> agents = state.getAgentLayer().getObjects().getByType(AgentMob.class);
 		for(int i = 0; i < agents.size; i++) {
 			MapObject mapObject = agents.get(i);
-			if(mapObject instanceof AgentMapObject && !(mapObject instanceof HurtyThingBullet)) { //TODO: refactor. Need better way to handle type of mapobject
-				AgentMapObject agent = (AgentMapObject) mapObject;
+			if(mapObject instanceof AgentMob && !(mapObject instanceof HurtyThingBullet)) { //TODO: refactor. Need better way to handle type of mapobject
+				AgentMob agent = (AgentMob) mapObject;
 				float nearestAgentDistance = Integer.MAX_VALUE;
 				Circle circle = new Circle(position.x, position.y, range);
 				if(circle.contains(new Vector2(agent.getPosition().x, agent.getPosition().y)) &&
@@ -71,7 +71,7 @@ public class TowerMapObject extends MapObject {
 		return Optional.ofNullable(agentToReturn);
 	}
 
-	private void fireBullet(AgentMapObject agent) {
+	private void fireBullet(AgentMob agent) {
 		Vector2 targetVector = agent.getPosition().cpy().sub(position.cpy());
 		int inaccuracy = MathUtils.random(-directionalInaccuracyInDegrees, directionalInaccuracyInDegrees);
 		Vector2 targetVector2 = new Vector2(targetVector.x, targetVector.y);
