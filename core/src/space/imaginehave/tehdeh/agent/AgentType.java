@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import space.imaginehave.tehdeh.search.Search;
 
-public class AgentType {
+class AgentType {
 	
 	public Search search;
 	Texture texture;
@@ -12,6 +12,9 @@ public class AgentType {
 	int patience;
 	int sight;
 	int maxHealth;
+	int score;
+	int money;
+	int damage;
 
 	public AgentType(Search search, Texture texture){
 		this.search = search;

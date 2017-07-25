@@ -64,4 +64,16 @@ public class AgentMob extends AgentMapObject {
 		}
 	}
 
+	public int getScore() {
+		return type.score;
+	}
+	
+	public int getMoney() {
+		return type.money;
+	}
+	
+	public int getDamage() {
+		return type.damage;
+	}
+
 }
