@@ -3,6 +3,7 @@ package space.imaginehave.tehdeh.agent;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import space.imaginehave.tehdeh.search.Search;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class AgentMob extends AgentMapObject {
@@ -74,6 +75,10 @@ public class AgentMob extends AgentMapObject {
 	
 	public int getDamage() {
 		return type.damage;
+	}
+
+	public Search getSearch() {
+		return type.search;
 	}
 
 }

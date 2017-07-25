@@ -22,7 +22,7 @@ public class BoidSearch extends Search {
 	public void calculatePathsForAgent(AgentMapObject boid) {
 		agents.clear();
 		for(AgentMob agent: state.getAgentLayer().getObjects().getByType(AgentMob.class)) {
-			if(agent.type.search instanceof BoidSearch) {
+			if(agent.getSearch() instanceof BoidSearch) {
 				agents.add(agent);
 			}
 		}
