@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
 
 import space.imaginehave.tehdeh.agent.AgentMob;
-import space.imaginehave.tehdeh.hurtythings.HurtyThingMapObject;
+import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class DaemonMapObject extends MapObject {
@@ -23,7 +23,7 @@ public class DaemonMapObject extends MapObject {
 
 	public void update() {
 		Array<AgentMob> agents = state.getAgentLayer().getObjects().getByType(AgentMob.class);
-		Array<HurtyThingMapObject> projectiles = state.getAgentLayer().getObjects().getByType(HurtyThingMapObject.class);
+		Array<HurtyThingBullet> projectiles = state.getAgentLayer().getObjects().getByType(HurtyThingBullet.class);
 		
 		for (AgentMob agent : agents) {
 			if (agent.atGoal()){
@@ -34,8 +34,8 @@ public class DaemonMapObject extends MapObject {
 		}
 	}
 
-	private void checkAgentProjectileCollisions(Array<HurtyThingMapObject> projectiles, AgentMob agent) {
-		for(HurtyThingMapObject projectile: projectiles) {
+	private void checkAgentProjectileCollisions(Array<HurtyThingBullet> projectiles, AgentMob agent) {
+		for(HurtyThingBullet projectile: projectiles) {
 			if(Intersector.overlapConvexPolygons(projectile.getBoundingBox(), agent.getBoundingBox())) {
 				agent.doDamage(projectile.getDamage());
 				if(agent.isDead()) {
