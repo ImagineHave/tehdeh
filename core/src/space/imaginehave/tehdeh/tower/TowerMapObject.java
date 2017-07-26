@@ -18,28 +18,26 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class TowerMapObject extends MapObject {
 	
-	int range = 50;
-	int firingDelay = 3;
-	float delayTimer=3;
-	int directionalInaccuracyInDegrees = 15;
+	private TowerType type;
 	private GameStateTehDeh state;
 	private List<HurtyThingBullet> bullets = new ArrayList<HurtyThingBullet>();
 	private Vector2 position;
 	private TowerCell towerCell;
 
-	public TowerMapObject (Vector2 position, GameStateTehDeh state, Texture texture) {
+	public TowerMapObject (Vector2 position, GameStateTehDeh state, Texture texture, TowerType type) {
 		this.position = position;
 		this.state = state;
 		this.towerCell = new TowerCell(texture);
+		this.type = type;
 	}
 
 	public void update() {
-		delayTimer += Gdx.graphics.getDeltaTime();
-		if (delayTimer > firingDelay) {
+		type.delayTimer += Gdx.graphics.getDeltaTime();
+		if (type.delayTimer > type.firingDelay) {
 			Optional<AgentMob> agent = getClosestAgentInRange();
 			if (agent.isPresent()) {
 				fireBullet(agent.get());
-				delayTimer = 0;
+				type.delayTimer = 0;
 			}
 		}
 		for (int i = 0; i < bullets.size(); i++) {
@@ -60,7 +58,7 @@ public class TowerMapObject extends MapObject {
 			if(mapObject instanceof AgentMob && !(mapObject instanceof HurtyThingBullet)) { //TODO: refactor. Need better way to handle type of mapobject
 				AgentMob agent = (AgentMob) mapObject;
 				float nearestAgentDistance = Integer.MAX_VALUE;
-				Circle circle = new Circle(position.x, position.y, range);
+				Circle circle = new Circle(position.x, position.y, type.range);
 				if(circle.contains(new Vector2(agent.getPosition().x, agent.getPosition().y)) &&
 						position.dst2(agent.getPosition()) < nearestAgentDistance) {
 					nearestAgentDistance = position.dst2(agent.getPosition());
@@ -73,17 +71,17 @@ public class TowerMapObject extends MapObject {
 
 	private void fireBullet(AgentMob agent) {
 		Vector2 targetVector = agent.getPosition().cpy().sub(position.cpy());
-		int inaccuracy = MathUtils.random(-directionalInaccuracyInDegrees, directionalInaccuracyInDegrees);
+		int inaccuracy = MathUtils.random(-type.directionalInaccuracyInDegrees, type.directionalInaccuracyInDegrees);
 		Vector2 targetVector2 = new Vector2(targetVector.x, targetVector.y);
 		targetVector2.rotate(inaccuracy);
 		//TODO: magic number 8 = tilewidth/2
-		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy().add(8, 8), new Vector2(), new Vector2(targetVector2.x, targetVector2.y), state);
+		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy(), new Vector2(), new Vector2(targetVector2.x, targetVector2.y), state);
 		state.addBullet(bullet);
 		bullets.add(bullet);
 	}
 	
 	public int getRange() {
-		return range;
+		return type.range;
 	}
 	
 	public Vector2 getPosition() {
