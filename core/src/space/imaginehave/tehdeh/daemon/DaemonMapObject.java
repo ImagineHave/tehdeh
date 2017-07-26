@@ -40,6 +40,7 @@ public class DaemonMapObject extends MapObject {
 			if(Intersector.overlapConvexPolygons(projectile.getBoundingBox(), agent.getBoundingBox())) {
 				agent.doDamage(projectile.getDamage());
 				if(agent.isDead()) {
+					state.getPlayer().agentProfitted(agent);
 					killAgent(agent);
 				}
 				state.getAgentLayer().getObjects().remove(projectile);
