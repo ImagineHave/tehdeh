@@ -17,6 +17,7 @@ import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.inputprocessor.Mouse;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
+import space.imaginehave.tehdeh.player.Player;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class GameStateTehDeh implements State {
@@ -30,6 +31,7 @@ public class GameStateTehDeh implements State {
 	private final LayerService layerService;
 	private Viewport viewport;
 	private final TehDehGame game;
+	private final Player player;
 	private Vector2 goal;
 	private Mouse mouse;
 	
@@ -67,6 +69,8 @@ public class GameStateTehDeh implements State {
 				this);
 		
 		agentLayer.getObjects().add(new DaemonMapObject(this));
+		
+		player = new Player();
 	}
 
 	private AssetManager createAssetManager() {
@@ -148,6 +152,10 @@ public class GameStateTehDeh implements State {
 	
 	public Mouse getMouse(){
 		return this.mouse;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 }

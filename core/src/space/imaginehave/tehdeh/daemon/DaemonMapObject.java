@@ -27,6 +27,7 @@ public class DaemonMapObject extends MapObject {
 		
 		for (AgentMob agent : agents) {
 			if (agent.atGoal()){
+				state.getPlayer().hurt(agent);
 				killAgent(agent);
 			}
 			
