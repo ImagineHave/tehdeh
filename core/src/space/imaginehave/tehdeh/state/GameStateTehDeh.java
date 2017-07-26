@@ -17,7 +17,9 @@ import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.inputprocessor.Mouse;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
+import space.imaginehave.tehdeh.player.Player;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
+import space.imaginehave.tehdeh.tower.TowerService;
 
 public class GameStateTehDeh implements State {
 	
@@ -28,8 +30,10 @@ public class GameStateTehDeh implements State {
 	private final TiledMap tiledMap;
 	private final AgentService agentService;
 	private final LayerService layerService;
+	private final TowerService towerService;
 	private Viewport viewport;
 	private final TehDehGame game;
+	private final Player player;
 	private Vector2 goal;
 	private Mouse mouse;
 	
@@ -58,6 +62,7 @@ public class GameStateTehDeh implements State {
 		towerLayer = layerService.fetchTowerLayer(tiledMap);
 		agentLayer = layerService.fetchAgentLayer(tiledMap);
 		overlay = layerService.fetchOverlay(tiledMap);
+		towerService = new TowerService();
 		
 		goal = new Vector2(Constant.GAME_WIDTH/2,32);
 		
@@ -67,6 +72,8 @@ public class GameStateTehDeh implements State {
 				this);
 		
 		agentLayer.getObjects().add(new DaemonMapObject(this));
+		
+		player = new Player();
 	}
 
 	private AssetManager createAssetManager() {
@@ -93,7 +100,7 @@ public class GameStateTehDeh implements State {
 		
 		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
 			if( i % 128 != 0){
-				TowerMapObject tmo = new TowerMapObject(new Vector2(i,Constant.GAME_HEIGHT/2), this, (Texture) getAssetManager().get(Constant.TEST_TOWER_PNG));
+				TowerMapObject tmo = towerService.createWall(new Vector2(i,Constant.GAME_HEIGHT/2), this, (Texture) getAssetManager().get(Constant.TEST_TOWER_PNG));
 				layerService.addTower(tmo,
 						towerLayer,
 						agentLayer,
@@ -148,6 +155,10 @@ public class GameStateTehDeh implements State {
 	
 	public Mouse getMouse(){
 		return this.mouse;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 }

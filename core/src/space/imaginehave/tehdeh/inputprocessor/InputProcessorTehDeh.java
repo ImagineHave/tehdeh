@@ -9,15 +9,18 @@ import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
+import space.imaginehave.tehdeh.tower.TowerService;
 
 public class InputProcessorTehDeh implements InputProcessor {
 	
 	private final TehDehGame game;
 	private final Camera camera;
+	private final TowerService towerService;
 	
 	public InputProcessorTehDeh(final TehDehGame game, final Camera camera) {
 		this.game = game;
 		this.camera = camera;
+		towerService = new TowerService();
 	}
 
 	@Override
@@ -56,7 +59,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 			if (game.getScreen() instanceof GameScreenTehDeh) {
 				Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
 				
-				TowerMapObject towerMapObject = new TowerMapObject(vector, game.getState(), game.getState().getMouse().getPlacementTexture().get());
+				TowerMapObject towerMapObject = towerService.createTower(vector, game.getState(), game.getState().getMouse().getPlacementTexture().get());
 				
 				game.getState().getLayerService().addTower(
 						towerMapObject, 
