@@ -42,6 +42,7 @@ public class GameStateTehDeh implements State {
 		
 		createAssetManager();
 		getAssetManager().load(Constant.TEST_TOWER_PNG, Texture.class);
+		getAssetManager().load(Constant.TEST_TOWER_2_PNG, Texture.class);
 		getAssetManager().load(Constant.TEST_AGENT_PNG, Texture.class);
 		getAssetManager().load(Constant.BOID_AGENT_PNG, Texture.class);
 		getAssetManager().load(Constant.ASTAR_AGENT_PNG, Texture.class);

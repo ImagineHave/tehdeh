@@ -9,11 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import space.imaginehave.tehdeh.tower.TowerType;
+
 
 
 public class HUDButton extends ImageButton {
 
-	private Texture texture;
+	private TowerType type;
+	
 	
 	public HUDButton(Drawable drawable) {
 		super(drawable);
@@ -35,12 +38,12 @@ public class HUDButton extends ImageButton {
 		
 	}
 
-	public void setMouseFollowTexture(Texture texture) {
-		this.texture = texture;
+	public void setTowerType(TowerType type) {
+		this.type = type;
 	}
 
 	public Texture getTexture() {
-		return texture;
+		return type.texture;
 	}
 	
 }

@@ -15,6 +15,7 @@ import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.button.HUDButton;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
+import space.imaginehave.tehdeh.tower.TowerType;
 
 public class HUD {
 
@@ -24,7 +25,9 @@ public class HUD {
 
 		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) state.getAssetManager().get(Constant.TEST_TOWER_PNG))));
 		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
-		towerButton.setMouseFollowTexture((Texture) state.getAssetManager().get(Constant.TEST_TOWER_PNG));
+		TowerType towerType = new TowerType();
+		towerType.setTexture((Texture) state.getAssetManager().get(Constant.TEST_TOWER_2_PNG));
+		towerButton.setTowerType(towerType);
 
 		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) state.getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
 		final HUDButton goalChangeButton = new HUDButton(goalDrawable);

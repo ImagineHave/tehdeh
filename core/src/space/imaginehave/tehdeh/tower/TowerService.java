@@ -13,7 +13,7 @@ public class TowerService {
 	}
 	
 	public TowerMapObject createWall(Vector2 position, GameStateTehDeh state, Texture texture) {
-		TowerType type = new TowerType();
+		TowerType type = new TowerType(0,0,0,0,null);
 		return new TowerMapObject(position.cpy(), state, texture, type);
 	}
 	

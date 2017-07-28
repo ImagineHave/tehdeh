@@ -11,6 +11,7 @@ public class Constant {
 	public static final int VIEWPORT_WIDTH = 800;
 
 	public static final String TEST_TOWER_PNG = "testTower.png";
+	public static final String TEST_TOWER_2_PNG = "testTower2.png";
 	
 	public static final String TEST_AGENT_PNG = "testAgent.png";
 	public static final String BOID_AGENT_PNG = "boidAgent.png";
