@@ -23,7 +23,7 @@ public class HUD {
 
 	public HUD (Viewport viewport, final GameStateTehDeh state) {
 
-		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) state.getAssetManager().get(Constant.TEST_TOWER_PNG))));
+		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) state.getAssetManager().get(Constant.TEST_TOWER_2_PNG))));
 		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
 		TowerType towerType = new TowerType();
 		towerType.setTexture((Texture) state.getAssetManager().get(Constant.TEST_TOWER_2_PNG));
@@ -71,8 +71,8 @@ public class HUD {
 		
 		towerButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				if(!state.getMouse().getPlacementTexture().isPresent()) {
-					state.getMouse().setPlacementTexture(towerButton.getTexture());
+				if(!state.getMouse().getPlacementTowerType().isPresent()) {
+					state.getMouse().setPlacementTexture(towerButton.getTowerType());
 					state.getMouse().setMouseCoords(state.getMouse().getMouseCoords());	
 				} 
 			}

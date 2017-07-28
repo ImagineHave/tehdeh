@@ -32,7 +32,7 @@ public class HurtyThingBullet extends MapObject {
 	public HurtyThingBullet(Vector2 position, Vector2 velocity, Vector2 goal, GameStateTehDeh state) {
 		this.position = position;
 		this.velocity = velocity;
-		this.goal = state.getGoal();
+		this.goal = goal;
 		polygon = new Polygon(new float[]{0,0,width,0,width,height,0,height});
 		this.origin = position;
 		texture = state.getAssetManager().get(Constant.TEST_HURTYTHING_PNG);

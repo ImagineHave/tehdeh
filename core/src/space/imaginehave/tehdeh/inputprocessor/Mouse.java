@@ -6,19 +6,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import space.imaginehave.tehdeh.tower.TowerType;
+
 public class Mouse {
 
-	private Optional<Texture> placementTextureOptional;
+	private Optional<TowerType> placementTowerTypeOptional;
 	private Vector2 mouseVector;
 	
 	public Mouse(){
-		this.placementTextureOptional = Optional.empty();
+		this.placementTowerTypeOptional = Optional.empty();
 		this.mouseVector = Vector2.Zero.cpy();
 	}
 	
 	public void render(SpriteBatch batch){
-		if (placementTextureOptional.isPresent()) {
-			Texture placementTexture = placementTextureOptional.get();
+		if (placementTowerTypeOptional.isPresent()) {
+			Texture placementTexture = placementTowerTypeOptional.get().texture;
 			batch.draw(
 					placementTexture, 
 					mouseVector.x - placementTexture.getWidth()/2, 
@@ -27,8 +29,8 @@ public class Mouse {
 		}
 	}
 	
-	public void setPlacementTexture(Texture texture){
-		this.placementTextureOptional = Optional.ofNullable(texture);
+	public void setPlacementTexture(TowerType towerType){
+		this.placementTowerTypeOptional = Optional.ofNullable(towerType);
 	}
 	
 	public void setMouseCoords(Vector2 vector){
@@ -39,8 +41,8 @@ public class Mouse {
 		return mouseVector;
 	}
 
-	public Optional<Texture> getPlacementTexture() {
-		return placementTextureOptional;
+	public Optional<TowerType> getPlacementTowerType() {
+		return placementTowerTypeOptional;
 	}
 	
 }

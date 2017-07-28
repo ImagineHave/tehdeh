@@ -10,6 +10,7 @@ import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 import space.imaginehave.tehdeh.tower.TowerService;
+import space.imaginehave.tehdeh.tower.TowerType;
 
 public class InputProcessorTehDeh implements InputProcessor {
 	
@@ -55,11 +56,11 @@ public class InputProcessorTehDeh implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if(game.getState().getMouse().getPlacementTexture().isPresent()) {
+		if(game.getState().getMouse().getPlacementTowerType().isPresent()) {
 			if (game.getScreen() instanceof GameScreenTehDeh) {
 				Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
-				
-				TowerMapObject towerMapObject = towerService.createTower(vector, game.getState(), game.getState().getMouse().getPlacementTexture().get());
+				TowerType towerType = game.getState().getMouse().getPlacementTowerType().get();
+				TowerMapObject towerMapObject = towerService.createTower(vector, game.getState(), towerType);
 				
 				game.getState().getLayerService().addTower(
 						towerMapObject, 

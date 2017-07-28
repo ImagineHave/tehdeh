@@ -7,14 +7,13 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class TowerService {
 	
-	public TowerMapObject createTower(Vector2 position, GameStateTehDeh state, Texture texture) {
-		TowerType type = new TowerType();
-		return new TowerMapObject(position.cpy(), state, texture, type);
+	public TowerMapObject createTower(Vector2 position, GameStateTehDeh state, TowerType type) {
+		return new TowerMapObject(position.cpy(), state, type);
 	}
 	
 	public TowerMapObject createWall(Vector2 position, GameStateTehDeh state, Texture texture) {
-		TowerType type = new TowerType(0,0,0,0,null);
-		return new TowerMapObject(position.cpy(), state, texture, type);
+		TowerType type = new TowerType(0,0,0,0,texture);
+		return new TowerMapObject(position.cpy(), state, type);
 	}
 	
 }

@@ -23,21 +23,25 @@ public class TowerMapObject extends MapObject {
 	private List<HurtyThingBullet> bullets = new ArrayList<HurtyThingBullet>();
 	private Vector2 position;
 	private TowerCell towerCell;
+	private float delayTimer = 3;
 
-	public TowerMapObject (Vector2 position, GameStateTehDeh state, Texture texture, TowerType type) {
+	public TowerMapObject (Vector2 position, GameStateTehDeh state, TowerType type) {
 		this.position = position;
 		this.state = state;
-		this.towerCell = new TowerCell(texture);
+		this.towerCell = new TowerCell(type.texture);
 		this.type = type;
 	}
 
 	public void update() {
-		type.delayTimer += Gdx.graphics.getDeltaTime();
-		if (type.delayTimer > type.firingDelay) {
+		if(type.range == 0) {
+			return; //FIXME
+		}
+		delayTimer += Gdx.graphics.getDeltaTime();
+		if (delayTimer > type.firingDelay) {
 			Optional<AgentMob> agent = getClosestAgentInRange();
 			if (agent.isPresent()) {
 				fireBullet(agent.get());
-				type.delayTimer = 0;
+				delayTimer = 0;
 			}
 		}
 		for (int i = 0; i < bullets.size(); i++) {
@@ -53,29 +57,25 @@ public class TowerMapObject extends MapObject {
 	private Optional<AgentMob> getClosestAgentInRange() {
 		AgentMob agentToReturn = null;
 		Array<AgentMob> agents = state.getAgentLayer().getObjects().getByType(AgentMob.class);
+		float nearestAgentDistance = Integer.MAX_VALUE;
 		for(int i = 0; i < agents.size; i++) {
-			MapObject mapObject = agents.get(i);
-			if(mapObject instanceof AgentMob && !(mapObject instanceof HurtyThingBullet)) { //TODO: refactor. Need better way to handle type of mapobject
-				AgentMob agent = (AgentMob) mapObject;
-				float nearestAgentDistance = Integer.MAX_VALUE;
-				Circle circle = new Circle(position.x, position.y, type.range);
-				if(circle.contains(new Vector2(agent.getPosition().x, agent.getPosition().y)) &&
-						position.dst2(agent.getPosition()) < nearestAgentDistance) {
-					nearestAgentDistance = position.dst2(agent.getPosition());
-					agentToReturn = agent;
-				}
+			AgentMob agent = agents.get(i);
+			Circle circle = new Circle(position.x, position.y, type.range);
+			if(circle.contains(new Vector2(agent.getPosition().x, agent.getPosition().y)) &&
+					position.dst2(agent.getPosition()) < nearestAgentDistance) {
+				nearestAgentDistance = position.dst2(agent.getPosition());
+				agentToReturn = agent;
 			}
 		}
-		return Optional.ofNullable(agentToReturn);
+ 		return Optional.ofNullable(agentToReturn);
 	}
 
 	private void fireBullet(AgentMob agent) {
 		Vector2 targetVector = agent.getPosition().cpy().sub(position.cpy());
 		int inaccuracy = MathUtils.random(-type.directionalInaccuracyInDegrees, type.directionalInaccuracyInDegrees);
-		Vector2 targetVector2 = new Vector2(targetVector.x, targetVector.y);
-		targetVector2.rotate(inaccuracy);
+		targetVector.rotate(inaccuracy);
 		//TODO: magic number 8 = tilewidth/2
-		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy(), new Vector2(), new Vector2(targetVector2.x, targetVector2.y), state);
+		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy(), new Vector2(), targetVector, state);
 		state.addBullet(bullet);
 		bullets.add(bullet);
 	}

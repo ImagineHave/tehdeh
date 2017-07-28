@@ -42,8 +42,8 @@ public class HUDButton extends ImageButton {
 		this.type = type;
 	}
 
-	public Texture getTexture() {
-		return type.texture;
+	public TowerType getTowerType() {
+		return type;
 	}
 	
 }
