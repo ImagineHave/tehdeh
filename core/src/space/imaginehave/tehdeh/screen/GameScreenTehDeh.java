@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,22 +23,21 @@ import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDe
 
 public class GameScreenTehDeh implements Screen {
 
+	private SpriteBatch batch;
+	private OrthographicCamera camera;
+	private Viewport viewport;
 	private Stage stage;
 	private Skin skin;
 	private InputProcessor processor;
-	private Viewport viewport;
 	private TiledMapRenderer tiledMapRenderer;
-	private SpriteBatch batch;
 
-	public GameScreenTehDeh() {
+	public GameScreenTehDeh(SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
 		
-		batch = new SpriteBatch();
 		
+		this.batch = batch;
 		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(this);
-		
-		OrthographicCamera camera = new OrthographicCamera();
-		
-		viewport = new StretchViewport(Constant.GAME_WIDTH, Constant.GAME_HEIGHT, camera);
+		this.camera = camera;
+		this.viewport = viewport;
 
 		stage = new Stage();
 
@@ -74,7 +75,7 @@ public class GameScreenTehDeh implements Screen {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.6f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		tiledMapRenderer.setView((OrthographicCamera) viewport.getCamera());
+		tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 		
 		stage.act(Math.min(delta, 1 / 30f));
