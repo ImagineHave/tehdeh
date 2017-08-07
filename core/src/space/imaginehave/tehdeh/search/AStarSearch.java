@@ -12,11 +12,8 @@ import space.imaginehave.tehdeh.wave.Population;
 
 public class AStarSearch extends Search {
 	
-	private TiledMapTileLayer tiledMapTileLayer;
-
-
-	public AStarSearch () {
-		this.tiledMapTileLayer = Population.getInstance().getTowerLayer();
+	public AStarSearch (Population population) {
+		super(population);
 	}
 
 	/**
@@ -99,13 +96,13 @@ public class AStarSearch extends Search {
 	  
     LinkedList<Vector2> path = new LinkedList<Vector2>();
     while (node.pathParent != null) {
-    	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
-    	float nodeXPixels = node.x*Population.getInstance().getTowerLayer().getTileWidth();
-		float nodeYPixels = node.y*Population.getInstance().getTowerLayer().getTileHeight();
+    	double distanceBetweenNodes = Math.hypot(node.pathParent.x*population.getTowerLayer().getTileWidth()-node.x*population.getTowerLayer().getTileWidth(), node.pathParent.y*population.getTowerLayer().getTileHeight()-node.y*population.getTowerLayer().getTileHeight());  
+    	float nodeXPixels = node.x*population.getTowerLayer().getTileWidth();
+		float nodeYPixels = node.y*population.getTowerLayer().getTileHeight();
 		
 		path.addLast(new Vector2(nodeXPixels, nodeYPixels));
-    	float difX = nodeXPixels - node.pathParent.x*tiledMapTileLayer.getTileWidth();
-    	float difY = nodeYPixels - node.pathParent.y*tiledMapTileLayer.getTileHeight();
+    	float difX = nodeXPixels - node.pathParent.x*population.getTowerLayer().getTileWidth();
+    	float difY = nodeYPixels - node.pathParent.y*population.getTowerLayer().getTileHeight();
 
     	if(node.pathParent.pathParent == null ) {
     		float firstX = agent.getPosition().x;
@@ -139,8 +136,8 @@ public class AStarSearch extends Search {
   @Override
   public void calculatePathsForAgent(AgentMob agent) {
 	
-	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), Population.getInstance().getTowerLayer());
-	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), Population.getInstance().getTowerLayer());
+	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), population.getTowerLayer());
+	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), population.getTowerLayer());
 	List<Vector2> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
 	agent.getPostionPath().clear();
 	agent.getPostionPath().addAll(aStarPath);
@@ -174,16 +171,16 @@ public class AStarSearch extends Search {
 				int celly = y0 + ((sy - 1) / 2);
 				if (f >= dx) {
 
-					if (Population.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
+					if (population.getTowerLayer().getCell(cellx, celly) != null) {
 						return false;
 					}
 					y0 += sy;
 					f -= dx;
 				}
-				if (f != 0 && Population.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
+				if (f != 0 && population.getTowerLayer().getCell(cellx, celly) != null) {
 					return false;
 				}
-				if (dy == 0 && Population.getInstance().getTowerLayer().getCell(cellx, y0) != null && Population.getInstance().getTowerLayer().getCell(cellx, y0 - 1) != null) {
+				if (dy == 0 && population.getTowerLayer().getCell(cellx, y0) != null && population.getTowerLayer().getCell(cellx, y0 - 1) != null) {
 					return false;
 				}
 				x0 += sx;
@@ -195,16 +192,16 @@ public class AStarSearch extends Search {
 				int celly = y0 + ((sy - 1) / 2);
 				if (f >= dy) {
 
-					if (Population.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
+					if (population.getTowerLayer().getCell(cellx, celly) != null) {
 						return false;
 					}
 					x0 += sx;
 					f -= dy;
 				}
-				if (f != 0 && Population.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
+				if (f != 0 && population.getTowerLayer().getCell(cellx, celly) != null) {
 					return false;
 				}
-				if (dx == 0 && Population.getInstance().getTowerLayer().getCell(x0, celly) != null && Population.getInstance().getTowerLayer().getCell(x0 - 1, celly) != null) {
+				if (dx == 0 && population.getTowerLayer().getCell(x0, celly) != null && population.getTowerLayer().getCell(x0 - 1, celly) != null) {
 					return false;
 				}
 				y0 += sy;

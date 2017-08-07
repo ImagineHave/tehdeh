@@ -23,7 +23,7 @@ public class HUD {
 
 	private Table hud;
 
-	public HUD (Viewport viewport) {
+	public HUD (Viewport viewport, Population population) {
 
 		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion((AssetManager.getInstance().getTexture(Constant.TEST_TOWER_2_PNG))));
 		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
@@ -59,15 +59,15 @@ public class HUD {
 		hud.pack();
 		hud.setPosition(Constant.VIEWPORT_WIDTH-hud.getWidth(), Constant.VIEWPORT_HEIGHT-hud.getHeight());
 
-		addListenersToButtons(towerButton, goalChangeButton, resetButton, moreButton);
+		addListenersToButtons(towerButton, goalChangeButton, resetButton, moreButton, population);
 	}
 
 	private void addListenersToButtons(final HUDButton towerButton, final HUDButton goalChangeButton,
-			final HUDButton resetButton, final HUDButton moreButton) {
+			final HUDButton resetButton, final HUDButton moreButton, final Population population) {
 		
 		resetButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				Population.getInstance().reset();
+				population.reset();
 			}
 		});
 		
@@ -84,22 +84,22 @@ public class HUD {
 			public void changed(ChangeEvent event, Actor actor) {
 				Vector2 vector = GameStateTehDeh.getInstance().getGoal();
 				
-				Population.getInstance().getLayerService().removeFromOverlay(
-						Population.getInstance().getLayerService().getFromOverlay(vector, Population.getInstance().getOverlay()),
-						Population.getInstance().getOverlay());
+				population.getLayerService().removeFromOverlay(
+						population.getLayerService().getFromOverlay(vector, population.getOverlay()),
+						population.getOverlay());
 				
 				GameStateTehDeh.getInstance().setGoal(Util.getRandomPosition());
 				
-				Population.getInstance().getLayerService().addToOverlay(
+				population.getLayerService().addToOverlay(
 						new GoalOverlayMapObject(),
-						Population.getInstance().getOverlay());
+						population.getOverlay());
 				
 			}
 		});
 		
 		moreButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				Population.getInstance().createAgents();
+				population.createAgents();
 			}
 		});
 	}

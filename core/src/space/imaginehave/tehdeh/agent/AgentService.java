@@ -23,50 +23,51 @@ import space.imaginehave.tehdeh.wave.Population;
 public class AgentService {
 	
 	
-	public void placeholderAgentStarter(){
-		createAgentsOfType(100, SearchType.BOID);
-		createAgentsOfType(1, SearchType.ASTAR);
-		createAgentsOfType(1, SearchType.THETASTAR);
+	public void placeholderAgentStarter(Population population){
+		createAgentsOfType(100, SearchType.BOID, population);
+		createAgentsOfType(1, SearchType.ASTAR, population);
+		createAgentsOfType(1, SearchType.THETASTAR, population);
 	}
 	
 	
 	public void createAgentsOfType(int count, 
-			SearchType searchType) {
+			SearchType searchType,
+			Population population) {
 		for(int i = 0; i < count; i++) {
-			createAddAgentToPopulation(searchType);
+			createAddAgentToPopulation(searchType, population);
 		}
 	}
 	
-	public void createAddAgentToPopulation(SearchType searchType) {
+	public void createAddAgentToPopulation(SearchType searchType, Population population) {
 		
 		switch (searchType) {
 			case BOID : 
-				Population.getInstance().getAgentLayer().getObjects().add(createAgent(new BoidSearch(), AssetManager.getInstance().getTexture("boidAgent.png")));
+				population.getAgentLayer().getObjects().add(createAgent(new BoidSearch(population), AssetManager.getInstance().getTexture("boidAgent.png")));
 				break;
 			case ASTAR : 
-				Population.getInstance().getAgentLayer().getObjects().add(createAgent(new AStarSearch(), AssetManager.getInstance().getTexture("aStarAgent.png")));
+				population.getAgentLayer().getObjects().add(createAgent(new AStarSearch(population), AssetManager.getInstance().getTexture("aStarAgent.png")));
 				break;
 			case THETASTAR : 
-				Population.getInstance().getAgentLayer().getObjects().add(createAgent(new ThetaStarLazySearch(), AssetManager.getInstance().getTexture("tStarAgent.png")));
+				population.getAgentLayer().getObjects().add(createAgent(new ThetaStarLazySearch(population), AssetManager.getInstance().getTexture("tStarAgent.png")));
 				break;
 			default :
 				throw new RuntimeException("Search type not known: " + searchType);
 		}
 	}
 	
-	public void reset(){
+	public void reset(Population population){
 		
-		for(AgentMob moa : Population.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class)){
-			Population.getInstance().getAgentLayer().getObjects().remove(moa);
+		for(AgentMob moa : population.getAgentLayer().getObjects().getByType(AgentMob.class)){
+			population.getAgentLayer().getObjects().remove(moa);
 		}
 		
-		this.placeholderAgentStarter();
+		this.placeholderAgentStarter(population);
 		
 	}
 	
-	public void resetGoals() {
+	public void resetGoals(Population population) {
 		
-		Array<AgentMob> agents = Population.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
+		Array<AgentMob> agents = population.getAgentLayer().getObjects().getByType(AgentMob.class);
 		
 		for(AgentMob agent : agents ) {
 			agent.setGoal(GameStateTehDeh.getInstance().getGoal());

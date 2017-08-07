@@ -15,14 +15,16 @@ import space.imaginehave.tehdeh.wave.Population;
 public class DaemonMapObject extends MapObject {
 
 	List<MapObject> theDead;
+	Population population;
 
-	public DaemonMapObject() {
+	public DaemonMapObject(Population population) {
 		theDead = new ArrayList<MapObject>();
+		this.population = population;
 	}
 
 	public void update() {
-		Array<AgentMob> agents = Population.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
-		Array<HurtyThingBullet> projectiles = Population.getInstance().getAgentLayer().getObjects().getByType(HurtyThingBullet.class);
+		Array<AgentMob> agents = population.getAgentLayer().getObjects().getByType(AgentMob.class);
+		Array<HurtyThingBullet> projectiles = population.getAgentLayer().getObjects().getByType(HurtyThingBullet.class);
 		
 		for (AgentMob agent : agents) {
 			if (agent.atGoal()){
@@ -42,14 +44,14 @@ public class DaemonMapObject extends MapObject {
 					GameStateTehDeh.getInstance().getPlayer().agentProfitted(agent);
 					killAgent(agent);
 				}
-				Population.getInstance().getAgentLayer().getObjects().remove(projectile);
+				population.getAgentLayer().getObjects().remove(projectile);
 			}
 		}
 	}
 
 	private void killAgent(AgentMob agent) {
 		theDead.add(agent);
-		Population.getInstance().getAgentLayer().getObjects().remove(agent);
+		population.getAgentLayer().getObjects().remove(agent);
 	}
 
 }

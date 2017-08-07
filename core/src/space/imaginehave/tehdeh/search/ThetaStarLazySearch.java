@@ -10,13 +10,12 @@ import space.imaginehave.tehdeh.wave.Population;
 
 public class ThetaStarLazySearch extends Search {
 	
-	TiledMapTileLayer tiledMapTileLayer;
 	private PriorityQueue<AStarNode> openList;
 	private HashSet<AStarNode> closedList;
 	
 	
-	public ThetaStarLazySearch () {
-		this.tiledMapTileLayer = Population.getInstance().getTowerLayer();
+	public ThetaStarLazySearch (Population population) {
+		super(population);
 	}
 	
 
@@ -112,10 +111,10 @@ public class ThetaStarLazySearch extends Search {
   protected List<Vector2> constructPath(AStarNode node, AgentMob agent) {
     LinkedList<Vector2> path = new LinkedList<Vector2>();
     while (node.pathParent != node) {
-    	float nodeXPixels = node.x*Population.getInstance().getTowerLayer().getTileWidth();
-		float nodeYPixels = node.y*Population.getInstance().getTowerLayer().getTileHeight();
-		float nodeParentXPixels = node.pathParent.x*Population.getInstance().getTowerLayer().getTileWidth();
-		float nodeParentYPixels = node.pathParent.y*Population.getInstance().getTowerLayer().getTileHeight();
+    	float nodeXPixels = node.x*population.getTowerLayer().getTileWidth();
+		float nodeYPixels = node.y*population.getTowerLayer().getTileHeight();
+		float nodeParentXPixels = node.pathParent.x*population.getTowerLayer().getTileWidth();
+		float nodeParentYPixels = node.pathParent.y*population.getTowerLayer().getTileHeight();
 		path.addLast(new Vector2(nodeXPixels, nodeYPixels));
 		
 		float difX = nodeXPixels - nodeParentXPixels;
@@ -142,8 +141,8 @@ public class ThetaStarLazySearch extends Search {
 
   @Override
   public void calculatePathsForAgent(AgentMob agent) {
-		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), tiledMapTileLayer);
-		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), tiledMapTileLayer);
+		AStarNode aStarStartNode = new AStarNode(agent.getPosition(), population.getTowerLayer());
+		AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), population.getTowerLayer());
 		List<Vector2> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
 		agent.getPostionPath().clear();
 		agent.getPostionPath().addAll(aStarPath);
@@ -176,16 +175,16 @@ public class ThetaStarLazySearch extends Search {
 				int celly = y0 + ((sy - 1) / 2);
 				if (f >= dx) {
 
-					if (tiledMapTileLayer.getCell(cellx, celly) != null) {
+					if (population.getTowerLayer().getCell(cellx, celly) != null) {
 						return false;
 					}
 					y0 += sy;
 					f -= dx;
 				}
-				if (f != 0 && tiledMapTileLayer.getCell(cellx, celly) != null) {
+				if (f != 0 && population.getTowerLayer().getCell(cellx, celly) != null) {
 					return false;
 				}
-				if (dy == 0 && tiledMapTileLayer.getCell(cellx, y0) != null && tiledMapTileLayer.getCell(cellx, y0 - 1) != null) {
+				if (dy == 0 && population.getTowerLayer().getCell(cellx, y0) != null && population.getTowerLayer().getCell(cellx, y0 - 1) != null) {
 					return false;
 				}
 				x0 += sx;
@@ -197,16 +196,16 @@ public class ThetaStarLazySearch extends Search {
 				int celly = y0 + ((sy - 1) / 2);
 				if (f >= dy) {
 
-					if (tiledMapTileLayer.getCell(cellx, celly) != null) {
+					if (population.getTowerLayer().getCell(cellx, celly) != null) {
 						return false;
 					}
 					x0 += sx;
 					f -= dy;
 				}
-				if (f != 0 && tiledMapTileLayer.getCell(cellx, celly) != null) {
+				if (f != 0 && population.getTowerLayer().getCell(cellx, celly) != null) {
 					return false;
 				}
-				if (dx == 0 && tiledMapTileLayer.getCell(x0, celly) != null && tiledMapTileLayer.getCell(x0 - 1, celly) != null) {
+				if (dx == 0 && population.getTowerLayer().getCell(x0, celly) != null && population.getTowerLayer().getCell(x0 - 1, celly) != null) {
 					return false;
 				}
 				y0 += sy;

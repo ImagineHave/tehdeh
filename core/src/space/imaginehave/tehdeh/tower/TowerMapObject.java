@@ -19,16 +19,18 @@ import space.imaginehave.tehdeh.wave.Population;
 
 public class TowerMapObject extends MapObject {
 	
+	private Population population;
 	private TowerType type;
 	private List<HurtyThingBullet> bullets = new ArrayList<HurtyThingBullet>();
 	private Vector2 position;
 	private TowerCell towerCell;
 	private float delayTimer = 3;
 
-	public TowerMapObject (Vector2 position, TowerType type) {
+	public TowerMapObject (Vector2 position, TowerType type, Population population) {
 		this.position = position;
 		this.towerCell = new TowerCell(type.texture);
 		this.type = type;
+		this.population = population;
 	}
 
 	public void update() {
@@ -47,7 +49,7 @@ public class TowerMapObject extends MapObject {
 			HurtyThingBullet bullet = bullets.get(i);
 			if (bullet.isToRemove()) {
 				bullets.remove(bullet);
-				Population.getInstance().getAgentLayer().getObjects().remove(bullet);
+				population.getAgentLayer().getObjects().remove(bullet);
 			}
 		} 
 		
@@ -55,7 +57,7 @@ public class TowerMapObject extends MapObject {
 
 	private Optional<AgentMob> getClosestAgentInRange() {
 		AgentMob agentToReturn = null;
-		Array<AgentMob> agents = Population.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
+		Array<AgentMob> agents = population.getAgentLayer().getObjects().getByType(AgentMob.class);
 		float nearestAgentDistance = Integer.MAX_VALUE;
 		for(int i = 0; i < agents.size; i++) {
 			AgentMob agent = agents.get(i);
@@ -75,7 +77,7 @@ public class TowerMapObject extends MapObject {
 		targetVector.rotate(inaccuracy);
 		//TODO: magic number 8 = tilewidth/2
 		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy(), new Vector2(), targetVector);
-		Population.getInstance().addBullet(bullet);
+		population.addBullet(bullet);
 		bullets.add(bullet);
 	}
 	

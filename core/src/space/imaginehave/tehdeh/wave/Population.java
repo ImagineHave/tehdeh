@@ -1,7 +1,10 @@
 package space.imaginehave.tehdeh.wave;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
@@ -13,6 +16,7 @@ import space.imaginehave.tehdeh.daemon.DaemonMapObject;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
+import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 import space.imaginehave.tehdeh.tower.TowerService;
 
@@ -23,22 +27,19 @@ public class Population {
 	private final TiledMapTileLayer towerLayer;
 	private final TiledMapTileLayer overlay;
 	private final MapLayer agentLayer;
-	private final TiledMap tiledMap;
+	
 	private final AgentService agentService;
 	private final LayerService layerService;
 	private final TowerService towerService;
 	
-	public static Population getInstance() {
-		if (population == null) {
-			population = new Population();
-		}
-		return population;
-	}
+	private final TiledMap tiledMap;
+	private TiledMapRenderer tiledMapRenderer;
 	
-	private Population () {
-		
+	public Population (SpriteBatch batch, OrthographicCamera camera) {
 		
 		tiledMap = new TmxMapLoader().load(Constant.TMX);
+		
+		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(tiledMap, batch);
 		
 		agentService = new AgentService();
 		layerService = new LayerService();
@@ -49,8 +50,9 @@ public class Population {
 		overlay = layerService.fetchOverlay(tiledMap);
 		
 		layerService.addToOverlay(new GoalOverlayMapObject(), overlay);
-		agentLayer.getObjects().add(new DaemonMapObject());
+		agentLayer.getObjects().add(new DaemonMapObject(this));
 		
+		tiledMapRenderer.setView(camera);
 	}
 	
 	
@@ -71,7 +73,7 @@ public class Population {
 	}
 	
 	public void createAgents() {
-		agentService.placeholderAgentStarter();
+		agentService.placeholderAgentStarter(this);
 	}
 	
 	public TowerService getTowerService() {
@@ -87,12 +89,12 @@ public class Population {
 	}
 
 	public void resetGoals() {
-		agentService.resetGoals();
+		agentService.resetGoals(this);
 		
 	}
 
 	public void reset() {
-		agentService.reset();
+		agentService.reset(this);
 		
 	}
 	
@@ -100,13 +102,15 @@ public class Population {
 		
 		for (int i = 0; i < Constant.GAME_WIDTH; i += 16) {
 			if( i % 128 != 0){
-				TowerMapObject tmo = Population.getInstance().getTowerService().createWall(
+				TowerMapObject tmo = towerService.createWall(
 						new Vector2(i,
 									Constant.GAME_HEIGHT/2), 
-									AssetManager.getInstance().getTexture(Constant.TEST_TOWER_PNG));
-				Population.getInstance().getLayerService().addTower(tmo,
-						Population.getInstance().getTowerLayer(),
-						Population.getInstance().getAgentLayer());
+									AssetManager.getInstance().getTexture(Constant.TEST_TOWER_PNG),
+									this);
+				
+				layerService.addTower(tmo,
+						towerLayer,
+						agentLayer);
 			}
 		}
 		
@@ -114,5 +118,9 @@ public class Population {
 	
 	public void addBullet(HurtyThingBullet bullet) {
 		getAgentLayer().getObjects().add(bullet);
+	}
+	
+	public void render() {
+		tiledMapRenderer.render();
 	}
 }

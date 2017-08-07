@@ -4,12 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -19,50 +16,45 @@ import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
-import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
 import space.imaginehave.tehdeh.wave.Population;
 
 public class GameScreenTehDeh implements Screen {
 
 	private SpriteBatch batch;
-	private OrthographicCamera camera;
 	private Viewport viewport;
 	private Stage stage;
 	private Skin skin;
 	private InputProcessor processor;
-	private TiledMapRenderer tiledMapRenderer;
+	
+	private Population population;
+	private OrthographicCamera camera;
 
-	public GameScreenTehDeh(SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
+	public GameScreenTehDeh() {
 		
-		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(Population.getInstance().getTiledMap(), batch);
+		batch = new SpriteBatch();
+		camera = new OrthographicCamera();
+		viewport = new StretchViewport(Constant.GAME_WIDTH, Constant.GAME_HEIGHT, camera);
+		viewport.apply(true);
 		
-		this.batch = batch;
-		this.camera = camera;
-		this.viewport = viewport;
+		population = new Population(batch, camera);
 
+		HUD hud = new HUD(viewport, population);
 		stage = new Stage();
-
+		stage.addActor(hud.getHud());
 		stage.setViewport(viewport);
 
 		InputMultiplexer im = new InputMultiplexer();
-		processor = new InputProcessorTehDeh(this, camera);
+		processor = new InputProcessorTehDeh(this, camera, population);
 		im.addProcessor(processor);
 		im.addProcessor(stage);
-
 		Gdx.input.setInputProcessor(im);
-		createUI();
-		viewport.apply();
 		
-		Population.getInstance().createAgents();
+		population.createAgents();
 		
-		Population.getInstance().createWalls();
+		population.createWalls();
 		
 	}
 
-	private void createUI() {
-		HUD hud = new HUD(viewport);
-		stage.addActor(hud.getHud());
-	}
 
 	@Override
 	public void show() {
@@ -74,11 +66,11 @@ public class GameScreenTehDeh implements Screen {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.6f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
+		population.render();
 		
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
+		
 		batch.begin();
 		GameStateTehDeh.getInstance().getMouse().render(batch);
 		batch.end();

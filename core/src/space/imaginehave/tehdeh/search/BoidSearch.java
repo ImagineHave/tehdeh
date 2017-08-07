@@ -14,14 +14,14 @@ public class BoidSearch extends Search {
 
 	private Array<AgentMob> agents = new Array<AgentMob>();
 
-
-	public BoidSearch() {
+	public BoidSearch(Population population) {
+		super(population);
 	}
 
 	@Override
 	public void calculatePathsForAgent(AgentMob boid) {
 		agents.clear();
-		for(AgentMob agent: Population.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class)) {
+		for(AgentMob agent: population.getAgentLayer().getObjects().getByType(AgentMob.class)) {
 			if(agent.getSearch() instanceof BoidSearch) {
 				agents.add(agent);
 			}
@@ -106,7 +106,7 @@ public class BoidSearch extends Search {
 	
 	private Vector2 getAvoids(AgentMob boid) {
 		Vector2 avoid = new Vector2(0,0);
-		Array<TowerMapObject> dtas = Population.getInstance().getAgentLayer().getObjects().getByType(TowerMapObject.class);
+		Array<TowerMapObject> dtas = population.getAgentLayer().getObjects().getByType(TowerMapObject.class);
 		for( TowerMapObject dta : dtas){
 			if (dta.getPosition().dst(boid.getPosition()) < 16) {
 				avoid = new Vector2(boid.getPosition());
