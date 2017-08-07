@@ -8,18 +8,19 @@ import com.badlogic.gdx.math.Vector3;
 import space.imaginehave.tehdeh.TehDehGame;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
+import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 import space.imaginehave.tehdeh.tower.TowerService;
 import space.imaginehave.tehdeh.tower.TowerType;
 
 public class InputProcessorTehDeh implements InputProcessor {
 	
-	private final TehDehGame game;
 	private final Camera camera;
 	private final TowerService towerService;
+	private final GameScreenTehDeh screen;
 	
-	public InputProcessorTehDeh(final TehDehGame game, final Camera camera) {
-		this.game = game;
+	public InputProcessorTehDeh(final GameScreenTehDeh screen, final Camera camera) {
+		this.screen = screen;
 		this.camera = camera;
 		towerService = new TowerService();
 	}
@@ -44,9 +45,9 @@ public class InputProcessorTehDeh implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//		if(!game.getState().getPlacementTexture().isPresent()) {
+//		if(!GameStateTehDeh.getInstance().getPlacementTexture().isPresent()) {
 //			Vector2 vector = camera.unproject(new Vector2(screenX, screenY, 0));
-//			for(MapObject a : game.getState().getAgentLayer().getObjects()) {
+//			for(MapObject a : GameStateTehDeh.getInstance().getAgentLayer().getObjects()) {
 //				((Agent)a).setGoal(vector);
 //			}
 //		}
@@ -56,19 +57,19 @@ public class InputProcessorTehDeh implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if(game.getState().getMouse().getPlacementTowerType().isPresent()) {
-			if (game.getScreen() instanceof GameScreenTehDeh) {
+		if(GameStateTehDeh.getInstance().getMouse().getPlacementTowerType().isPresent()) {
+			if (screen instanceof GameScreenTehDeh) {
 				Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
-				TowerType towerType = game.getState().getMouse().getPlacementTowerType().get();
-				TowerMapObject towerMapObject = towerService.createTower(vector, game.getState(), towerType);
+				TowerType towerType = GameStateTehDeh.getInstance().getMouse().getPlacementTowerType().get();
+				TowerMapObject towerMapObject = towerService.createTower(vector, GameStateTehDeh.getInstance(), towerType);
 				
-				game.getState().getLayerService().addTower(
+				GameStateTehDeh.getInstance().getLayerService().addTower(
 						towerMapObject, 
-						game.getState().getTowerLayer(), 
-						game.getState().getAgentLayer(), 
-						game.getState());
+						GameStateTehDeh.getInstance().getTowerLayer(), 
+						GameStateTehDeh.getInstance().getAgentLayer(), 
+						GameStateTehDeh.getInstance());
 				
-				game.getState().getMouse().setPlacementTexture(null);
+				GameStateTehDeh.getInstance().getMouse().setPlacementTexture(null);
 				return true;
 			}
 		}
@@ -84,7 +85,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
-		game.getState().getMouse().setMouseCoords(vector);
+		GameStateTehDeh.getInstance().getMouse().setMouseCoords(vector);
 		return false;
 	}
 

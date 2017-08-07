@@ -7,14 +7,10 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 public class TehDehGame extends Game {
 
 	
-	private GameStateTehDeh state;
-	
-
 	@Override
 	public void create() {
 		
-		state = new GameStateTehDeh(this);
-		this.setScreen(new GameScreenTehDeh(state));
+		this.setScreen(new GameScreenTehDeh());
 	}
 	
 
@@ -26,10 +22,6 @@ public class TehDehGame extends Game {
 	@Override
 	public void dispose() {
 
-	}
-	
-	public GameStateTehDeh getState() {
-		return this.state;
 	}
 
 }

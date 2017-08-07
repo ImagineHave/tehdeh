@@ -32,13 +32,20 @@ public class GameStateTehDeh implements State {
 	private final LayerService layerService;
 	private final TowerService towerService;
 	private Viewport viewport;
-	private final TehDehGame game;
 	private final Player player;
 	private Vector2 goal;
 	private Mouse mouse;
 	
-	public GameStateTehDeh (TehDehGame tehDehGame) {
-		this.game = tehDehGame;
+	private static GameStateTehDeh state;
+	
+	public static GameStateTehDeh getInstance() {
+		if (state == null) {
+			state = new GameStateTehDeh();
+		}
+		return state;
+	}
+	
+	private GameStateTehDeh () {
 		
 		createAssetManager();
 		getAssetManager().load(Constant.TEST_TOWER_PNG, Texture.class);
@@ -148,10 +155,6 @@ public class GameStateTehDeh implements State {
 
 	public LayerService getLayerService() {
 		return layerService;
-	}
-
-	public TehDehGame getGame() {
-		return game;
 	}
 	
 	public Mouse getMouse(){

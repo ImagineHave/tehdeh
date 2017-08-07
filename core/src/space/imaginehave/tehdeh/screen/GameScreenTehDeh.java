@@ -21,7 +21,6 @@ import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDe
 
 public class GameScreenTehDeh implements Screen {
 
-	private GameStateTehDeh state;
 	private Stage stage;
 	private Skin skin;
 	private InputProcessor processor;
@@ -29,9 +28,7 @@ public class GameScreenTehDeh implements Screen {
 	private TiledMapRenderer tiledMapRenderer;
 	private SpriteBatch batch;
 
-	public GameScreenTehDeh(final GameStateTehDeh state) {
-		
-		this.state = state;
+	public GameScreenTehDeh() {
 		
 		batch = new SpriteBatch();
 		
@@ -46,7 +43,7 @@ public class GameScreenTehDeh implements Screen {
 		stage.setViewport(viewport);
 
 		InputMultiplexer im = new InputMultiplexer();
-		processor = new InputProcessorTehDeh(state.getGame(), camera);
+		processor = new InputProcessorTehDeh(this, camera);
 		im.addProcessor(processor);
 		im.addProcessor(stage);
 
@@ -54,16 +51,16 @@ public class GameScreenTehDeh implements Screen {
 		createUI();
 		viewport.apply();
 		
-		state.setViewport(viewport);
+		GameStateTehDeh.getInstance().setViewport(viewport);
 		
-		state.createAgents();
+		GameStateTehDeh.getInstance().createAgents();
 		
-		state.createWalls();
+		GameStateTehDeh.getInstance().createWalls();
 		
 	}
 
 	private void createUI() {
-		HUD hud = new HUD(viewport, state);
+		HUD hud = new HUD(viewport, GameStateTehDeh.getInstance());
 		stage.addActor(hud.getHud());
 	}
 
@@ -83,13 +80,9 @@ public class GameScreenTehDeh implements Screen {
 		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
 		batch.begin();
-		state.getMouse().render(batch);
+		GameStateTehDeh.getInstance().getMouse().render(batch);
 		batch.end();
 	    
-	}
-	
-	public GameStateTehDeh getState() {
-		return state;
 	}
 	
 	public SpriteBatch getBatch() {

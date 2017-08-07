@@ -9,6 +9,7 @@ import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.daemon.DaemonMapObject;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.screen.GameScreenTehDeh;
+import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 
@@ -16,7 +17,7 @@ public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer
 
 
 	public OrthogonalTiledMapRendererTehDeh(final GameScreenTehDeh gameScreenTehDeh) {
-		super(gameScreenTehDeh.getState().getTiledMap(), gameScreenTehDeh.getBatch());
+		super(GameStateTehDeh.getInstance().getTiledMap(), gameScreenTehDeh.getBatch());
 	}
 	
 	
