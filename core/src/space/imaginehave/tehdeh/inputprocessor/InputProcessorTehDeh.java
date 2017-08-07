@@ -12,6 +12,7 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
 import space.imaginehave.tehdeh.tower.TowerService;
 import space.imaginehave.tehdeh.tower.TowerType;
+import space.imaginehave.tehdeh.wave.Population;
 
 public class InputProcessorTehDeh implements InputProcessor {
 	
@@ -63,10 +64,10 @@ public class InputProcessorTehDeh implements InputProcessor {
 				TowerType towerType = GameStateTehDeh.getInstance().getMouse().getPlacementTowerType().get();
 				TowerMapObject towerMapObject = towerService.createTower(vector, towerType);
 				
-				GameStateTehDeh.getInstance().getLayerService().addTower(
+				Population.getInstance().getLayerService().addTower(
 						towerMapObject, 
-						GameStateTehDeh.getInstance().getTowerLayer(), 
-						GameStateTehDeh.getInstance().getAgentLayer());
+						Population.getInstance().getTowerLayer(), 
+						Population.getInstance().getAgentLayer());
 				
 				GameStateTehDeh.getInstance().getMouse().setPlacementTexture(null);
 				return true;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
+import space.imaginehave.tehdeh.wave.Population;
 
 public class DaemonMapObject extends MapObject {
 
@@ -20,8 +21,8 @@ public class DaemonMapObject extends MapObject {
 	}
 
 	public void update() {
-		Array<AgentMob> agents = GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
-		Array<HurtyThingBullet> projectiles = GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(HurtyThingBullet.class);
+		Array<AgentMob> agents = Population.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
+		Array<HurtyThingBullet> projectiles = Population.getInstance().getAgentLayer().getObjects().getByType(HurtyThingBullet.class);
 		
 		for (AgentMob agent : agents) {
 			if (agent.atGoal()){
@@ -41,14 +42,14 @@ public class DaemonMapObject extends MapObject {
 					GameStateTehDeh.getInstance().getPlayer().agentProfitted(agent);
 					killAgent(agent);
 				}
-				GameStateTehDeh.getInstance().getAgentLayer().getObjects().remove(projectile);
+				Population.getInstance().getAgentLayer().getObjects().remove(projectile);
 			}
 		}
 	}
 
 	private void killAgent(AgentMob agent) {
 		theDead.add(agent);
-		GameStateTehDeh.getInstance().getAgentLayer().getObjects().remove(agent);
+		Population.getInstance().getAgentLayer().getObjects().remove(agent);
 	}
 
 }

@@ -17,6 +17,7 @@ import space.imaginehave.tehdeh.button.HUDButton;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerType;
+import space.imaginehave.tehdeh.wave.Population;
 
 public class HUD {
 
@@ -66,7 +67,7 @@ public class HUD {
 		
 		resetButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				GameStateTehDeh.getInstance().reset();
+				Population.getInstance().reset();
 			}
 		});
 		
@@ -83,22 +84,22 @@ public class HUD {
 			public void changed(ChangeEvent event, Actor actor) {
 				Vector2 vector = GameStateTehDeh.getInstance().getGoal();
 				
-				GameStateTehDeh.getInstance().getLayerService().removeFromOverlay(
-						GameStateTehDeh.getInstance().getLayerService().getFromOverlay(vector, GameStateTehDeh.getInstance().getOverlay()),
-						GameStateTehDeh.getInstance().getOverlay());
+				Population.getInstance().getLayerService().removeFromOverlay(
+						Population.getInstance().getLayerService().getFromOverlay(vector, Population.getInstance().getOverlay()),
+						Population.getInstance().getOverlay());
 				
 				GameStateTehDeh.getInstance().setGoal(Util.getRandomPosition());
 				
-				GameStateTehDeh.getInstance().getLayerService().addToOverlay(
+				Population.getInstance().getLayerService().addToOverlay(
 						new GoalOverlayMapObject(),
-						GameStateTehDeh.getInstance().getOverlay());
+						Population.getInstance().getOverlay());
 				
 			}
 		});
 		
 		moreButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				GameStateTehDeh.getInstance().createAgents();
+				Population.getInstance().createAgents();
 			}
 		});
 	}

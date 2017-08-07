@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
+import space.imaginehave.tehdeh.wave.Population;
 
 public class AStarSearch extends Search {
 	
@@ -15,7 +16,7 @@ public class AStarSearch extends Search {
 
 
 	public AStarSearch () {
-		this.tiledMapTileLayer = GameStateTehDeh.getInstance().getTowerLayer();
+		this.tiledMapTileLayer = Population.getInstance().getTowerLayer();
 	}
 
 	/**
@@ -99,8 +100,8 @@ public class AStarSearch extends Search {
     LinkedList<Vector2> path = new LinkedList<Vector2>();
     while (node.pathParent != null) {
     	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
-    	float nodeXPixels = node.x*GameStateTehDeh.getInstance().getTowerLayer().getTileWidth();
-		float nodeYPixels = node.y*GameStateTehDeh.getInstance().getTowerLayer().getTileHeight();
+    	float nodeXPixels = node.x*Population.getInstance().getTowerLayer().getTileWidth();
+		float nodeYPixels = node.y*Population.getInstance().getTowerLayer().getTileHeight();
 		
 		path.addLast(new Vector2(nodeXPixels, nodeYPixels));
     	float difX = nodeXPixels - node.pathParent.x*tiledMapTileLayer.getTileWidth();
@@ -138,8 +139,8 @@ public class AStarSearch extends Search {
   @Override
   public void calculatePathsForAgent(AgentMob agent) {
 	
-	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), GameStateTehDeh.getInstance().getTowerLayer());
-	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), GameStateTehDeh.getInstance().getTowerLayer());
+	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), Population.getInstance().getTowerLayer());
+	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), Population.getInstance().getTowerLayer());
 	List<Vector2> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
 	agent.getPostionPath().clear();
 	agent.getPostionPath().addAll(aStarPath);
@@ -173,16 +174,16 @@ public class AStarSearch extends Search {
 				int celly = y0 + ((sy - 1) / 2);
 				if (f >= dx) {
 
-					if (GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
+					if (Population.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
 						return false;
 					}
 					y0 += sy;
 					f -= dx;
 				}
-				if (f != 0 && GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
+				if (f != 0 && Population.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
 					return false;
 				}
-				if (dy == 0 && GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, y0) != null && GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, y0 - 1) != null) {
+				if (dy == 0 && Population.getInstance().getTowerLayer().getCell(cellx, y0) != null && Population.getInstance().getTowerLayer().getCell(cellx, y0 - 1) != null) {
 					return false;
 				}
 				x0 += sx;
@@ -194,16 +195,16 @@ public class AStarSearch extends Search {
 				int celly = y0 + ((sy - 1) / 2);
 				if (f >= dy) {
 
-					if (GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
+					if (Population.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
 						return false;
 					}
 					x0 += sx;
 					f -= dy;
 				}
-				if (f != 0 && GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
+				if (f != 0 && Population.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
 					return false;
 				}
-				if (dx == 0 && GameStateTehDeh.getInstance().getTowerLayer().getCell(x0, celly) != null && GameStateTehDeh.getInstance().getTowerLayer().getCell(x0 - 1, celly) != null) {
+				if (dx == 0 && Population.getInstance().getTowerLayer().getCell(x0, celly) != null && Population.getInstance().getTowerLayer().getCell(x0 - 1, celly) != null) {
 					return false;
 				}
 				y0 += sy;

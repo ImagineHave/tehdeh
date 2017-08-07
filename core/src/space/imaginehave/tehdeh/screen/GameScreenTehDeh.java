@@ -20,6 +20,7 @@ import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tiledmaprenderer.OrthogonalTiledMapRendererTehDeh;
+import space.imaginehave.tehdeh.wave.Population;
 
 public class GameScreenTehDeh implements Screen {
 
@@ -33,7 +34,7 @@ public class GameScreenTehDeh implements Screen {
 
 	public GameScreenTehDeh(SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
 		
-		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(GameStateTehDeh.getInstance().getTiledMap(), batch);
+		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(Population.getInstance().getTiledMap(), batch);
 		
 		this.batch = batch;
 		this.camera = camera;
@@ -52,11 +53,9 @@ public class GameScreenTehDeh implements Screen {
 		createUI();
 		viewport.apply();
 		
-		GameStateTehDeh.getInstance().setViewport(viewport);
+		Population.getInstance().createAgents();
 		
-		GameStateTehDeh.getInstance().createAgents();
-		
-		GameStateTehDeh.getInstance().createWalls();
+		Population.getInstance().createWalls();
 		
 	}
 

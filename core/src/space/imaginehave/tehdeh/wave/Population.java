@@ -10,6 +10,7 @@ import space.imaginehave.tehdeh.AssetManager;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.agent.AgentService;
 import space.imaginehave.tehdeh.daemon.DaemonMapObject;
+import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.layer.LayerService;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
@@ -109,5 +110,9 @@ public class Population {
 			}
 		}
 		
+	}
+	
+	public void addBullet(HurtyThingBullet bullet) {
+		getAgentLayer().getObjects().add(bullet);
 	}
 }

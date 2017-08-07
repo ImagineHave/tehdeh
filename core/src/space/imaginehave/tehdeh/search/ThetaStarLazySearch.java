@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
+import space.imaginehave.tehdeh.wave.Population;
 
 public class ThetaStarLazySearch extends Search {
 	
@@ -15,7 +16,7 @@ public class ThetaStarLazySearch extends Search {
 	
 	
 	public ThetaStarLazySearch () {
-		this.tiledMapTileLayer = GameStateTehDeh.getInstance().getTowerLayer();
+		this.tiledMapTileLayer = Population.getInstance().getTowerLayer();
 	}
 	
 
@@ -111,10 +112,10 @@ public class ThetaStarLazySearch extends Search {
   protected List<Vector2> constructPath(AStarNode node, AgentMob agent) {
     LinkedList<Vector2> path = new LinkedList<Vector2>();
     while (node.pathParent != node) {
-    	float nodeXPixels = node.x*GameStateTehDeh.getInstance().getTowerLayer().getTileWidth();
-		float nodeYPixels = node.y*GameStateTehDeh.getInstance().getTowerLayer().getTileHeight();
-		float nodeParentXPixels = node.pathParent.x*GameStateTehDeh.getInstance().getTowerLayer().getTileWidth();
-		float nodeParentYPixels = node.pathParent.y*GameStateTehDeh.getInstance().getTowerLayer().getTileHeight();
+    	float nodeXPixels = node.x*Population.getInstance().getTowerLayer().getTileWidth();
+		float nodeYPixels = node.y*Population.getInstance().getTowerLayer().getTileHeight();
+		float nodeParentXPixels = node.pathParent.x*Population.getInstance().getTowerLayer().getTileWidth();
+		float nodeParentYPixels = node.pathParent.y*Population.getInstance().getTowerLayer().getTileHeight();
 		path.addLast(new Vector2(nodeXPixels, nodeYPixels));
 		
 		float difX = nodeXPixels - nodeParentXPixels;

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import space.imaginehave.tehdeh.agent.AgentMob;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
+import space.imaginehave.tehdeh.wave.Population;
 
 public class TowerMapObject extends MapObject {
 	
@@ -46,7 +47,7 @@ public class TowerMapObject extends MapObject {
 			HurtyThingBullet bullet = bullets.get(i);
 			if (bullet.isToRemove()) {
 				bullets.remove(bullet);
-				GameStateTehDeh.getInstance().getAgentLayer().getObjects().remove(bullet);
+				Population.getInstance().getAgentLayer().getObjects().remove(bullet);
 			}
 		} 
 		
@@ -54,7 +55,7 @@ public class TowerMapObject extends MapObject {
 
 	private Optional<AgentMob> getClosestAgentInRange() {
 		AgentMob agentToReturn = null;
-		Array<AgentMob> agents = GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
+		Array<AgentMob> agents = Population.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
 		float nearestAgentDistance = Integer.MAX_VALUE;
 		for(int i = 0; i < agents.size; i++) {
 			AgentMob agent = agents.get(i);
@@ -74,7 +75,7 @@ public class TowerMapObject extends MapObject {
 		targetVector.rotate(inaccuracy);
 		//TODO: magic number 8 = tilewidth/2
 		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy(), new Vector2(), targetVector);
-		GameStateTehDeh.getInstance().addBullet(bullet);
+		Population.getInstance().addBullet(bullet);
 		bullets.add(bullet);
 	}
 	
