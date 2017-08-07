@@ -70,13 +70,13 @@ public class AgentService {
 		Array<AgentMob> agents = population.getAgentLayer().getObjects().getByType(AgentMob.class);
 		
 		for(AgentMob agent : agents ) {
-			agent.setGoal(GameStateTehDeh.getInstance().getGoal());
+			agent.setGoal(Constant.ORIGINAL_GOAL_VECTOR);
 		}
 	}
 	
 	private AgentMob createAgent(Search search, Texture texture) {
 		AgentType type = new AgentType(search, texture);
-		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), GameStateTehDeh.getInstance(), type);
+		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), type);
 	}
 }
 	

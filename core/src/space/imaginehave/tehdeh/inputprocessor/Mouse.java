@@ -12,13 +12,15 @@ public class Mouse {
 
 	private Optional<TowerType> placementTowerTypeOptional;
 	private Vector2 mouseVector;
+	private SpriteBatch batch;
 	
-	public Mouse(){
+	public Mouse(SpriteBatch batch){
 		this.placementTowerTypeOptional = Optional.empty();
 		this.mouseVector = Vector2.Zero.cpy();
+		this.batch = batch;
 	}
 	
-	public void render(SpriteBatch batch){
+	public void render(){
 		if (placementTowerTypeOptional.isPresent()) {
 			Texture placementTexture = placementTowerTypeOptional.get().texture;
 			batch.draw(

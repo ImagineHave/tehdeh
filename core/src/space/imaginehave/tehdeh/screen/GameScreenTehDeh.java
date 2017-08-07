@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.gui.HUD;
 import space.imaginehave.tehdeh.inputprocessor.InputProcessorTehDeh;
+import space.imaginehave.tehdeh.inputprocessor.Mouse;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.wave.Population;
 
@@ -22,12 +23,14 @@ public class GameScreenTehDeh implements Screen {
 
 	private SpriteBatch batch;
 	private Viewport viewport;
+	private OrthographicCamera camera;
+	
 	private Stage stage;
 	private Skin skin;
 	private InputProcessor processor;
 	
 	private Population population;
-	private OrthographicCamera camera;
+	private Mouse mouse;
 
 	public GameScreenTehDeh() {
 		
@@ -37,14 +40,16 @@ public class GameScreenTehDeh implements Screen {
 		viewport.apply(true);
 		
 		population = new Population(batch, camera);
+		
+		mouse = new Mouse(batch);
 
-		HUD hud = new HUD(viewport, population);
+		HUD hud = new HUD(viewport, population, mouse);
 		stage = new Stage();
 		stage.addActor(hud.getHud());
 		stage.setViewport(viewport);
 
 		InputMultiplexer im = new InputMultiplexer();
-		processor = new InputProcessorTehDeh(this, camera, population);
+		processor = new InputProcessorTehDeh(this, camera, population, mouse);
 		im.addProcessor(processor);
 		im.addProcessor(stage);
 		Gdx.input.setInputProcessor(im);
@@ -72,7 +77,7 @@ public class GameScreenTehDeh implements Screen {
 		stage.draw();
 		
 		batch.begin();
-		GameStateTehDeh.getInstance().getMouse().render(batch);
+		mouse.render();
 		batch.end();
 	    
 	}

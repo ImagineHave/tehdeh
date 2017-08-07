@@ -49,7 +49,7 @@ public class Population {
 		agentLayer = layerService.fetchAgentLayer(tiledMap);
 		overlay = layerService.fetchOverlay(tiledMap);
 		
-		layerService.addToOverlay(new GoalOverlayMapObject(), overlay);
+		layerService.addToOverlay(Constant.ORIGINAL_GOAL_MAP_OBJECT, overlay);
 		agentLayer.getObjects().add(new DaemonMapObject(this));
 		
 		tiledMapRenderer.setView(camera);

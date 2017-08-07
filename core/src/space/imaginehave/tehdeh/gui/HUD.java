@@ -14,6 +14,7 @@ import space.imaginehave.tehdeh.AssetManager;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.button.HUDButton;
+import space.imaginehave.tehdeh.inputprocessor.Mouse;
 import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 import space.imaginehave.tehdeh.tower.TowerType;
@@ -22,9 +23,12 @@ import space.imaginehave.tehdeh.wave.Population;
 public class HUD {
 
 	private Table hud;
+	private Mouse mouse;
 
-	public HUD (Viewport viewport, Population population) {
+	public HUD (Viewport viewport, Population population, Mouse mouse) {
 
+		this.mouse = mouse;
+		
 		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion((AssetManager.getInstance().getTexture(Constant.TEST_TOWER_2_PNG))));
 		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
 		TowerType towerType = new TowerType();
@@ -47,9 +51,6 @@ public class HUD {
 		hud.setDebug(true);
 
 		hud.add(towerButton);
-		
-		hud.add(goalChangeButton);
-		hud.row();
 
 		hud.add(resetButton); 
 		
@@ -73,27 +74,10 @@ public class HUD {
 		
 		towerButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				if(!GameStateTehDeh.getInstance().getMouse().getPlacementTowerType().isPresent()) {
-					GameStateTehDeh.getInstance().getMouse().setPlacementTexture(towerButton.getTowerType());
-					GameStateTehDeh.getInstance().getMouse().setMouseCoords(GameStateTehDeh.getInstance().getMouse().getMouseCoords());	
+				if(!mouse.getPlacementTowerType().isPresent()) {
+					mouse.setPlacementTexture(towerButton.getTowerType());
+					mouse.setMouseCoords(mouse.getMouseCoords());	
 				} 
-			}
-		});
-		
-		goalChangeButton.addListener(new ChangeListener() {
-			public void changed(ChangeEvent event, Actor actor) {
-				Vector2 vector = GameStateTehDeh.getInstance().getGoal();
-				
-				population.getLayerService().removeFromOverlay(
-						population.getLayerService().getFromOverlay(vector, population.getOverlay()),
-						population.getOverlay());
-				
-				GameStateTehDeh.getInstance().setGoal(Util.getRandomPosition());
-				
-				population.getLayerService().addToOverlay(
-						new GoalOverlayMapObject(),
-						population.getOverlay());
-				
 			}
 		});
 		

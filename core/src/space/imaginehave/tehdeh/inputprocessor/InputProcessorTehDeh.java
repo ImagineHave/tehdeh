@@ -20,11 +20,13 @@ public class InputProcessorTehDeh implements InputProcessor {
 	private final TowerService towerService;
 	private final GameScreenTehDeh screen;
 	private final Population population;
+	private final Mouse mouse;
 	
-	public InputProcessorTehDeh(final GameScreenTehDeh screen, final Camera camera, final Population population) {
+	public InputProcessorTehDeh(final GameScreenTehDeh screen, final Camera camera, final Population population, final Mouse mouse) {
 		this.screen = screen;
 		this.camera = camera;
 		this.population = population;
+		this.mouse = mouse;
 		towerService = new TowerService();
 	}
 
@@ -60,10 +62,10 @@ public class InputProcessorTehDeh implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		if(GameStateTehDeh.getInstance().getMouse().getPlacementTowerType().isPresent()) {
+		if(mouse.getPlacementTowerType().isPresent()) {
 			if (screen instanceof GameScreenTehDeh) {
 				Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
-				TowerType towerType = GameStateTehDeh.getInstance().getMouse().getPlacementTowerType().get();
+				TowerType towerType = mouse.getPlacementTowerType().get();
 				TowerMapObject towerMapObject = towerService.createTower(vector, towerType, population);
 				
 				population.getLayerService().addTower(
@@ -71,7 +73,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 						population.getTowerLayer(), 
 						population.getAgentLayer());
 				
-				GameStateTehDeh.getInstance().getMouse().setPlacementTexture(null);
+				mouse.setPlacementTexture(null);
 				return true;
 			}
 		}
@@ -87,7 +89,7 @@ public class InputProcessorTehDeh implements InputProcessor {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
-		GameStateTehDeh.getInstance().getMouse().setMouseCoords(vector);
+		mouse.setMouseCoords(vector);
 		return false;
 	}
 

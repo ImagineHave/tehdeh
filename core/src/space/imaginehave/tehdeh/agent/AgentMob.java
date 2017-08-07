@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
+import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.search.Search;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
@@ -31,10 +32,10 @@ public class AgentMob extends MapObject {
 	private int stepsStuck;
 	private int currentHealth;
 	
-	public AgentMob(Vector2 position, Vector2 velocity, GameStateTehDeh state, AgentType type) {
+	public AgentMob(Vector2 position, Vector2 velocity, AgentType type) {
 		this.position = position;
 		this.velocity = velocity;
-		this.goal = state.getGoal();
+		this.goal = Constant.ORIGINAL_GOAL_VECTOR;
 		
 		this.positionPath = new ArrayList<Vector2>();
 		this.velocityPath = new ArrayList<Vector2>();
