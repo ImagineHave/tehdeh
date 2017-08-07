@@ -14,9 +14,8 @@ public class AStarSearch extends Search {
 	private TiledMapTileLayer tiledMapTileLayer;
 
 
-	public AStarSearch (GameStateTehDeh state) {
-		super(state);
-		this.tiledMapTileLayer = state.getTowerLayer();
+	public AStarSearch () {
+		this.tiledMapTileLayer = GameStateTehDeh.getInstance().getTowerLayer();
 	}
 
 	/**
@@ -100,8 +99,8 @@ public class AStarSearch extends Search {
     LinkedList<Vector2> path = new LinkedList<Vector2>();
     while (node.pathParent != null) {
     	double distanceBetweenNodes = Math.hypot(node.pathParent.x*tiledMapTileLayer.getTileWidth()-node.x*tiledMapTileLayer.getTileWidth(), node.pathParent.y*tiledMapTileLayer.getTileHeight()-node.y*tiledMapTileLayer.getTileHeight());  
-    	float nodeXPixels = node.x*state.getTowerLayer().getTileWidth();
-		float nodeYPixels = node.y*state.getTowerLayer().getTileHeight();
+    	float nodeXPixels = node.x*GameStateTehDeh.getInstance().getTowerLayer().getTileWidth();
+		float nodeYPixels = node.y*GameStateTehDeh.getInstance().getTowerLayer().getTileHeight();
 		
 		path.addLast(new Vector2(nodeXPixels, nodeYPixels));
     	float difX = nodeXPixels - node.pathParent.x*tiledMapTileLayer.getTileWidth();
@@ -139,8 +138,8 @@ public class AStarSearch extends Search {
   @Override
   public void calculatePathsForAgent(AgentMob agent) {
 	
-	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), state.getTowerLayer());
-	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), state.getTowerLayer());
+	AStarNode aStarStartNode = new AStarNode(agent.getPosition(), GameStateTehDeh.getInstance().getTowerLayer());
+	AStarNode aStarGoalNode = new AStarNode(agent.getGoal(), GameStateTehDeh.getInstance().getTowerLayer());
 	List<Vector2> aStarPath = findPath(aStarStartNode, aStarGoalNode, agent); 
 	agent.getPostionPath().clear();
 	agent.getPostionPath().addAll(aStarPath);
@@ -174,16 +173,16 @@ public class AStarSearch extends Search {
 				int celly = y0 + ((sy - 1) / 2);
 				if (f >= dx) {
 
-					if (state.getTowerLayer().getCell(cellx, celly) != null) {
+					if (GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
 						return false;
 					}
 					y0 += sy;
 					f -= dx;
 				}
-				if (f != 0 && state.getTowerLayer().getCell(cellx, celly) != null) {
+				if (f != 0 && GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
 					return false;
 				}
-				if (dy == 0 && state.getTowerLayer().getCell(cellx, y0) != null && state.getTowerLayer().getCell(cellx, y0 - 1) != null) {
+				if (dy == 0 && GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, y0) != null && GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, y0 - 1) != null) {
 					return false;
 				}
 				x0 += sx;
@@ -195,16 +194,16 @@ public class AStarSearch extends Search {
 				int celly = y0 + ((sy - 1) / 2);
 				if (f >= dy) {
 
-					if (state.getTowerLayer().getCell(cellx, celly) != null) {
+					if (GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
 						return false;
 					}
 					x0 += sx;
 					f -= dy;
 				}
-				if (f != 0 && state.getTowerLayer().getCell(cellx, celly) != null) {
+				if (f != 0 && GameStateTehDeh.getInstance().getTowerLayer().getCell(cellx, celly) != null) {
 					return false;
 				}
-				if (dx == 0 && state.getTowerLayer().getCell(x0, celly) != null && state.getTowerLayer().getCell(x0 - 1, celly) != null) {
+				if (dx == 0 && GameStateTehDeh.getInstance().getTowerLayer().getCell(x0, celly) != null && GameStateTehDeh.getInstance().getTowerLayer().getCell(x0 - 1, celly) != null) {
 					return false;
 				}
 				y0 += sy;

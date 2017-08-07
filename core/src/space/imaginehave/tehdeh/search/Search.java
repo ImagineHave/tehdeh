@@ -5,10 +5,8 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public abstract class Search {
 
-	protected final GameStateTehDeh state;
-
-	public Search(final GameStateTehDeh state) {
-		this.state = state;
+	public Search() {
+		
 	}
 	
 	public abstract void calculatePathsForAgent(AgentMob boid);

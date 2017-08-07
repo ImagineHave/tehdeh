@@ -19,15 +19,13 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 public class TowerMapObject extends MapObject {
 	
 	private TowerType type;
-	private GameStateTehDeh state;
 	private List<HurtyThingBullet> bullets = new ArrayList<HurtyThingBullet>();
 	private Vector2 position;
 	private TowerCell towerCell;
 	private float delayTimer = 3;
 
-	public TowerMapObject (Vector2 position, GameStateTehDeh state, TowerType type) {
+	public TowerMapObject (Vector2 position, TowerType type) {
 		this.position = position;
-		this.state = state;
 		this.towerCell = new TowerCell(type.texture);
 		this.type = type;
 	}
@@ -48,7 +46,7 @@ public class TowerMapObject extends MapObject {
 			HurtyThingBullet bullet = bullets.get(i);
 			if (bullet.isToRemove()) {
 				bullets.remove(bullet);
-				state.getAgentLayer().getObjects().remove(bullet);
+				GameStateTehDeh.getInstance().getAgentLayer().getObjects().remove(bullet);
 			}
 		} 
 		
@@ -56,7 +54,7 @@ public class TowerMapObject extends MapObject {
 
 	private Optional<AgentMob> getClosestAgentInRange() {
 		AgentMob agentToReturn = null;
-		Array<AgentMob> agents = state.getAgentLayer().getObjects().getByType(AgentMob.class);
+		Array<AgentMob> agents = GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
 		float nearestAgentDistance = Integer.MAX_VALUE;
 		for(int i = 0; i < agents.size; i++) {
 			AgentMob agent = agents.get(i);
@@ -75,8 +73,8 @@ public class TowerMapObject extends MapObject {
 		int inaccuracy = MathUtils.random(-type.directionalInaccuracyInDegrees, type.directionalInaccuracyInDegrees);
 		targetVector.rotate(inaccuracy);
 		//TODO: magic number 8 = tilewidth/2
-		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy(), new Vector2(), targetVector, state);
-		state.addBullet(bullet);
+		HurtyThingBullet bullet = new HurtyThingBullet(position.cpy(), new Vector2(), targetVector);
+		GameStateTehDeh.getInstance().addBullet(bullet);
 		bullets.add(bullet);
 	}
 	

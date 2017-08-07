@@ -33,9 +33,9 @@ public class GameScreenTehDeh implements Screen {
 
 	public GameScreenTehDeh(SpriteBatch batch, OrthographicCamera camera, Viewport viewport) {
 		
+		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(GameStateTehDeh.getInstance().getTiledMap(), batch);
 		
 		this.batch = batch;
-		tiledMapRenderer = new OrthogonalTiledMapRendererTehDeh(this);
 		this.camera = camera;
 		this.viewport = viewport;
 

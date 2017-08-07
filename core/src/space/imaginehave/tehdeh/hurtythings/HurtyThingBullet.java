@@ -30,7 +30,7 @@ public class HurtyThingBullet extends MapObject {
 	protected Vector2 goal;
 	protected Polygon polygon;
 	
-	public HurtyThingBullet(Vector2 position, Vector2 velocity, Vector2 goal, GameStateTehDeh state) {
+	public HurtyThingBullet(Vector2 position, Vector2 velocity, Vector2 goal) {
 		this.position = position;
 		this.velocity = velocity;
 		this.goal = goal;

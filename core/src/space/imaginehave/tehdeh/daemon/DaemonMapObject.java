@@ -14,20 +14,18 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 public class DaemonMapObject extends MapObject {
 
 	List<MapObject> theDead;
-	GameStateTehDeh state;
 
-	public DaemonMapObject(GameStateTehDeh state) {
-		this.state = state;
+	public DaemonMapObject() {
 		theDead = new ArrayList<MapObject>();
 	}
 
 	public void update() {
-		Array<AgentMob> agents = state.getAgentLayer().getObjects().getByType(AgentMob.class);
-		Array<HurtyThingBullet> projectiles = state.getAgentLayer().getObjects().getByType(HurtyThingBullet.class);
+		Array<AgentMob> agents = GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
+		Array<HurtyThingBullet> projectiles = GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(HurtyThingBullet.class);
 		
 		for (AgentMob agent : agents) {
 			if (agent.atGoal()){
-				state.getPlayer().hurt(agent);
+				GameStateTehDeh.getInstance().getPlayer().hurt(agent);
 				killAgent(agent);
 			}
 			
@@ -40,17 +38,17 @@ public class DaemonMapObject extends MapObject {
 			if(Intersector.overlapConvexPolygons(projectile.getBoundingBox(), agent.getBoundingBox())) {
 				agent.doDamage(projectile.getDamage());
 				if(agent.isDead()) {
-					state.getPlayer().agentProfitted(agent);
+					GameStateTehDeh.getInstance().getPlayer().agentProfitted(agent);
 					killAgent(agent);
 				}
-				state.getAgentLayer().getObjects().remove(projectile);
+				GameStateTehDeh.getInstance().getAgentLayer().getObjects().remove(projectile);
 			}
 		}
 	}
 
 	private void killAgent(AgentMob agent) {
 		theDead.add(agent);
-		state.getAgentLayer().getObjects().remove(agent);
+		GameStateTehDeh.getInstance().getAgentLayer().getObjects().remove(agent);
 	}
 
 }

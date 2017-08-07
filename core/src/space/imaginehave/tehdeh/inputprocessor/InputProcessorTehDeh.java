@@ -61,13 +61,12 @@ public class InputProcessorTehDeh implements InputProcessor {
 			if (screen instanceof GameScreenTehDeh) {
 				Vector2 vector = Util.convert(camera.unproject(new Vector3(screenX, screenY, 0)));
 				TowerType towerType = GameStateTehDeh.getInstance().getMouse().getPlacementTowerType().get();
-				TowerMapObject towerMapObject = towerService.createTower(vector, GameStateTehDeh.getInstance(), towerType);
+				TowerMapObject towerMapObject = towerService.createTower(vector, towerType);
 				
 				GameStateTehDeh.getInstance().getLayerService().addTower(
 						towerMapObject, 
 						GameStateTehDeh.getInstance().getTowerLayer(), 
-						GameStateTehDeh.getInstance().getAgentLayer(), 
-						GameStateTehDeh.getInstance());
+						GameStateTehDeh.getInstance().getAgentLayer());
 				
 				GameStateTehDeh.getInstance().getMouse().setPlacementTexture(null);
 				return true;

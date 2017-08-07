@@ -14,14 +14,13 @@ public class BoidSearch extends Search {
 	private Array<AgentMob> agents = new Array<AgentMob>();
 
 
-	public BoidSearch(final GameStateTehDeh state) {
-		super(state);
+	public BoidSearch() {
 	}
 
 	@Override
 	public void calculatePathsForAgent(AgentMob boid) {
 		agents.clear();
-		for(AgentMob agent: state.getAgentLayer().getObjects().getByType(AgentMob.class)) {
+		for(AgentMob agent: GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class)) {
 			if(agent.getSearch() instanceof BoidSearch) {
 				agents.add(agent);
 			}
@@ -106,7 +105,7 @@ public class BoidSearch extends Search {
 	
 	private Vector2 getAvoids(AgentMob boid) {
 		Vector2 avoid = new Vector2(0,0);
-		Array<TowerMapObject> dtas = state.getAgentLayer().getObjects().getByType(TowerMapObject.class);
+		Array<TowerMapObject> dtas = GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(TowerMapObject.class);
 		for( TowerMapObject dta : dtas){
 			if (dta.getPosition().dst(boid.getPosition()) < 16) {
 				avoid = new Vector2(boid.getPosition());

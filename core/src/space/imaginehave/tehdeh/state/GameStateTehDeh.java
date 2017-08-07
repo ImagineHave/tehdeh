@@ -1,6 +1,5 @@
 package space.imaginehave.tehdeh.state;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -10,25 +9,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import space.imaginehave.tehdeh.AssetManager;
 import space.imaginehave.tehdeh.Constant;
-import space.imaginehave.tehdeh.agent.AgentService;
-import space.imaginehave.tehdeh.daemon.DaemonMapObject;
 import space.imaginehave.tehdeh.hurtythings.HurtyThingBullet;
 import space.imaginehave.tehdeh.inputprocessor.Mouse;
 import space.imaginehave.tehdeh.layer.LayerService;
-import space.imaginehave.tehdeh.overlay.GoalOverlayMapObject;
 import space.imaginehave.tehdeh.player.Player;
 import space.imaginehave.tehdeh.tower.TowerMapObject;
-import space.imaginehave.tehdeh.tower.TowerService;
+import space.imaginehave.tehdeh.wave.Population;
 
 public class GameStateTehDeh implements State {
 	
-	private final TiledMapTileLayer towerLayer;
-	private final TiledMapTileLayer overlay;
-	private final MapLayer agentLayer;
-	private final TiledMap tiledMap;
-	private final AgentService agentService;
-	private final LayerService layerService;
-	private final TowerService towerService;
+
 	private Viewport viewport;
 	private final Player player;
 	private Vector2 goal;
@@ -47,64 +37,33 @@ public class GameStateTehDeh implements State {
 		
 		mouse = new Mouse();
 		
-		agentService = new AgentService();
-		
-		tiledMap = new TmxMapLoader().load(Constant.TMX);
-		
-		layerService = new LayerService();
-		towerLayer = layerService.fetchTowerLayer(tiledMap);
-		agentLayer = layerService.fetchAgentLayer(tiledMap);
-		overlay = layerService.fetchOverlay(tiledMap);
-		towerService = new TowerService();
-		
 		goal = new Vector2(Constant.GAME_WIDTH/2,32);
-		
-		
-		layerService.addToOverlay(new GoalOverlayMapObject(this), 
-				overlay, 
-				this);
-		
-		agentLayer.getObjects().add(new DaemonMapObject(this));
 		
 		player = new Player();
 	}
 
 	public TiledMap getTiledMap() {
-		return tiledMap;
+		return Population.getInstance().getTiledMap();
 	}
 
 	public TiledMapTileLayer getTowerLayer() {
-		return towerLayer;
+		return Population.getInstance().getTowerLayer();
 	}
 	
 	public MapLayer getAgentLayer() {
-		return agentLayer;
+		return Population.getInstance().getAgentLayer();
 	}
 	
 	public TiledMapTileLayer getOverlay() {
-		return overlay;
+		return Population.getInstance().getOverlay();
 	}
 	
 	public void createWalls() {
-		
-		for (int i = 0; i < viewport.getWorldWidth(); i += 16) {
-			if( i % 128 != 0){
-				TowerMapObject tmo = towerService.createWall(
-						new Vector2(i,
-									Constant.GAME_HEIGHT/2), 
-									this, 
-									AssetManager.getInstance().getTexture(Constant.TEST_TOWER_PNG));
-				layerService.addTower(tmo,
-						towerLayer,
-						agentLayer,
-						this);
-			}
-		}
-		
+		Population.getInstance().createWalls();
 	}
 	
 	public void createAgents() {
-		agentService.placeholderAgentStarter(this);
+		Population.getInstance().createAgents();;
 	}
 	
 	public Vector2 getGoal() {
@@ -120,22 +79,17 @@ public class GameStateTehDeh implements State {
 	}
 
 	public void redefineGoals() {
-		this.agentService.resetGoals(this);
+		Population.getInstance().resetGoals();
 		
 	}
 
 	public void reset() {
-		
-		agentService.reset(this);
+		Population.getInstance().reset();
 		
 	}
 
 	public void addBullet(HurtyThingBullet bullet) {
 		getAgentLayer().getObjects().add(bullet);
-	}
-
-	public LayerService getLayerService() {
-		return layerService;
 	}
 	
 	public Mouse getMouse(){
@@ -144,6 +98,10 @@ public class GameStateTehDeh implements State {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public LayerService getLayerService() {
+		return Population.getInstance().getLayerService();
 	}
 
 }

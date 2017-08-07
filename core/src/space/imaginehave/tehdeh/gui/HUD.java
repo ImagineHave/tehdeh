@@ -90,9 +90,8 @@ public class HUD {
 				GameStateTehDeh.getInstance().setGoal(Util.getRandomPosition());
 				
 				GameStateTehDeh.getInstance().getLayerService().addToOverlay(
-						new GoalOverlayMapObject(GameStateTehDeh.getInstance()),
-						GameStateTehDeh.getInstance().getOverlay(), 
-						GameStateTehDeh.getInstance());
+						new GoalOverlayMapObject(),
+						GameStateTehDeh.getInstance().getOverlay());
 				
 			}
 		});

@@ -13,7 +13,7 @@ import space.imaginehave.tehdeh.tower.TowerMapObject;
 
 public class LayerService {
 	
-	public void addToOverlay(OverlayMapObject overlayMapObject, TiledMapTileLayer layer, GameStateTehDeh state) {
+	public void addToOverlay(OverlayMapObject overlayMapObject, TiledMapTileLayer layer) {
 		layer.setCell(
 				(int) (overlayMapObject.getPosition().x/layer.getTileWidth()), 
 				(int) (overlayMapObject.getPosition().y/layer.getTileHeight()), 
@@ -49,8 +49,7 @@ public class LayerService {
 	public void addTower(
 			TowerMapObject towerMapObject, 
 			TiledMapTileLayer tileLayer,
-			MapLayer agentLayer,
-			GameStateTehDeh state) {
+			MapLayer agentLayer) {
 		
 		tileLayer.setCell(
 				(int) (towerMapObject.getPosition().x/tileLayer.getTileWidth()), 

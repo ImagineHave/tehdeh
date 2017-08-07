@@ -2,6 +2,7 @@ package space.imaginehave.tehdeh.tiledmaprenderer;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import space.imaginehave.tehdeh.agent.AgentMob;
@@ -16,8 +17,8 @@ import space.imaginehave.tehdeh.tower.TowerMapObject;
 public class OrthogonalTiledMapRendererTehDeh extends OrthogonalTiledMapRenderer {
 
 
-	public OrthogonalTiledMapRendererTehDeh(final GameScreenTehDeh gameScreenTehDeh) {
-		super(GameStateTehDeh.getInstance().getTiledMap(), gameScreenTehDeh.getBatch());
+	public OrthogonalTiledMapRendererTehDeh(final TiledMap tiledMap, final SpriteBatch batch) {
+		super(tiledMap, batch);
 	}
 	
 	

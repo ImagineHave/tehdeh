@@ -8,14 +8,12 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
 public class OverlayMapObject extends MapObject {
 	
-	private GameStateTehDeh state;
 	private Vector2 position;
 	private OverlayCell cell;
 
-	public OverlayMapObject (Vector2 position, GameStateTehDeh state, Texture texture) {
+	public OverlayMapObject (Vector2 position, Texture texture) {
 		this.position = position;
 		this.cell = new OverlayCell(texture);
-		this.state = state;
 	}
 	
 	public Vector2 getPosition() {

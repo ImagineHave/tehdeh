@@ -14,9 +14,8 @@ public class ThetaStarLazySearch extends Search {
 	private HashSet<AStarNode> closedList;
 	
 	
-	public ThetaStarLazySearch (GameStateTehDeh state) {
-		super(state);
-		this.tiledMapTileLayer = state.getTowerLayer();
+	public ThetaStarLazySearch () {
+		this.tiledMapTileLayer = GameStateTehDeh.getInstance().getTowerLayer();
 	}
 	
 
@@ -112,10 +111,10 @@ public class ThetaStarLazySearch extends Search {
   protected List<Vector2> constructPath(AStarNode node, AgentMob agent) {
     LinkedList<Vector2> path = new LinkedList<Vector2>();
     while (node.pathParent != node) {
-    	float nodeXPixels = node.x*state.getTowerLayer().getTileWidth();
-		float nodeYPixels = node.y*state.getTowerLayer().getTileHeight();
-		float nodeParentXPixels = node.pathParent.x*state.getTowerLayer().getTileWidth();
-		float nodeParentYPixels = node.pathParent.y*state.getTowerLayer().getTileHeight();
+    	float nodeXPixels = node.x*GameStateTehDeh.getInstance().getTowerLayer().getTileWidth();
+		float nodeYPixels = node.y*GameStateTehDeh.getInstance().getTowerLayer().getTileHeight();
+		float nodeParentXPixels = node.pathParent.x*GameStateTehDeh.getInstance().getTowerLayer().getTileWidth();
+		float nodeParentYPixels = node.pathParent.y*GameStateTehDeh.getInstance().getTowerLayer().getTileHeight();
 		path.addLast(new Vector2(nodeXPixels, nodeYPixels));
 		
 		float difX = nodeXPixels - nodeParentXPixels;

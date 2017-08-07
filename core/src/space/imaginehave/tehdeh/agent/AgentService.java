@@ -22,60 +22,59 @@ import space.imaginehave.tehdeh.state.GameStateTehDeh;
 public class AgentService {
 	
 	
-	public void placeholderAgentStarter(GameStateTehDeh state){
-		createAgentsOfType(state, 100, SearchType.BOID);
-		createAgentsOfType(state, 1, SearchType.ASTAR);
-		createAgentsOfType(state, 1, SearchType.THETASTAR);
+	public void placeholderAgentStarter(){
+		createAgentsOfType(100, SearchType.BOID);
+		createAgentsOfType(1, SearchType.ASTAR);
+		createAgentsOfType(1, SearchType.THETASTAR);
 	}
 	
 	
-	public void createAgentsOfType(GameStateTehDeh state, 
-			int count, 
+	public void createAgentsOfType(int count, 
 			SearchType searchType) {
 		for(int i = 0; i < count; i++) {
-			createAddAgentToPopulation(state, searchType);
+			createAddAgentToPopulation(searchType);
 		}
 	}
 	
-	public void createAddAgentToPopulation(GameStateTehDeh state, SearchType searchType) {
+	public void createAddAgentToPopulation(SearchType searchType) {
 		
 		switch (searchType) {
 			case BOID : 
-				state.getAgentLayer().getObjects().add(createAgent(state, new BoidSearch(state), AssetManager.getInstance().getTexture("boidAgent.png")));
+				GameStateTehDeh.getInstance().getAgentLayer().getObjects().add(createAgent(new BoidSearch(), AssetManager.getInstance().getTexture("boidAgent.png")));
 				break;
 			case ASTAR : 
-				state.getAgentLayer().getObjects().add(createAgent(state, new AStarSearch(state), AssetManager.getInstance().getTexture("aStarAgent.png")));
+				GameStateTehDeh.getInstance().getAgentLayer().getObjects().add(createAgent(new AStarSearch(), AssetManager.getInstance().getTexture("aStarAgent.png")));
 				break;
 			case THETASTAR : 
-				state.getAgentLayer().getObjects().add(createAgent(state,new ThetaStarLazySearch(state), AssetManager.getInstance().getTexture("tStarAgent.png")));
+				GameStateTehDeh.getInstance().getAgentLayer().getObjects().add(createAgent(new ThetaStarLazySearch(), AssetManager.getInstance().getTexture("tStarAgent.png")));
 				break;
 			default :
 				throw new RuntimeException("Search type not known: " + searchType);
 		}
 	}
 	
-	public void reset(GameStateTehDeh state){
+	public void reset(){
 		
-		for(AgentMob moa : state.getAgentLayer().getObjects().getByType(AgentMob.class)){
-			state.getAgentLayer().getObjects().remove(moa);
+		for(AgentMob moa : GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class)){
+			GameStateTehDeh.getInstance().getAgentLayer().getObjects().remove(moa);
 		}
 		
-		this.placeholderAgentStarter(state);
+		this.placeholderAgentStarter();
 		
 	}
 	
-	public void resetGoals(GameStateTehDeh state) {
+	public void resetGoals() {
 		
-		Array<AgentMob> agents = state.getAgentLayer().getObjects().getByType(AgentMob.class);
+		Array<AgentMob> agents = GameStateTehDeh.getInstance().getAgentLayer().getObjects().getByType(AgentMob.class);
 		
 		for(AgentMob agent : agents ) {
-			agent.setGoal(state.getGoal());
+			agent.setGoal(GameStateTehDeh.getInstance().getGoal());
 		}
 	}
 	
-	private AgentMob createAgent(GameStateTehDeh state, Search search, Texture texture) {
+	private AgentMob createAgent(Search search, Texture texture) {
 		AgentType type = new AgentType(search, texture);
-		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), state, type);
+		return new AgentMob(Util.getRandomPosition(null, (int) Constant.GAME_HEIGHT + 16), new Vector2(0,0), GameStateTehDeh.getInstance(), type);
 	}
 }
 	
