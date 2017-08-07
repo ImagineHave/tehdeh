@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import space.imaginehave.tehdeh.AssetManager;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.button.HUDButton;
@@ -23,19 +24,19 @@ public class HUD {
 
 	public HUD (Viewport viewport) {
 
-		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.TEST_TOWER_2_PNG))));
+		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion((AssetManager.getInstance().getTexture(Constant.TEST_TOWER_2_PNG))));
 		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
 		TowerType towerType = new TowerType();
-		towerType.setTexture((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.TEST_TOWER_2_PNG));
+		towerType.setTexture((Texture) AssetManager.getInstance().getTexture(Constant.TEST_TOWER_2_PNG));
 		towerButton.setTowerType(towerType);
 
-		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
+		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion(AssetManager.getInstance().getTexture(Constant.OVERLAY_GOAL_PNG)));
 		final HUDButton goalChangeButton = new HUDButton(goalDrawable);
 
-		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.BUTTON_RESET_PNG)));
+		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion(AssetManager.getInstance().getTexture(Constant.BUTTON_RESET_PNG)));
 		final HUDButton resetButton = new HUDButton(resetDrawable);
 
-		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.BUTTON_MORE_PNG)));
+		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion(AssetManager.getInstance().getTexture(Constant.BUTTON_MORE_PNG)));
 		final HUDButton moreButton = new HUDButton(moreDrawable);
 
 		hud = new Table();

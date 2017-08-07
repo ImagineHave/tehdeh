@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
+import space.imaginehave.tehdeh.AssetManager;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.state.GameStateTehDeh;
 
@@ -35,7 +36,7 @@ public class HurtyThingBullet extends MapObject {
 		this.goal = goal;
 		polygon = new Polygon(new float[]{0,0,width,0,width,height,0,height});
 		this.origin = position;
-		texture = state.getAssetManager().get(Constant.TEST_HURTYTHING_PNG);
+		texture = AssetManager.getInstance().getTexture(Constant.TEST_HURTYTHING_PNG);
 	}
 	
 

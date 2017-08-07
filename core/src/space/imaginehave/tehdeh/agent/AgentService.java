@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import space.imaginehave.tehdeh.AssetManager;
 import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.Util;
 import space.imaginehave.tehdeh.search.AStarSearch;
@@ -40,13 +41,13 @@ public class AgentService {
 		
 		switch (searchType) {
 			case BOID : 
-				state.getAgentLayer().getObjects().add(createAgent(state, new BoidSearch(state), state.getAssetManager().get("boidAgent.png", Texture.class)));
+				state.getAgentLayer().getObjects().add(createAgent(state, new BoidSearch(state), AssetManager.getInstance().getTexture("boidAgent.png")));
 				break;
 			case ASTAR : 
-				state.getAgentLayer().getObjects().add(createAgent(state, new AStarSearch(state), state.getAssetManager().get("aStarAgent.png", Texture.class)));
+				state.getAgentLayer().getObjects().add(createAgent(state, new AStarSearch(state), AssetManager.getInstance().getTexture("aStarAgent.png")));
 				break;
 			case THETASTAR : 
-				state.getAgentLayer().getObjects().add(createAgent(state,new ThetaStarLazySearch(state), state.getAssetManager().get("tStarAgent.png", Texture.class)));
+				state.getAgentLayer().getObjects().add(createAgent(state,new ThetaStarLazySearch(state), AssetManager.getInstance().getTexture("tStarAgent.png")));
 				break;
 			default :
 				throw new RuntimeException("Search type not known: " + searchType);
