@@ -21,21 +21,21 @@ public class HUD {
 
 	private Table hud;
 
-	public HUD (Viewport viewport, final GameStateTehDeh state) {
+	public HUD (Viewport viewport) {
 
-		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) state.getAssetManager().get(Constant.TEST_TOWER_2_PNG))));
+		Drawable towerButtonDrawable = new TextureRegionDrawable(new TextureRegion(((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.TEST_TOWER_2_PNG))));
 		final HUDButton towerButton = new HUDButton(towerButtonDrawable);
 		TowerType towerType = new TowerType();
-		towerType.setTexture((Texture) state.getAssetManager().get(Constant.TEST_TOWER_2_PNG));
+		towerType.setTexture((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.TEST_TOWER_2_PNG));
 		towerButton.setTowerType(towerType);
 
-		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) state.getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
+		Drawable goalDrawable = new TextureRegionDrawable(new TextureRegion((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.OVERLAY_GOAL_PNG)));
 		final HUDButton goalChangeButton = new HUDButton(goalDrawable);
 
-		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion((Texture) state.getAssetManager().get(Constant.BUTTON_RESET_PNG)));
+		Drawable resetDrawable = new TextureRegionDrawable(new TextureRegion((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.BUTTON_RESET_PNG)));
 		final HUDButton resetButton = new HUDButton(resetDrawable);
 
-		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) state.getAssetManager().get(Constant.BUTTON_MORE_PNG)));
+		Drawable moreDrawable = new TextureRegionDrawable(new TextureRegion((Texture) GameStateTehDeh.getInstance().getAssetManager().get(Constant.BUTTON_MORE_PNG)));
 		final HUDButton moreButton = new HUDButton(moreDrawable);
 
 		hud = new Table();
@@ -57,48 +57,48 @@ public class HUD {
 		hud.pack();
 		hud.setPosition(Constant.VIEWPORT_WIDTH-hud.getWidth(), Constant.VIEWPORT_HEIGHT-hud.getHeight());
 
-		addListenersToButtons(state, towerButton, goalChangeButton, resetButton, moreButton);
+		addListenersToButtons(towerButton, goalChangeButton, resetButton, moreButton);
 	}
 
-	private void addListenersToButtons(final GameStateTehDeh state, final HUDButton towerButton, final HUDButton goalChangeButton,
+	private void addListenersToButtons(final HUDButton towerButton, final HUDButton goalChangeButton,
 			final HUDButton resetButton, final HUDButton moreButton) {
 		
 		resetButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				state.reset();
+				GameStateTehDeh.getInstance().reset();
 			}
 		});
 		
 		towerButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				if(!state.getMouse().getPlacementTowerType().isPresent()) {
-					state.getMouse().setPlacementTexture(towerButton.getTowerType());
-					state.getMouse().setMouseCoords(state.getMouse().getMouseCoords());	
+				if(!GameStateTehDeh.getInstance().getMouse().getPlacementTowerType().isPresent()) {
+					GameStateTehDeh.getInstance().getMouse().setPlacementTexture(towerButton.getTowerType());
+					GameStateTehDeh.getInstance().getMouse().setMouseCoords(GameStateTehDeh.getInstance().getMouse().getMouseCoords());	
 				} 
 			}
 		});
 		
 		goalChangeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				Vector2 vector = state.getGoal();
+				Vector2 vector = GameStateTehDeh.getInstance().getGoal();
 				
-				state.getLayerService().removeFromOverlay(
-						state.getLayerService().getFromOverlay(vector, state.getOverlay()),
-						state.getOverlay());
+				GameStateTehDeh.getInstance().getLayerService().removeFromOverlay(
+						GameStateTehDeh.getInstance().getLayerService().getFromOverlay(vector, GameStateTehDeh.getInstance().getOverlay()),
+						GameStateTehDeh.getInstance().getOverlay());
 				
-				state.setGoal(Util.getRandomPosition());
+				GameStateTehDeh.getInstance().setGoal(Util.getRandomPosition());
 				
-				state.getLayerService().addToOverlay(
-						new GoalOverlayMapObject(state),
-						state.getOverlay(), 
-						state);
+				GameStateTehDeh.getInstance().getLayerService().addToOverlay(
+						new GoalOverlayMapObject(GameStateTehDeh.getInstance()),
+						GameStateTehDeh.getInstance().getOverlay(), 
+						GameStateTehDeh.getInstance());
 				
 			}
 		});
 		
 		moreButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				state.createAgents();
+				GameStateTehDeh.getInstance().createAgents();
 			}
 		});
 	}

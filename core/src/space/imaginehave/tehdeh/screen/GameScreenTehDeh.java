@@ -60,7 +60,7 @@ public class GameScreenTehDeh implements Screen {
 	}
 
 	private void createUI() {
-		HUD hud = new HUD(viewport, GameStateTehDeh.getInstance());
+		HUD hud = new HUD(viewport);
 		stage.addActor(hud.getHud());
 	}
 
