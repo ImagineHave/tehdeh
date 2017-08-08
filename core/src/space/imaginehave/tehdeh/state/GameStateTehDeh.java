@@ -1,8 +1,5 @@
 package space.imaginehave.tehdeh.state;
 
-import com.badlogic.gdx.math.Vector2;
-
-import space.imaginehave.tehdeh.Constant;
 import space.imaginehave.tehdeh.player.Player;
 
 public class GameStateTehDeh {

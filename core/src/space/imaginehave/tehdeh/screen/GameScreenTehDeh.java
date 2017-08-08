@@ -79,6 +79,8 @@ public class GameScreenTehDeh implements Screen {
 		batch.begin();
 		mouse.render();
 		batch.end();
+		
+		population.update();
 	    
 	}
 	

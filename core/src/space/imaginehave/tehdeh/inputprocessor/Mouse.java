@@ -20,6 +20,10 @@ public class Mouse {
 		this.batch = batch;
 	}
 	
+	
+	/**
+	 * must be within begin/end
+	 */
 	public void render(){
 		if (placementTowerTypeOptional.isPresent()) {
 			Texture placementTexture = placementTowerTypeOptional.get().texture;

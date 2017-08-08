@@ -47,7 +47,7 @@ public class HUD {
 		hud = new Table();
 		hud.defaults().size(Constant.BUTTON_SIZE);
 		hud.defaults().space(Constant.BUTTON_SPACE);
-		hud.pad(10);
+		hud.pad(50);
 		hud.setDebug(true);
 
 		hud.add(towerButton);
